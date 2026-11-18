@@ -56,6 +56,22 @@ consumer must be able to tell "no violation" from "not checked".
 what a dependency may connect. Anything narrower belongs to the second grade and will be
 generated from the profile's clauses, not guessed.
 
+## Documenting the metamodel
+
+The fact book is a model, so the figures are generated from it rather than drawn by hand:
+
+    cd docs && make relationships     # figures/relationships.pdf, .png
+    cd docs && make check             # 9 checks: no overlap, no dangling edge, compiles
+
+![UML relationships](docs/figures/relationships.png)
+
+`docs/umltikz.sty` is UML class notation over TikZ (three-compartment boxes, abstract names in
+italics, hollow-triangle generalization, association multiplicities, dashed dependencies), and
+`docs/tools/` drives it from `ontology/relationships.json`. Box widths are measured by TeX, not
+estimated: an estimated width overlapped boxes while still compiling. Straight edges only for
+now — an association whose route would cross an unrelated box is skipped and named in
+`associationsSkipped` rather than drawn where nobody can follow it. See `docs/README.md`.
+
 ## Running it
 
 Needs Python 3.10+ and `umlmeta` (installed, or a checkout pointed at by `UMLMETA_SRC`):

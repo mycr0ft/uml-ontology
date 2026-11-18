@@ -1,0 +1,99 @@
+% SPDX-License-Identifier: MPL-2.0
+% Copyright (c) 2026 Jon R. Fox
+%
+% umltikz — UML class notation over plain TikZ.
+%
+% Scope: the notation needed to document a metamodel or a class model in a paper or a README.
+% Not a UML tool: no semantics, no validation, no model interchange. It draws what it is told.
+%
+% A class box is one `rectangle split` node with three parts, so the compartment separators span
+% the full box width without the caller computing any width, and the box is exactly as wide as
+% its widest compartment. Placement is the caller's business, which keeps the package usable
+% from a generator that computes a grid and from a human who would rather nudge a box by hand.
+%
+% Draw relationships FIRST, then class boxes: a box fills white and hides whatever passes behind
+% it, which is what keeps a diagram readable when a layout is not perfect.
+%
+%   \UMLclass[at={(0,0)}]{Vehicle}{}{+ wheels : Wheel [4]\\+ mass : kg}{}
+%   \UMLgen{Car}{Vehicle}
+%   \UMLassoc[aggregation=composite]{Wheel}{Car}{4}{1}{}
+%   \UMLdep{Car}{Road}{«use»}
+%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{umltikz}[2026/11/18 v0.1 UML class diagrams over TikZ]
+
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.multipart}
+
+% ---------------------------------------------------------------- styles
+\tikzset{
+  uml class/.style={
+    rectangle split, rectangle split parts=3,
+    rectangle split part align={center, left, left},
+    draw, fill=white, line width=0.5pt, outer sep=0pt, inner sep=3pt,
+    font=\scriptsize\ttfamily,
+  },
+  uml gen/.style={-{Triangle[open, length=4mm, width=4mm]}, line width=0.5pt},
+  uml assoc/.style={line width=0.5pt},
+  uml nav/.style={-{Latex[open, length=2.4mm, width=2mm]}, line width=0.5pt},
+  uml dep/.style={dashed, -{Latex[open, length=2.4mm, width=2mm]}, line width=0.5pt},
+  uml mult/.style={font=\scriptsize, inner sep=1pt, fill=white},
+  uml label/.style={font=\scriptsize, inner sep=1.5pt, fill=white},
+}
+
+% ---------------------------------------------------------------- class box
+% #1 keys (at=..., xshift=..., etc.)   #2 node id   #3 name   #4 stereotype
+% #5 attribute rows   #6 operation rows
+\newcommand{\UMLclass}[6][]{%
+  \def\umltk@stereo{#4}%
+  \def\umltk@name{#3}%
+  % an abstract class prints its name in italics, per UML 2.5.1 Notation
+  \ifumltk@abstract
+    \node[uml class, #1] (#2) {%
+      \begin{tabular}{@{}c@{}}%
+        \ifx\umltk@stereo\empty\else{\scriptsize\ttfamily #4}\\[-2pt]\fi
+        {\small\bfseries\itshape #3}%
+      \end{tabular}%
+      \nodepart{two}\begin{tabular}{@{}l@{}}\strut #5\strut\end{tabular}%
+      \nodepart{three}\begin{tabular}{@{}l@{}}\strut #6\strut\end{tabular}};%
+  \else
+    \node[uml class, #1] (#2) {%
+      \begin{tabular}{@{}c@{}}%
+        \ifx\umltk@stereo\empty\else{\scriptsize\ttfamily #4}\\[-2pt]\fi
+        {\small\bfseries #3}%
+      \end{tabular}%
+      \nodepart{two}\begin{tabular}{@{}l@{}}\strut #5\strut\end{tabular}%
+      \nodepart{three}\begin{tabular}{@{}l@{}}\strut #6\strut\end{tabular}};%
+  \fi
+}
+
+% the NEXT class box is abstract: \UMLabstract \UMLclass{...}
+\newif\ifumltk@abstract
+\newcommand{\UMLabstract}{\umltk@abstracttrue}
+\newcommand{\UMLconcrete}{\umltk@abstractfalse}
+\UMLconcrete
+
+% ---------------------------------------------------------------- relationships
+% generalization: hollow triangle at the general end, both ends clipped to the box borders
+\newcommand{\UMLgen}[2]{\draw[uml gen] (#1) -- (#2);}
+
+% association: #1 keys  #2 end A  #3 end B  #4 mult at A  #5 mult at B  #6 name
+\newcommand{\UMLassoc}[6][]{%
+  \draw[uml assoc, #1] (#2) -- node[uml mult, pos=0.06, above] {#4}
+                            node[uml mult, pos=0.94, above] {#5}
+                            node[uml label, pos=0.5] {#6} (#3);}
+
+% navigable association: open arrow at the target end
+\newcommand{\UMLnav}[6][]{%
+  \draw[uml nav, #1] (#2) -- node[uml mult, pos=0.08, above] {#4}
+                          node[uml mult, pos=0.92, below] {#5}
+                          node[uml label, pos=0.5] {#6} (#3);}
+
+% dependency / «use»: dashed arrow with a label at the middle
+\newcommand{\UMLdep}[3]{\draw[uml dep] (#1) -- node[uml label, pos=0.5] {#2} (#3);}
+
+% composition / aggregation diamond at the whole end (drawn as a marker)
+\tikzset{
+  uml composite/.style={-{Diamond[open, length=3mm, width=2.2mm]}},
+  uml aggregate/.style={-{Diamond[length=3mm, width=2.2mm]}},
+}

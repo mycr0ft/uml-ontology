@@ -1,3 +1,6 @@
+docs/build/
+docs/probe.tex
+docs/sizes.txt
 __pycache__/
 *.pyc
 .venv/

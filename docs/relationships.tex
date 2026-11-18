@@ -1,0 +1,42 @@
+\documentclass[tikz,border=8pt]{standalone}
+\usepackage{umltikz}
+\pgfdeclarelayer{back}
+\pgfsetlayers{back,main}
+\begin{document}
+\begin{tikzpicture}
+% class boxes
+\UMLclass[at={(39.94,0.52)}]{uml_Abstraction}{Abstraction}{}{+ mapping : OpaqueExpression [0..1] (composite)}{}
+\UMLabstract \UMLclass[at={(41.71,4.16)}]{uml_Classifier}{Classifier}{}{+ attribute : Property [*]\\+ collaborationUse : CollaborationUse [*] (composite)\\+ feature : Feature [*]\\+ general : Classifier [*]\\+ generalization : Generalization [*] (composite)\\+ inheritedMember : NamedElement [*]\\+ ownedTemplateSignature : RedefinableTemplateSignature [0..1] (composite)\\+ ownedUseCase : UseCase [*] (composite)\\+ powertypeExtent : GeneralizationSet [*]\\+ redefinedClassifier : Classifier [*]\\+ representation : CollaborationUse [0..1]\\+ substitution : Substitution [*] (composite)\\+ templateParameter : ClassifierTemplateParameter [0..1]\\+ useCase : UseCase [*]}{}
+\UMLclass[at={(27.93,0.98)}]{uml_Dependency}{Dependency}{}{+ client : NamedElement [*]\\+ supplier : NamedElement [*]}{}
+\UMLabstract \UMLclass[at={(20.99,1.52)}]{uml_DirectedRelationship}{DirectedRelationship}{}{+ source : Element [*]\\+ target : Element [*]}{}
+\UMLabstract \UMLclass[at={(3.11,2.76)}]{uml_Element}{Element}{}{+ ownedComment : Comment [*] (composite)\\+ ownedElement : Element [*] (composite)}{}
+\UMLabstract \UMLclass[at={(2.97,5.48)}]{uml_Feature}{Feature}{}{+ featuringClassifier : Classifier [0..1]}{}
+\UMLabstract \UMLclass[at={(12.63,2.76)}]{uml_NamedElement}{NamedElement}{}{+ clientDependency : Dependency [*]\\+ nameExpression : StringExpression [0..1] (composite)}{}
+\UMLclass[at={(29.76,4.16)}]{uml_Package}{Package}{}{+ nestedPackage : Package [*] (composite)\\+ nestingPackage : Package [0..1]\\+ ownedStereotype : Stereotype [*] (composite)\\+ ownedType : Type [*] (composite)\\+ packageMerge : PackageMerge [*] (composite)\\+ packagedElement : PackageableElement [*] (composite)\\+ profileApplication : ProfileApplication [*] (composite)}{}
+\UMLabstract \UMLclass[at={(21.00,4.16)}]{uml_PackageableElement}{PackageableElement}{}{}{}
+\UMLclass[at={(50.63,4.08)}]{uml_Realization}{Realization}{}{}{}
+\UMLabstract \UMLclass[at={(11.26,5.48)}]{uml_Relationship}{Relationship}{}{+ relatedElement : Element [*]}{}
+\UMLabstract \UMLclass[at={(27.54,7.26)}]{uml_Type}{Type}{}{+ package : Package [0..1]}{}
+\UMLabstract \UMLclass[at={(20.66,6.72)}]{uml_TypedElement}{TypedElement}{}{+ type : Type [0..1]}{}
+\UMLclass[at={(37.34,7.72)}]{uml_Usage}{Usage}{}{}{}
+% class boxes
+% relationships, in the background layer: the boxes hide what crosses them
+\begin{pgfonlayer}{back}
+\UMLgen{uml_Abstraction}{uml_Dependency}
+\UMLgen{uml_Classifier}{uml_Type}
+\UMLgen{uml_Dependency}{uml_DirectedRelationship}
+\UMLgen{uml_Dependency}{uml_PackageableElement}
+\UMLgen{uml_DirectedRelationship}{uml_Relationship}
+\UMLgen{uml_NamedElement}{uml_Element}
+\UMLgen{uml_Package}{uml_PackageableElement}
+\UMLgen{uml_PackageableElement}{uml_NamedElement}
+\UMLgen{uml_Realization}{uml_Abstraction}
+\UMLgen{uml_Relationship}{uml_Element}
+\UMLgen{uml_Type}{uml_PackageableElement}
+\UMLgen{uml_TypedElement}{uml_NamedElement}
+\UMLgen{uml_Usage}{uml_Dependency}
+\UMLnav{uml_Dependency}{uml_NamedElement}{}{*}{client}
+\UMLnav{uml_Dependency}{uml_NamedElement}{}{*}{supplier}
+\end{pgfonlayer}
+\end{tikzpicture}
+\end{document}

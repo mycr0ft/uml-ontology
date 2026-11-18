@@ -16,6 +16,13 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
+      - name: install tectonic
+        run: |
+          url=https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.17.0/tectonic-0.17.0-x86_64-unknown-linux-musl.tar.gz
+          mkdir -p "$HOME/.local/bin"
+          curl -sSfL "$url" | tar -xz -C "$HOME/.local/bin"
+          "$HOME/.local/bin/tectonic" --version
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - name: install
         run: |
           python -m pip install --upgrade pip
@@ -29,7 +36,9 @@ jobs:
         run: python check.py
       - name: shapes fire against real graphs
         run: python tests/test_shacl.py
+      - name: figures compile and hold their geometry
+        run: cd docs && make check
       - name: artifacts are committed and current
         run: |
-          git diff --exit-code -- ontology shapes || {
+          git diff --exit-code -- ontology shapes docs/relationships.tex || {
             echo "::error::generated artifacts differ from the committed ones; re-run the generators and commit the result"; exit 1; }
