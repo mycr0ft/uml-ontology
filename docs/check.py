@@ -83,9 +83,11 @@ def main(argv: list[str] | None = None) -> int:
           set(select) <= set(boxes), str(sorted(set(select) - set(boxes))[:3]))
 
     tex = (DOCS / args.out).read_text()
-    check("every box is a three-part node",
-          tex.count(r"\UMLclass") == len(select),
-          f"{tex.count(r'\\UMLclass')} \\UMLclass vs {len(select)} classes")
+    # count outside the f-string: a backslash inside an f-string expression is PEP 701 only
+    # (Python 3.12+), and this file must run on 3.10
+    class_count = tex.count("\\UMLclass")
+    check("every box is a three-part node", class_count == len(select),
+          "%d UMLclass vs %d classes" % (class_count, len(select)))
 
     clashes = []
     keys = sorted(boxes)
