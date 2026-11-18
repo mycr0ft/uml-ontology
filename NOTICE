@@ -1,0 +1,25 @@
+uml-ontology
+Copyright (c) 2026 Jon R. Fox
+
+Licensed under the Mozilla Public License 2.0 (see LICENSE).
+
+Sharing code with umlmeta
+-------------------------
+umlmeta is MPL-2.0 as well, and the generators here were developed inside it before moving
+out. MPL-2.0 is file-level copyleft: files may move between the two projects freely, provided
+each file keeps its licence notice and any MPL-covered file that is modified stays MPL. No
+permission is needed from either side, and no relicensing happens - both trees are MPL-2.0
+throughout. The copy of the generators committed in umlmeta remains MPL-2.0 and carries the
+same SPDX header.
+
+Derived artifacts
+-----------------
+The generated ontology and shapes are derived from metamodel definitions published by the
+Object Management Group (UML 2.5.1, UML Standard Profile, SysML v1, UAF, BPMN 2.0, SysML v2)
+and from the OCL constraint text those specifications carry. Copyright in the specifications
+remains with the OMG and the original submitters. The SysML v2 abstract syntax is derived
+from the OMG SysML v2 specification (and, upstream, Eclipse SysML, EPL-2.0).
+
+Nothing here redistributes a specification document. The artifacts state structure (classes,
+properties, cardinalities) and carry constraint bodies as annotations so that a consumer can
+trace each shape back to the clause it came from.

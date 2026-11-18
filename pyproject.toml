@@ -1,0 +1,24 @@
+[project]
+name = "uml-ontology"
+version = "0.1.0"
+description = "OWL 2 ontology and SHACL shapes for UML-family relationship vocabulary, generated from the OMG metamodels"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MPL-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Jon R. Fox" }]
+keywords = ["owl", "shacl", "uml", "sysml", "uaf", "bpmn", "metamodel", "ontology"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+  "Topic :: Scientific/Engineering",
+]
+
+[project.optional-dependencies]
+rdf = ["rdflib>=7"]
+
+[project.urls]
+Source = "https://github.com/mycr0ft/uml-ontology"
+
+[tool.setuptools]
+packages = []

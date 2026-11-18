@@ -1,0 +1,35 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - name: install
+        run: |
+          python -m pip install --upgrade pip
+          pip install "umlmeta @ git+https://github.com/mycr0ft/umlmeta@2157df97861d1d3438353a735cb6275eda913986" \
+                      rdflib pyshacl
+      - name: build artifacts
+        run: |
+          python scripts/build_ontology.py
+          python scripts/build_shacl.py
+      - name: gate
+        run: python check.py
+      - name: shapes fire against real graphs
+        run: python tests/test_shacl.py
+      - name: artifacts are committed and current
+        run: |
+          git diff --exit-code -- ontology shapes || {
+            echo "::error::generated artifacts differ from the committed ones; re-run the generators and commit the result"; exit 1; }
