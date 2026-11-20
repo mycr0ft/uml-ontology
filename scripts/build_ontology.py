@@ -65,13 +65,28 @@ GENERATOR = "uml-ontology scripts/build_ontology.py"
 
 
 def _umlmeta_version() -> str:
-    """The package version, which is the same however it was obtained."""
+    """The package version, the same however umlmeta was obtained.
+
+    Installed distributions carry metadata; a bare source tree (``UMLMETA_SRC``,
+    a sibling checkout) often does not, so read ``__version__`` from the module
+    instead. Leaving this as "unknown" would write an environment-dependent
+    value into a committed artifact and fail the currency gate.
+    """
     try:
         from importlib.metadata import version
 
         return version("umlmeta")
     except Exception:                                            # noqa: BLE001
-        return "unknown"
+        pass
+    try:
+        import importlib
+
+        found = getattr(importlib.import_module("umlmeta"), "__version__", None)
+        if isinstance(found, str) and found:
+            return found
+    except Exception:                                            # noqa: BLE001
+        pass
+    return "unknown"
 
 
 UMLMETA_VERSION = _umlmeta_version()
