@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import keyword
 import re
 import sys
 from pathlib import Path
@@ -146,6 +147,51 @@ def own_features(cls: type) -> dict[str, Any]:
     return dict(vars(cls).get("_DECL", {}) or {})
 
 
+#: Declared primitive type -> (XSD datatype, UML type name).  ``UnlimitedNatural`` is the
+#: one that does not fit cleanly: its value space is the non-negative integers *plus* ``*``,
+#: so the datatype is an approximation and the exact bound still reaches the fact book as
+#: ``hi: "*"``.  The UML name is kept as an annotation either way, so a consumer can tell
+#: "Integer" from "UnlimitedNatural" without consulting the generator.
+PRIMITIVES: dict[str, tuple[str, str]] = {
+    "bool": ("xsd:boolean", "Boolean"),
+    "int": ("xsd:integer", "Integer"),
+    "float": ("xsd:double", "Real"),
+    "str": ("xsd:string", "String"),
+    "UnlimitedNatural": ("xsd:nonNegativeInteger", "UnlimitedNatural"),
+}
+
+#: Declared types that name no node in the metamodel and carry no value either, with the
+#: reason they are not emitted.  A type not listed here is a mapping gap, not a decision,
+#: and ``check.py`` fails on one: silence is how features disappear.
+UNMAPPED_REASONS: dict[str, str] = {
+    "xml.dom.Element": "the feed types this as a DOM node: no model element to range over",
+    "BPMNDI.BPMNDiagram": "the diagram-interchange package: layout, not model",
+    "": "the feed declares no type for this feature",
+    "None": "the feed declares no type for this feature",
+}
+
+#: Enumeration members whose Python name had to dodge a keyword or constant keep the
+#: metamodel's spelling, which is what a reader of the ontology expects to see.
+RESERVED = set(keyword.kwlist) | {"None", "True", "False"}
+
+
+def literal_name(member: str) -> str:
+    """``break_`` -> ``break``, ``in_`` -> ``in``, ``None_`` -> ``None``."""
+    return member[:-1] if member.endswith("_") and member[:-1] in RESERVED else member
+
+
+def enumeration_types(module: Any, module_name: str) -> dict[str, type]:
+    """Enumerations the module declares: UML ``Enumeration`` classes, not metaclasses."""
+    import enum as _enum
+
+    return {
+        name: obj
+        for name, obj in vars(module).items()
+        if isinstance(obj, type) and issubclass(obj, _enum.Enum)
+        and obj.__module__.rsplit(".", 1)[-1] == module_name
+    }
+
+
 def metaclass_bases(cls: type, known: set[str]) -> list[str]:
     return [b.__name__ for b in cls.__mro__[1:] if b.__name__ in known]
 
@@ -211,6 +257,9 @@ def build() -> dict[str, Any]:
 
     classes: dict[str, dict[str, Any]] = {}
     properties: list[dict[str, Any]] = []
+    attributes: list[dict[str, Any]] = []
+    enumerations: dict[str, dict[str, Any]] = {}
+    unmapped: list[dict[str, Any]] = []
     prefix_of: dict[str, str] = {}
 
     languages = {"uml": "UML 2.5.1", "sp": "UML Standard Profile", "sysml": "SysML v1",
@@ -231,6 +280,31 @@ def build() -> dict[str, Any]:
         ]
         classes[key] = row
         prefix_of[key] = prefix
+
+    # enumerations are the second half of the type space: a feature typed ``VisibilityKind``
+    # ranges over literals, not over a metaclass.  Collected before the feature walk so a
+    # name declared in another module still resolves.
+    for prefix, module_name, _label in MODULES:
+        for name, member in enumeration_types(modules[prefix], module_name).items():
+            key = f"{prefix}:{name}"
+            enumerations[key] = {
+                "key": key,
+                "name": name,
+                "prefix": prefix,
+                "language": languages[prefix],
+                "literals": [{"name": literal_name(m.name), "member": m.name}
+                             for m in member],
+            }
+
+    def resolve_enum(owner_key: str, declared: str) -> str | None:
+        """The enumeration a declared type names, in the owner's module first, then UML."""
+        if not declared:
+            return None
+        prefix = owner_key.split(":", 1)[0]
+        for candidate in (f"{prefix}:{declared}", f"uml:{declared}"):
+            if candidate in enumerations:
+                return candidate
+        return None
 
     def resolve_target(owner_key: str, target: Any) -> str | None:
         """Resolve a feature's declared type to a qualified class key.
@@ -256,13 +330,12 @@ def build() -> dict[str, Any]:
 
     for key, cls in class_of.items():
         for name, ref in own_features(cls).items():
-            target_key = resolve_target(key, getattr(ref, "t", None))
-            if target_key is None:
-                continue
-            properties.append({
+            target = getattr(ref, "t", None)
+            target_key = resolve_target(key, target)
+            row = {
                 "owner": key,
                 "name": name,
-                "range": target_key,
+                "range": None,
                 "multi": bool(getattr(ref, "multi", False)),
                 "lo": getattr(ref, "lo", 0),
                 "hi": getattr(ref, "hi", 1),
@@ -274,7 +347,29 @@ def build() -> dict[str, Any]:
                 "redefines": list(getattr(ref, "redefines", ()) or ()),
                 "opposite": getattr(ref, "opp", None),
                 "assoc": getattr(ref, "assoc", None),
-            })
+            }
+            if target_key is not None:
+                row["range"] = target_key
+                properties.append(row)
+                continue
+            # not a node: either a value (datatype), a literal-set (enumeration), or a
+            # declared type this build cannot map - the last is recorded, never dropped
+            declared = target.__name__ if isinstance(target, type) else str(target or "")
+            enum_key = resolve_enum(key, declared)
+            primitive = PRIMITIVES.get(declared)
+            if enum_key is not None:
+                attributes.append(dict(row, kind="enumeration", range=enum_key,
+                                       declaredType=enum_key.split(":", 1)[1]))
+            elif primitive is not None:
+                attributes.append(dict(row, kind="datatype", range=None,
+                                       xsd=primitive[0], declaredType=primitive[1]))
+            else:
+                unmapped.append({
+                    "owner": key, "name": name,
+                    "declaredType": declared or None,
+                    "reason": UNMAPPED_REASONS.get(
+                        declared, f"no mapping for declared type {declared!r}"),
+                })
 
     by_owner = {(p["owner"], p["name"]): p for p in properties}
     inverses = 0
@@ -300,9 +395,15 @@ def build() -> dict[str, Any]:
     relationships = sorted(
         key for key in classes if "uml:Relationship" in ancestors_of(key))
     stereotype_kinds = sorted(key for key, row in classes.items() if row["stereotype"])
+    described = properties + attributes
     return {
         "classes": classes,
         "properties": properties,
+        "attributes": attributes,
+        "enumerations": enumerations,
+        "unmapped": unmapped,
+        "features": len(properties) + len(attributes) + len(unmapped),
+        "required": sum(1 for row in described if int(row["lo"]) > 0),
         "inverses": inverses,
         "prefix_of": prefix_of,
         "relationships": relationships,
@@ -321,6 +422,35 @@ def _esc(text: str) -> str:
     return (text.replace("\\", "\\\\").replace('"', '\\"').replace("\t", " ").strip())
 
 
+def _bounds(row: dict[str, Any]) -> list[str]:
+    """The stated multiplicity as annotations: ``lower`` a count, ``upper`` a count or ``*``."""
+    upper = row["hi"]
+    literal = '"*"' if str(upper) == "*" else str(int(upper))
+    return [f"umlmeta:lower {int(row['lo'])}", f"umlmeta:upper {literal}"]
+
+
+def _declare_in(classes: dict[str, Any], own: set[tuple[str, str]],
+                owner: str, name: str) -> str | None:
+    """Where a inherited feature name is actually declared: the owner, else a base.
+
+    ``subsets``/``redefines`` name a feature, not a class: ``Dependency.client`` subsets
+    ``source``, which is declared on ``DirectedRelationship``.  Minting ``Dependency__source``
+    from the owner produces an IRI that does not exist, which is how 448 of the 574 subset
+    triples used to dangle.  Walk the bases until the name is found.
+    """
+    seen: set[str] = set()
+    frontier = [owner]
+    while frontier:
+        key = frontier.pop(0)
+        if key in seen:
+            continue
+        seen.add(key)
+        if (key, name) in own:
+            return f"{key}__{name}"
+        frontier.extend(classes.get(key, {}).get("bases", []))
+    return None
+
+
 def _block(subject: str, fragments: list[str]) -> str:
     """One subject block: `s p1 o1 ; p2 o2 .`, wrapped for readability."""
     body = " ;\n    ".join(fragments)
@@ -334,6 +464,7 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
         "@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .",
         "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .",
         "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .",
+        "@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .",
         "@prefix umlmeta: <https://mycr0ft.github.io/uml-ontology/ns#> .",
     ]
     for prefix in prefixes:
@@ -350,7 +481,9 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
     lines.append("")
     # declare the annotation properties, or the ontology is not OWL 2 DL
     for annotation in ("language", "omgPackage", "abstract", "stereotypeUri",
-                       "oclConstraint", "composite", "derived"):
+                       "oclConstraint", "composite", "derived", "declaredType",
+                       "lower", "upper", "union", "redefines", "readOnly",
+                       "unresolvedSubset", "unresolvedRedefinition"):
         lines.append(f"umlmeta:{annotation} a owl:AnnotationProperty .")
     lines.append("")
 
@@ -379,6 +512,9 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
 
     # properties, keyed by owner so a colliding feature name stays unambiguous
     by_owner = {(p["owner"], p["name"]): p for p in model["properties"]}
+    own = {(row["owner"], row["name"]) for row in model["properties"]}
+    own |= {(row["owner"], row["name"]) for row in model["attributes"]}
+
     for prop in model["properties"]:
         iri = f"{prop['owner']}__{prop['name']}"
         kinds = ["owl:ObjectProperty"]
@@ -390,14 +526,80 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
                  f"rdfs:range {prop['range']}"]
         if prop["composite"]:
             frags.append("umlmeta:composite true")
-        if prop["derived"] or prop["union"]:
+        if prop["derived"]:
             frags.append("umlmeta:derived true")
+        # a union feature is not a derived one: ``uml:Action.input`` is the union of the pins
+        # of its nodes, which the metamodel states separately from derivation
+        if prop["union"]:
+            frags.append("umlmeta:union true")
+        if prop["readonly"]:
+            frags.append("umlmeta:readOnly true")
+        frags.extend(_bounds(prop))
         for subset in prop["subsets"]:
-            frags.append(f"rdfs:subPropertyOf {prop['owner']}__{subset}")
+            target = _declare_in(model["classes"], own, prop["owner"], subset)
+            if target:
+                frags.append(f"rdfs:subPropertyOf {target}")
+            else:
+                # ``sysml2:Element.documentation subsets ownedElement`` but no class in the
+                # sysml2 module declares ``ownedElement``: record the name, do not mint an IRI
+                frags.append(f'umlmeta:unresolvedSubset "{_esc(subset)}"')
+        for redefined in prop["redefines"]:
+            target = _declare_in(model["classes"], own, prop["owner"], redefined)
+            if target:
+                frags.append(f"umlmeta:redefines {target}")
+            else:
+                frags.append(f'umlmeta:unresolvedRedefinition "{_esc(redefined)}"')
         opp = prop["opposite"]
         if opp and by_owner.get((prop["range"], opp), {}).get("opposite") == prop["name"]:
             frags.append(f"owl:inverseOf {prop['range']}__{opp}")
         lines.append(_block(iri, frags))
+
+    # attributes: features whose type is a value or an enumeration, not a node.  They are
+    # stated facts and they carry most of a class's multiplicity, so they are emitted; they
+    # are kept out of ``properties`` only because the figure draws association ends.
+    for attr in sorted(model["attributes"], key=lambda a: (a["owner"], a["name"])):
+        iri = f"{attr['owner']}__{attr['name']}"
+        kind = "owl:ObjectProperty" if attr["kind"] == "enumeration" else "owl:DatatypeProperty"
+        kinds = [kind]
+        if not attr["multi"] and str(attr["hi"]) == "1":
+            kinds.append("owl:FunctionalProperty")
+        frags = [f"a {' , '.join(kinds)}",
+                 f'rdfs:label "{_esc(attr["name"])}"@en',
+                 f"rdfs:domain {attr['owner']}",
+                 f"rdfs:range {attr['range'] or attr['xsd']}",
+                 f'umlmeta:declaredType "{_esc(attr["declaredType"])}"']
+        if attr["derived"] or attr["union"]:
+            frags.append("umlmeta:derived true")
+        frags.extend(_bounds(attr))
+        lines.append(_block(iri, frags))
+
+    # enumerations: a class per literal set, an individual per literal, so a model can state
+    # ``umlmeta:VisibilityKind__public`` where the metamodel says "VisibilityKind"
+    for key, row in sorted(model["enumerations"].items()):
+        parent = f"{row['prefix']}:Enumeration"
+        if parent not in model["classes"]:
+            parent = "uml:Enumeration"
+        frags = ["a owl:Class", f'rdfs:label "{_esc(row["name"])}"@en',
+                 f'umlmeta:language "{_esc(row["language"])}"@en']
+        if parent in model["classes"]:
+            frags.append(f"rdfs:subClassOf {parent}")
+        lines.append(_block(key, frags))
+        for literal in row["literals"]:
+            lines.append(_block(f"{key}__{literal['name']}",
+                                [f"a {key}",
+                                 f'rdfs:label "{_esc(literal["member"])}"@en']))
+
+    # stated lower bounds as OWL restrictions, so "a Dependency has at least one client" is
+    # answerable from the ontology alone.  Upper bounds of 1 are functional properties and
+    # ``*`` states nothing, so neither becomes a restriction.
+    for row in sorted(model["properties"] + model["attributes"],
+                      key=lambda r: (r["owner"], r["name"])):
+        if int(row["lo"]) <= 0:
+            continue
+        lines.append(_block(row["owner"], [
+            "rdfs:subClassOf [ a owl:Restriction ;\n"
+            f"    owl:onProperty {row['owner']}__{row['name']} ;\n"
+            f"    owl:minCardinality {int(row['lo'])} ]"]))
 
     return "\n".join(lines) + "\n"
 
@@ -430,15 +632,27 @@ def emit_json(model: dict[str, Any], base: str = DEFAULT_BASE) -> str:
         "counts": {
             "classes": len(classes),
             "properties": len(model["properties"]),
+            "attributes": len(model["attributes"]),
+            "enumerations": len(model["enumerations"]),
+            "enumerationLiterals": sum(len(row["literals"])
+                                       for row in model["enumerations"].values()),
             "inversePairs": model["inverses"],
             "relationshipClasses": len(model["relationships"]),
             "stereotypes": len(model["stereotype_kinds"]),
+            "features": model["features"],
+            "unmapped": len(model["unmapped"]),
+            "requiredProperties": model["required"],
         },
         "relationships": model["relationships"],
         "stereotypes": model["stereotype_kinds"],
         "classes": classes,
         "properties": sorted(model["properties"],
                              key=lambda p: (p["owner"], p["name"])),
+        "attributes": sorted(model["attributes"],
+                             key=lambda p: (p["owner"], p["name"])),
+        "enumerations": {key: [literal["name"] for literal in row["literals"]]
+                         for key, row in sorted(model["enumerations"].items())},
+        "unmapped": sorted(model["unmapped"], key=lambda r: (r["owner"], r["name"])),
     }, indent=2) + "\n"
 
 
@@ -458,6 +672,10 @@ def main(argv: list[str] | None = None) -> int:
     counts = {
         "classes": len(model["classes"]),
         "properties": len(model["properties"]),
+        "attributes": len(model["attributes"]),
+        "enumerations": len(model["enumerations"]),
+        "unmapped": len(model["unmapped"]),
+        "features": model["features"],
         "inversePairs": model["inverses"],
         "relationshipClasses": len(model["relationships"]),
         "stereotypes": len(model["stereotype_kinds"]),

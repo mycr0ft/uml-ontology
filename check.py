@@ -76,6 +76,25 @@ def main(argv: list[str] | None = None) -> int:
     check("properties > 1500", counts["properties"] > 1500, str(counts["properties"]))
     check("inverse pairs > 500", counts["inversePairs"] > 500, str(counts["inversePairs"]))
 
+    # the feature census: every declared feature is either described (an association end or
+    # an attribute) or registered as unmapped. A feature that reaches none of the three is a
+    # silent hole in the metamodel, which is exactly what this half of the gate is for
+    described = counts["properties"] + counts["attributes"] + counts["unmapped"]
+    check("every feature is described or registered",
+          described == counts["features"],
+          f"{described} != {counts['features']}")
+    gaps = [row for row in facts["unmapped"] if row["reason"].startswith("no mapping")]
+    check("no feature fell through the type mapping", not gaps,
+          ", ".join(f"{g['owner']}.{g['name']}" for g in gaps[:3]))
+    check("unmapped register is the known 27", counts["unmapped"] == 27,
+          str(counts["unmapped"]))
+    check("attributes > 300", counts["attributes"] > 300, str(counts["attributes"]))
+    check("enumerations > 40, each with literals",
+          counts["enumerations"] > 40 and all(facts["enumerations"].values()),
+          str(counts["enumerations"]))
+    check("enumeration literals > 200", counts["enumerationLiterals"] > 200,
+          str(counts["enumerationLiterals"]))
+
     # 5. the register accounts for everything
     total = reg["counts"]["constraintsTotal"]
     check("register accounts for every constraint",
@@ -114,6 +133,7 @@ def main(argv: list[str] | None = None) -> int:
     # 3. cross-artifact agreement: every sh:path must be a property the ontology defines
     SH = "http://www.w3.org/ns/shacl#"
     ontology_props = set(g_onto.subjects(RDF.type, OWL.ObjectProperty))
+    ontology_props |= set(g_onto.subjects(RDF.type, OWL.DatatypeProperty))
     shape_paths = set(g_shacl.objects(None, URIRef(SH + "path")))
     dangling = shape_paths - ontology_props
     check(f"every sh:path is an ontology property ({len(shape_paths)} paths)",
@@ -153,6 +173,58 @@ def main(argv: list[str] | None = None) -> int:
     symmetric = sum(1 for a, _, b in inverses if (b, OWL.inverseOf, a) in g_onto)
     check(f"inverses symmetric ({symmetric}/{len(inverses)})",
           bool(inverses) and symmetric == len(inverses))
+
+    # multiplicity has two halves, and both are checked: the bounds every feature states as
+    # annotations, and the lower bounds restated as OWL restrictions so a consumer that knows
+    # nothing about umlmeta can still see "at least one client"
+    META = URIRef(base_iri.replace("/ontology", "") + "/ns#")
+    lo_annot = list(g_onto.triples((None, URIRef(str(META) + "lower"), None)))
+    check(f"every feature states its bounds ({len(lo_annot)})",
+          len(lo_annot) == counts["properties"] + counts["attributes"])
+    up_annot = list(g_onto.triples((None, URIRef(str(META) + "upper"), None)))
+    check(f"every feature states an upper bound ({len(up_annot)})",
+          len(up_annot) == len(lo_annot))
+    mincard = list(g_onto.triples((None, OWL.minCardinality, None)))
+    check(f"stated lower bounds are restrictions ({len(mincard)})",
+          len(mincard) == counts["requiredProperties"] and len(mincard) > 0)
+    required = {str(o) for _, _, o in g_onto.triples((None, OWL.minCardinality, None))}
+    check("restrictions agree with the fact book",
+          len(required) >= 1 and all(int(v) >= 1 for v in required), ", ".join(sorted(required)))
+
+    datatypes = set(g_onto.subjects(RDF.type, OWL.DatatypeProperty))
+    xsd_range = {s for s, o in g_onto.subject_objects(RDFS.range)
+                 if str(o).startswith("http://www.w3.org/2001/XMLSchema#")}
+    check(f"every datatype property has an XSD range ({len(datatypes)})",
+          datatypes and datatypes <= xsd_range,
+          ", ".join(sorted(str(d) for d in list(datatypes - xsd_range)[:3])))
+
+    enum_classes = {cls(key) for key in facts["enumerations"]}
+    check(f"enumerations subclass uml:Enumeration ({len(enum_classes)})",
+          all(cls("uml:Enumeration") in ancestors(key) for key in enum_classes))
+    individuals = sum(len(list(g_onto.subjects(RDF.type, key))) for key in enum_classes)
+    check(f"every literal is an individual ({individuals}/{counts['enumerationLiterals']})",
+          individuals == counts["enumerationLiterals"])
+
+    # a subset or redefining feature names a feature declared on the owner or a base; emitting
+    # ``Owner__name`` blindly minted 448 IRIs that nothing defines
+    META_NS = str(URIRef(str(META)))
+    defined = set(g_onto.subjects(RDF.type, OWL.ObjectProperty))
+    defined |= set(g_onto.subjects(RDF.type, OWL.DatatypeProperty))
+    dangling = []
+    for pred in ("subPropertyOf", "redefines"):
+        iri = URIRef(META_NS + pred) if pred == "redefines" else RDFS.subPropertyOf
+        for s, o in g_onto.subject_objects(iri):
+            if o not in defined:
+                dangling.append(f"{pred}:{o}")
+    check(f"subset and redefine targets are defined properties ({len(dangling)} dangling)",
+          not dangling, ", ".join(sorted(dangling)[:3]))
+    subsets = len(list(g_onto.triples((None, RDFS.subPropertyOf, None))))
+    check(f"subsets are emitted ({subsets})", subsets > 450, str(subsets))
+    unresolved = len(list(g_onto.triples((None, URIRef(META_NS + "unresolvedSubset"), None))))
+    check(f"named-but-undeclared subset targets are recorded ({unresolved})",
+          unresolved == 88, str(unresolved))
+    redefines = len(list(g_onto.triples((None, URIRef(META_NS + "redefines"), None))))
+    check(f"redefinitions are emitted ({redefines})", redefines > 100, str(redefines))
 
     check("uml:Element and sysml2:Element are distinct classes",
           cls("uml:Element") != cls("sysml2:Element")
