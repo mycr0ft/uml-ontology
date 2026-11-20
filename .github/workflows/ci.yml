@@ -36,6 +36,8 @@ jobs:
         run: python check.py
       - name: shapes fire against real graphs
         run: python tests/test_shacl.py
+      - name: authored multiplicity validates
+        run: python tests/test_authored_multiplicity.py
       - name: figures compile and hold their geometry
         run: cd docs && make check
       - name: artifacts are committed and current

@@ -33,7 +33,8 @@ Three deliberate choices:
   structure is faithful to UML and useless in practice: every query becomes two hops, and no
   reasoner can read a bound out of an `OpaqueExpression`. `umlmeta` already reduces the bound
   to `lo`/`hi`, so the ontology states what the generator actually knows. The structural half
-  is listed under "not yet" below — a model that *authors* multiplicity needs it.
+  is listed under "authored multiplicity" below — a model that *authors* multiplicity
+  needs it, and the metamodel does not.
 * **Restrictions only where the lower bound is stated.** An upper bound of 1 is already an
   `owl:FunctionalProperty`; an upper bound of `*` states nothing. `owl:minCardinality 0` is
   the absence of a restriction, so emitting it would double the file to say nothing.
@@ -43,8 +44,50 @@ Three deliberate choices:
   fact book. Losing the declared name would make `Integer` and `UnlimitedNatural` features
   indistinguishable; the annotation keeps them apart.
 
-`lower <= upper` is not asserted. OWL has no way to say it, and `umlmeta`'s data has no case
-that violates it, so it stays a known gap rather than a false claim — see "not yet".
+`lower <= upper` is not an OWL axiom — it is a constraint on the *values* of two properties,
+and OWL restricts structure, not values. It is asserted twice instead: in `check.py` over the
+1,996 stated bounds (`lo` integral, `hi` integral or `*`, `hi` an exception to `lo` in no row),
+and in SHACL over any bound a model authors, as `sh:sparql` on the pair — see the next section.
+
+Writing the first of those found four features whose upper bound `umlmeta` stores as a digit
+string (`bpmn:ChoreographyTask.messageFlowRef` is `1..'2'`, as are `uml:DurationObservation.event`
+and both `firstEvent` ends). The ontology and the shapes already coerced it, so only the fact
+book was wrong; `hi` is now `int` or `"*"` in all 1,996 rows, and `check.py` says so.
+
+## Authored multiplicity: what a model may write
+
+The three statements above are about the metamodel's own bounds, which the generator reduces to
+`lo`/`hi` before anyone asks. A *model* is different: it writes `lowerValue`/`upperValue`, and
+those hold `ValueSpecification` instances. `shapes/authored-multiplicity.ttl` (hand-written,
+separate from the generated file so regeneration cannot clobber it) says what those instances
+may be. Four shapes, 12 test cases:
+
+| shape | says | what a plain range would have said instead |
+|---|---|---|
+| `auth:BoundIsALiteral` | a bound is a `LiteralInteger`, `LiteralUnlimitedNatural` or `OpaqueExpression` | `uml:ValueSpecification`: true of anything, useful for nothing |
+| `auth:BoundIsNotNegative` | `LiteralInteger`/`LiteralUnlimitedNatural` values are `>= 0` | nothing |
+| `auth:BoundHasOneValue` | a literal bound carries exactly one value | nothing |
+| `auth:LowerDoesNotExceedUpper` | `lower <= upper`, reading both through the literals | nothing |
+
+Two findings are worth recording, because both were wrong in the first draft:
+
+* **`sh:class uml:ValueSpecification` is vacuous.** `lowerValue rdfs:range uml:ValueSpecification`,
+  and a validator running with `inference="rdfs"` derives that type for every object of the
+  property — including a `uml:Class` used as a bound. The type is a consequence of the edge, not
+  a check on it. Enumerating the three interpreted kinds is a real test; `ex:Person a uml:Class`
+  now fails.
+* **`sh:class uml:ValueSpecification` is also too permissive without inference.** UML permits
+  any `ValueSpecification` as a bound. Nothing in this repository can read a number out of an
+  arbitrary `Expression`, so the shape states the narrower rule the pipeline can honour and the
+  message says so. A bound of another kind is rejected as unreadable, not as illegal.
+
+`OpaqueExpression` is accepted because its `body` can be `"*"` or `"count(ownedAttribute)"` and
+the shape does not try to parse it: the shapes say what may be *written*, `check.py` says what
+the generator *read*.
+
+Tests assert *which* violation fired — its message, its source shape and its focus node — not
+just `conforms`. A shape pointed at the wrong property still fails a graph, and would still pass
+a test that only looked at `conforms`.
 
 ## Attributes: the 356 features that were missing
 
@@ -122,33 +165,24 @@ prevent.
 
 In the order I would build them, cheapest-useful first.
 
-1. **Authored multiplicity.** `LowerValue`/`UpperValue` as `ValueSpecification` subclasses
-   (`LiteralInteger`, `LiteralUnlimitedNatural`, `OpaqueExpression`, `Interval`) plus
-   `lowerValue`/`upperValue` object properties on `MultiplicityElement`. The classes are
-   already in the 898; what is missing is the two linking properties and an instance per
-   authored bound. Needed only when a *model* carries a non-literal bound — the metamodel's
-   own bounds are already stated three ways. Cost: 2 properties, 1 SHACL shape proving an
-   upper value is one of the literal kinds.
-2. **Bounds consistency.** `lower <= upper` per feature, and `hi` integral-or-`*`. Pure data,
-   so it belongs in `check.py` today; a model-level version is a SHACL shape.
-3. **Redefinition as a class axiom.** Redefinitions are now stated (`umlmeta:redefines`, 135),
+1. **Redefinition as a class axiom.** Redefinitions are now stated (`umlmeta:redefines`, 135),
    but only as annotations. A redefining feature also *disjoints* itself from its siblings in
    the redefined context, which needs `owl:propertyDisjointWith` against the ancestor's other
    specialisations. That is a real inference and a real modelling decision, not a one-liner.
-4. **Navigability and owned ends.** Requires the `memberEnd`/`ownedEnd` split, which
+2. **Navigability and owned ends.** Requires the `memberEnd`/`ownedEnd` split, which
    `umlmeta` carries as `assoc` + `opp`; the ontology currently states the pair, not which end
    is navigable.
-5. **Abstract/leaf/static and `AssociationClass`.** `isAbstract` is emitted; the rest are
+3. **Abstract/leaf/static and `AssociationClass`.** `isAbstract` is emitted; the rest are
    annotations on classes that already exist.
-6. **SysML v1 ↔ v2 correspondence.** `umlmeta` has `v1_to_v2_as.py` mapping tables; the
+4. **SysML v1 ↔ v2 correspondence.** `umlmeta` has `v1_to_v2_as.py` mapping tables; the
    alignment artefact is `owl:equivalentClass`/`equivalentProperty` pairs plus a register of
    the ones that are only *similar*. This is the one with a consumer waiting.
-7. **Implied and observed grades.** The README's second and third grades: profile clauses
+5. **Implied and observed grades.** The README's second and third grades: profile clauses
    (`«satisfy»` narrows `Dependency` ends) and an instance corpus. Both are separate artefacts
    over this one; the grade vocabulary is already in the shapes (`umlmeta:grade`).
-8. **Widening the OCL subset.** 2,237 constraints are refused with a reason; 18 translate. Each
+6. **Widening the OCL subset.** 2,237 constraints are refused with a reason; 18 translate. Each
    new form (closures, `allInstances`, library predicates) is a whitelist entry in
    `scripts/build_shacl.py` and a test that makes the shape fire.
 
-Items 1, 2 and 3 close the multiplicity story properly. Item 6 is the one a reader of the papers
+Items 1 and 2 close the multiplicity story properly. Item 4 is the one a reader of the papers
 will ask for next.

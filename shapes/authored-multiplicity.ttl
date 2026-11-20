@@ -1,0 +1,87 @@
+# SPDX-License-Identifier: MPL-2.0
+# Copyright (c) 2026 Jon R. Fox
+#
+# Shapes for *authored* multiplicity: a bound a model writes on an instance of
+# uml:MultiplicityElement (an association end, an attribute), as opposed to the bounds the
+# metamodel itself states. The generated shapes in uml-family-shapes.ttl already cap the two
+# bounds at one each; what they cannot say is what a bound may *be*.
+#
+# The ontology says lowerValue and upperValue range over uml:ValueSpecification, which is
+# true and nearly useless: it accepts a uml:Class. These four shapes carry the rest of the
+# statement. They are hand-written because they are about the values of the metamodel's
+# properties, not about the metamodel's own features, which is what build_shacl.py emits.
+
+@prefix auth: <https://mycr0ft.github.io/uml-ontology/shapes/authored#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix uml:  <https://mycr0ft.github.io/uml-ontology/uml#> .
+
+<https://mycr0ft.github.io/uml-ontology/shapes/authored> a owl:Ontology ;
+    rdfs:label "Authored multiplicity shapes"@en ;
+    rdfs:comment "SHACL for multiplicity a model writes: what a bound may be, what a literal bound may hold, and that the lower bound never exceeds the upper. Validate instance data against this file together with uml-family-shapes.ttl."@en ;
+    owl:versionInfo "1" .
+
+auth:BoundIsALiteral a sh:NodeShape ;
+    rdfs:label "a multiplicity bound is a literal"@en ;
+    sh:description "A bound states a number, so it has to be something a consumer can read a number out of. lowerValue and upperValue range over uml:ValueSpecification, which also admits a uml:Class or a uml:Expression: true, and useless, because nothing can evaluate them. Checked here as the three kinds that are interpreted; note that a plain 'sh:class uml:ValueSpecification' would be vacuous, since RDFS range inference types every object of the property as one."@en ;
+    sh:targetObjectsOf uml:MultiplicityElement__lowerValue ,
+                       uml:MultiplicityElement__upperValue ;
+    sh:or (
+        [ sh:class uml:LiteralInteger ]
+        [ sh:class uml:LiteralUnlimitedNatural ]
+        [ sh:class uml:OpaqueExpression ]
+    ) ;
+    sh:message "a multiplicity bound must be a uml:LiteralInteger, a uml:LiteralUnlimitedNatural, or a uml:OpaqueExpression" .
+
+auth:UnlimitedNaturalBound a sh:NodeShape ;
+    rdfs:label "an unlimited natural bound is a non-negative integer or *"@en ;
+    sh:description "UnlimitedNatural is the non-negative integers plus the unbounded marker. The ontology types the property xsd:nonNegativeInteger, which cannot spell *, so a string bound is admitted only when it is exactly that marker."@en ;
+    sh:targetClass uml:LiteralUnlimitedNatural ;
+    sh:property [
+        sh:path uml:LiteralUnlimitedNatural__value ;
+        sh:name "value" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:or (
+            [ sh:datatype xsd:string ; sh:pattern "^\\*$" ]
+            [ sh:datatype xsd:integer ; sh:minInclusive 0 ]
+        ) ;
+        sh:message "an unlimited natural bound must be \"*\" or a non-negative integer" ;
+    ] .
+
+auth:IntegerBound a sh:NodeShape ;
+    rdfs:label "an integer bound is a non-negative integer"@en ;
+    sh:description "A multiplicity is never negative. A bound of 0 is legal and means empty (upper) or optional (lower)."@en ;
+    sh:targetClass uml:LiteralInteger ;
+    sh:property [
+        sh:path uml:LiteralInteger__value ;
+        sh:name "value" ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 0 ;
+        sh:message "an integer bound must be a single non-negative integer" ;
+    ] .
+
+auth:LowerNotAboveUpper a sh:NodeShape ;
+    rdfs:label "the lower bound does not exceed the upper bound"@en ;
+    sh:description "0..* and 2..2 conform; 3..1 does not. An upper bound of * binds no variable, so an unbounded end never violates this."@en ;
+    sh:targetSubjectsOf uml:MultiplicityElement__lowerValue ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "lower bound {?lower} exceeds upper bound {?upper}" ;
+        sh:select """
+            PREFIX uml: <https://mycr0ft.github.io/uml-ontology/uml#>
+            SELECT $this ?lower ?upper
+            WHERE {
+                $this uml:MultiplicityElement__lowerValue ?lv .
+                ?lv uml:LiteralInteger__value ?lower .
+                $this uml:MultiplicityElement__upperValue ?uv .
+                ?uv uml:LiteralInteger__value ?upper .
+                FILTER (?lower > ?upper)
+            }
+        """ ;
+    ] .

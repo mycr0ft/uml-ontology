@@ -13,6 +13,7 @@ honest projection of the standards rather than a second opinion about them.
     ontology/uml-family-relationships.ttl   OWL 2 DL, Turtle      ~25k triples, 1.3 MB
     ontology/relationships.json             the same facts, no RDF stack needed
     shapes/uml-family-shapes.ttl            SHACL                  684 node shapes
+    shapes/authored-multiplicity.ttl        SHACL, hand-written    4 shapes, for model bounds
     shapes/untranslated.json                every constraint SHACL does NOT check, with why
 
     count
@@ -94,7 +95,7 @@ would fail against the published package; pinning the commit is what keeps "rege
 compare" meaningful.
     python scripts/build_ontology.py           # writes ontology/
     python scripts/build_shacl.py              # writes shapes/
-    python check.py                            # 45 checks; RDF half needs rdflib
+    python check.py                            # 51 checks; RDF half needs rdflib
 
 `check.py` skips its RDF half loudly when `rdflib` is absent. To run it fully:
 
@@ -116,6 +117,13 @@ rejected on `DirectedRelationship__source`; a shape emitted once on `TypedElemen
 `Class` instance; and a bare `Association` is rejected, which proves the validator can fail at
 all. Each negative case asserts *which* path fired, not merely `conforms == False` — a shape
 pointing at the wrong property would still fail the graph and would still pass a weaker test.
+
+The bounds a *model* writes are checked separately, by four hand-written shapes in
+`shapes/authored-multiplicity.ttl` (kept out of the generated file so regeneration cannot clobber
+them) and twelve cases in `tests/test_authored_multiplicity.py`: a bound must be a readable
+literal, non-negative, single-valued, and never below its partner. That file is the one place
+`sh:class uml:ValueSpecification` is deliberately not used — with RDFS inference it is satisfied
+by the range axiom itself, so it accepts a `uml:Class` used as a bound.
 
 ## Known limits
 

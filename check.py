@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -225,6 +226,52 @@ def main(argv: list[str] | None = None) -> int:
           unresolved == 88, str(unresolved))
     redefines = len(list(g_onto.triples((None, URIRef(META_NS + "redefines"), None))))
     check(f"redefinitions are emitted ({redefines})", redefines > 100, str(redefines))
+
+    # authored multiplicity: the hand-written shapes are the only artifact in the repo that is
+    # not generated, so nothing else would notice when a property they name is renamed. Every
+    # uml: IRI they target or require - including the ones inside the SPARQL text, which no
+    # parser sees - must be something the ontology defines
+    authored = ROOT / "shapes" / "authored-multiplicity.ttl"
+    g_auth = Graph()
+    try:
+        g_auth.parse(str(authored), format="turtle")
+        check(f"authored shapes parse ({len(g_auth)} triples)", True)
+    except Exception as exc:                                        # noqa: BLE001
+        check("authored shapes parse", False, str(exc)[:200])
+    node_shapes = set(g_auth.subjects(RDF.type, URIRef(SH + "NodeShape")))
+    check(f"authored shapes are the known four ({len(node_shapes)})", len(node_shapes) == 4,
+          ", ".join(sorted(str(s).split("#")[-1] for s in node_shapes)))
+    referenced = set()
+    for predicate in ("path", "targetClass", "targetSubjectsOf", "targetObjectsOf", "class"):
+        for node in g_auth.objects(None, URIRef(SH + predicate)):
+            if isinstance(node, URIRef):
+                referenced.add(node)
+    for query in g_auth.objects(None, URIRef(SH + "select")):
+        referenced |= {URIRef(base_iri + "/uml#" + name)
+                       for name in set(re.findall(r"uml:([A-Za-z0-9_]+)", str(query)))}
+    uml_ns = base_iri + "/uml#"
+    defined_any = set(g_onto.subjects(RDF.type, None))
+    missing = {r for r in referenced if str(r).startswith(uml_ns)} - defined_any
+    check(f"authored shapes name only defined uml terms ({len(referenced)} refs)",
+          not missing, ", ".join(sorted(str(m) for m in missing)[:3]))
+
+    # bounds consistency over the fact book: every feature states a lower bound that is an
+    # integer, an upper bound that is an integer or the unbounded marker, and 3..1 is not a
+    # multiplicity. The SHACL side checks the same thing for bounds a model authors; this
+    # side checks the 1,996 the metamodel states about itself, which no shape ever sees
+    features = facts["properties"] + facts["attributes"]
+    bad_lo = [f"{r['owner']}.{r['name']}" for r in features if not isinstance(r["lo"], int)]
+    bad_hi = [f"{r['owner']}.{r['name']}" for r in features
+              if not (r["hi"] == "*" or isinstance(r["hi"], int))]
+    inverted = [f"{r['owner']}.{r['name']} {r['lo']}..{r['hi']}" for r in features
+                if isinstance(r["hi"], int) and isinstance(r["lo"], int) and r["lo"] > r["hi"]]
+    unbounded = sum(1 for r in features if r["hi"] == "*")
+    check(f"every lower bound is an integer ({len(bad_lo)} bad)", not bad_lo,
+          ", ".join(bad_lo[:3]))
+    check(f"every upper bound is an integer or * ({len(bad_hi)} bad, {unbounded} unbounded)",
+          not bad_hi, ", ".join(bad_hi[:3]))
+    check(f"no feature states a lower bound above its upper bound ({len(inverted)} bad)",
+          not inverted, ", ".join(inverted[:3]))
 
     check("uml:Element and sysml2:Element are distinct classes",
           cls("uml:Element") != cls("sysml2:Element")

@@ -226,7 +226,7 @@ def feature_rows(cls: type, known: set[str]) -> Iterable[dict[str, Any]]:
             "range": target_name,
             "multi": bool(getattr(ref, "multi", False)),
             "lo": getattr(ref, "lo", 0),
-            "hi": getattr(ref, "hi", 1),
+            "hi": _count(getattr(ref, "hi", 1)),
             "composite": bool(getattr(ref, "composite", False)),
             "derived": bool(getattr(ref, "derived", False)),
             "union": bool(getattr(ref, "union", False)),
@@ -338,7 +338,7 @@ def build() -> dict[str, Any]:
                 "range": None,
                 "multi": bool(getattr(ref, "multi", False)),
                 "lo": getattr(ref, "lo", 0),
-                "hi": getattr(ref, "hi", 1),
+                "hi": _count(getattr(ref, "hi", 1)),
                 "composite": bool(getattr(ref, "composite", False)),
                 "derived": bool(getattr(ref, "derived", False)),
                 "union": bool(getattr(ref, "union", False)),
@@ -420,6 +420,18 @@ def _esc(text: str) -> str:
     text = _TAG.sub(" ", text)
     text = " ".join(text.split())
     return (text.replace("\\", "\\\\").replace('"', '\\"').replace("\t", " ").strip())
+
+
+def _count(value: Any) -> int | str:
+    """A bound as the fact book states it: an integer, or ``"*"`` for unbounded.
+
+    ``umlmeta`` stores most upper bounds as integers but four as digit strings
+    (``bpmn:ChoreographyTask.messageFlowRef`` is ``1..'2'``), and the fact book is what other
+    tools read, so the wart is normalised here rather than documented.
+    """
+    if str(value) == "*":
+        return "*"
+    return int(value)
 
 
 def _bounds(row: dict[str, Any]) -> list[str]:
