@@ -57,15 +57,16 @@ def main(argv: list[str] | None = None) -> int:
     shapes = ROOT / "shapes" / "uml-family-shapes.ttl"
     register = ROOT / "shapes" / "untranslated.json"
     factbook = ROOT / "ontology" / "relationships.json"
-    for path in (ttl, shapes, register, factbook):
+    logic_reg = ROOT / "shapes" / "logic.json"
+    for path in (ttl, shapes, register, factbook, logic_reg):
         check(f"{path.relative_to(ROOT)} written", path.exists())
 
-    if not all(p.exists() for p in (ttl, shapes, register, factbook)):
+    if not all(p.exists() for p in (ttl, shapes, register, factbook, logic_reg)):
         return report(args.json)
 
     # generated files are published: an absolute home path in one of them is both a
     # reproducibility break (the bytes then depend on who built it) and a leak
-    for path in (ttl, shapes, register, factbook):
+    for path in (ttl, shapes, register, factbook, logic_reg):
         text = path.read_text(errors="replace")
         leaked = [needle for needle in ("/home/", "/Users/", "C:\\Users\\") if needle in text]
         check(f"{path.name} carries no local path", not leaked, ", ".join(leaked))
@@ -110,6 +111,19 @@ def main(argv: list[str] | None = None) -> int:
     check("shapes cover cardinality", reg["counts"]["shapes"] > 500,
           str(reg["counts"]["shapes"]))
 
+    # the OCL subset is the number this repo is judged on: pin it, and hold the three
+    # artifacts that report it to each other so a partial regeneration cannot drift
+    logic_doc = json.loads(logic_reg.read_text(encoding="utf-8"))
+    compiled = reg["counts"]["translatedLogic"]
+    check(f"translated OCL constraints >= 112 ({reg['counts']['translated']})",
+          reg["counts"]["translated"] >= 112, str(reg["counts"]["translated"]))
+    check(f"compiled formulas agree with the register ({compiled})",
+          compiled == len(logic_doc["entries"]) == logic_doc["count"],
+          f"{compiled} vs {len(logic_doc['entries'])}/{logic_doc['count']}")
+    check("every compiled formula names its owner and constraint",
+          all(row.get("name") and row.get("owner") for row in logic_doc["entries"]),
+          str(len(logic_doc["entries"])))
+
     try:
         from rdflib import RDF, RDFS, OWL, Graph, URIRef
     except ImportError:
@@ -139,6 +153,19 @@ def main(argv: list[str] | None = None) -> int:
     dangling = shape_paths - ontology_props
     check(f"every sh:path is an ontology property ({len(shape_paths)} paths)",
           not dangling, ", ".join(sorted(str(d) for d in list(dangling)[:3])))
+
+    # a compiled formula is only usable if the shape it names is in the shapes file, carries
+    # its OCL text, and was generated as a node shape rather than left in the register
+    node_shapes = set(g_shacl.subjects(RDF.type, URIRef(SH + "NodeShape")))
+    UM = "https://mycr0ft.github.io/umlmeta/ns#"
+    named = [URIRef(entry["shape"]) for entry in logic_doc["entries"]]
+    absent = [str(s).split("#")[-1] for s in named if s not in node_shapes]
+    check(f"every compiled formula is a node shape ({len(named)})", not absent,
+          ", ".join(absent[:3]))
+    untraced = [str(s).split("#")[-1] for s in named
+                if g_shacl.value(s, URIRef(UM + "oclBody")) is None
+                or g_shacl.value(s, URIRef(UM + "oclName")) is None]
+    check("every compiled shape carries its OCL text", not untraced, ", ".join(untraced[:3]))
 
     # every shape targets a class the ontology defines
     ontology_classes = set(g_onto.subjects(RDF.type, OWL.Class))

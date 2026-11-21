@@ -12,7 +12,7 @@ honest projection of the standards rather than a second opinion about them.
 
     ontology/uml-family-relationships.ttl   OWL 2 DL, Turtle      ~25k triples, 1.3 MB
     ontology/relationships.json             the same facts, no RDF stack needed
-    shapes/uml-family-shapes.ttl            SHACL                  684 node shapes
+    shapes/uml-family-shapes.ttl            SHACL                  812 node shapes
     shapes/authored-multiplicity.ttl        SHACL, hand-written    4 shapes, for model bounds
     shapes/untranslated.json                every constraint SHACL does NOT check, with why
     PLAN.md                                 the gaps that are left, each with the number it moves
@@ -27,9 +27,9 @@ honest projection of the standards rather than a second opinion about them.
       344  profile stereotypes         each with its base metaclass axiom
      37  subset targets named but not declared    the features the feeds omit
     2,255  normative OCL constraints
-      684  SHACL node shapes          cardinality from lo/hi + a translated OCL subset
-       18  OCL constraints translated into shape facets
-    2,237  registered as not translatable, each with a reason class
+      812  SHACL node shapes          cardinality from lo/hi + a translated OCL subset
+      113  OCL constraints translated  18 facet-shaped + 95 same-object comparisons
+    2,142  registered as not translatable, each with a reason class
 
 `docs/coverage.md` is the register behind those numbers: what each feature became, the 27
 that became nothing and why, and what the next concepts would cost to add. Two properties in the
@@ -37,7 +37,7 @@ ontology are not feed facts at all — `uml:Element__owner` and `uml:NamedElemen
 which UML 2.5.1 states and the feeds omit; each carries the clause it comes from in
 `umlmeta:specClause`. `PLAN.md` lists what is still missing, ranked by the count that moves.
 
-## Why the SHACL number is 18 and not 2,255
+## Why the SHACL number is 113 and not 2,255
 
 UML's serialized invariants are overwhelmingly implications, closures, set operations and
 library predicates — `mustBeOwned() implies owner->notEmpty()`,
@@ -48,13 +48,17 @@ publishes a weaker rule under the constraint's name.
 So the shapes do two things, and say which:
 
 * **cardinality** — every feature's `lo`/`hi` becomes `sh:minCount`/`sh:maxCount` on its
-  declaring class. That is the metamodel's own rule and it covers 684 shapes. The same bound is
+  declaring class. That is the metamodel's own rule and it covers 812 shapes. The same bound is
   stated twice more in the ontology, for consumers that are not SHACL validators:
   `umlmeta:lower`/`umlmeta:upper` on all 1,996 described features, and an
   `owl:minCardinality` restriction on the 16 features whose lower bound is stated;
-* **the whitelisted OCL subset** — 18 constraints whose form maps onto SHACL with no
-  interpretation (`isEmpty`, `notEmpty`, `size()` comparisons, `oclIsUndefined`,
-  `oclIsKindOf`, one-level universal), including conjunctions and two-hop navigations.
+* **the whitelisted OCL subset** — 113 constraints whose form maps onto SHACL with no
+  interpretation. 18 are facet-shaped (`isEmpty`, `notEmpty`, `size()` comparisons,
+  `oclIsUndefined`, `oclIsKindOf`, one-level universal) and 95 are same-object comparisons,
+  compiled whole into `sh:and`/`sh:or`/`sh:not` trees over property shapes, one node shape per
+  constraint and named after it (`<owner>_<constraint>`, carrying `umlmeta:oclName` and
+  `umlmeta:oclBody`). An absent Boolean test reads as false, `= null` as "no value" and
+  `<> null` as "at least one value" — SHACL core, no SPARQL.
 
 Everything else is in `shapes/untranslated.json` with the reason it was refused, because a
 consumer must be able to tell "no violation" from "not checked".

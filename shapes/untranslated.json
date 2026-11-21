@@ -1,13 +1,14 @@
 {
   "counts": {
     "constraintsTotal": 2255,
-    "translated": 18,
-    "untranslated": 2237,
-    "shapes": 684
+    "translated": 113,
+    "translatedLogic": 95,
+    "untranslated": 2142,
+    "shapes": 812
   },
   "refusalReasons": {
-    "outside the translatable subset": 1109,
-    "an implication between property tests: not expressible as a shape count": 409,
+    "outside the translatable subset": 1084,
+    "an implication between property tests: not expressible as a shape count": 339,
     "a global quantification over the whole model: needs a rule engine": 209,
     "a model-library predicate with no graph equivalent here": 169,
     "a set operation over a navigation: needs a rule engine": 112,
@@ -68,12 +69,6 @@
     },
     {
       "owner": "uml:NamedElement",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:NamedElement",
       "name": "has_qualified_name",
       "body": "(name <> null and allNamespaces()->select(ns | ns.name = null)->isEmpty()) implies qualifiedName = allNamespaces()->iterate( ns : Namespace; agg: String = name | ns.name.concat(self.separator()).concat(agg))",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -82,24 +77,6 @@
       "owner": "uml:NamedElement",
       "name": "has_no_qualified_name",
       "body": "name=null or allNamespaces()->select( ns | ns.name=null )->notEmpty() implies qualifiedName = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:PackageableElement",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Dependency",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Abstraction",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
@@ -217,18 +194,6 @@
       "reason": "outside the translatable subset"
     },
     {
-      "owner": "uml:AcceptCallAction",
-      "name": "unmarshall",
-      "body": "isUnmarshall = true",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:InteractionFragment",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "uml:InteractionFragment",
       "name": "has_qualified_name",
       "body": "(name <> null and allNamespaces()->select(ns | ns.name = null)->isEmpty()) implies qualifiedName = allNamespaces()->iterate( ns : Namespace; agg: String = name | ns.name.concat(self.separator()).concat(agg))",
@@ -251,12 +216,6 @@
       "name": "action_referenced",
       "body": "(enclosingInteraction->notEmpty() or enclosingOperand.combinedFragment->notEmpty()) and let parentInteraction : Set(Interaction) = enclosingInteraction.oclAsType(Interaction)->asSet()->union( enclosingOperand.combinedFragment->closure(enclosingOperand.combinedFragment)-> collect(enclosingInteraction).oclAsType(Interaction)->asSet()) in (parentInteraction->size() = 1) and self.action.interaction->a",
       "reason": "transitive closure over a navigation: needs a rule engine"
-    },
-    {
-      "owner": "uml:TypedElement",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:TypedElement",
@@ -325,18 +284,6 @@
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
-      "owner": "uml:Pin",
-      "name": "control_pins",
-      "body": "isControl implies isControlType",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Pin",
-      "name": "not_unique",
-      "body": "not isUnique",
-      "reason": "outside the translatable subset"
-    },
-    {
       "owner": "uml:InputPin",
       "name": "outgoing_edges_structured_only",
       "body": "outgoing->notEmpty() implies action<>null and action.oclIsKindOf(StructuredActivityNode) and action.oclAsType(StructuredActivityNode).allOwnedNodes()->includesAll(outgoing.target)",
@@ -377,12 +324,6 @@
       "name": "cannot_import_ownedMembers",
       "body": "elementImport.importedElement.oclAsType(Element)->excludesAll(ownedMember)",
       "reason": "a cast, which SHACL has no equivalent for"
-    },
-    {
-      "owner": "uml:Type",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:TemplateableElement",
@@ -680,12 +621,6 @@
     },
     {
       "owner": "uml:AddStructuralFeatureValueAction",
-      "name": "required_value",
-      "body": "value<>null",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:AddStructuralFeatureValueAction",
       "name": "insertAt_pin",
       "body": "if not structuralFeature.isOrdered then insertAt = null else not isReplaceAll implies insertAt<>null and insertAt->forAll(type=UnlimitedNatural and is(1,1.oclAsType(UnlimitedNatural))) endif",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -710,38 +645,8 @@
     },
     {
       "owner": "uml:AddVariableValueAction",
-      "name": "required_value",
-      "body": "value <> null",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:AddVariableValueAction",
       "name": "insertAt_pin",
       "body": "if not variable.isOrdered then insertAt = null else not isReplaceAll implies insertAt<>null and insertAt->forAll(type=UnlimitedNatural and is(1,1.oclAsType(UnlimitedNatural))) endif",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Event",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:MessageEvent",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:AnyReceiveEvent",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:DeployedArtifact",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
@@ -883,12 +788,6 @@
       "reason": "outside the translatable subset"
     },
     {
-      "owner": "uml:BroadcastSignalAction",
-      "name": "no_onport",
-      "body": "onPort=null",
-      "reason": "outside the translatable subset"
-    },
-    {
       "owner": "uml:CallAction",
       "name": "argument_pins",
       "body": "let parameter: OrderedSet(Parameter) = self.inputParameters() in argument->size() = parameter->size() and Sequence{1..argument->size()}->forAll(i | argument->at(i).type.conformsTo(parameter->at(i).type) and argument->at(i).isOrdered = parameter->at(i).isOrdered and argument->at(i).compatibleWith(parameter->at(i)))",
@@ -904,18 +803,6 @@
       "owner": "uml:CallAction",
       "name": "synchronous_call",
       "body": "result->notEmpty() implies isSynchronous",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:CallBehaviorAction",
-      "name": "no_onport",
-      "body": "onPort=null",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:CallEvent",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
@@ -940,12 +827,6 @@
       "owner": "uml:CentralBufferNode",
       "name": "object_flow_edges",
       "body": "(not isControlType) implies incoming->union(outgoing)->forAll(oclIsKindOf(ObjectFlow))",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:ChangeEvent",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
@@ -1111,18 +992,6 @@
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
-      "owner": "uml:Realization",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:ComponentRealization",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "uml:StructuredActivityNode",
       "name": "output_pin_edges",
       "body": "output.outgoing.target->excludesAll(allOwnedNodes()-input)",
@@ -1175,12 +1044,6 @@
       "name": "clause_no_predecessor",
       "body": "clause->closure(predecessorClause)->intersection(clause)->isEmpty()",
       "reason": "transitive closure over a navigation: needs a rule engine"
-    },
-    {
-      "owner": "uml:ConnectableElement",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:ConnectableElement",
@@ -1483,12 +1346,6 @@
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
-      "owner": "uml:Deployment",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "uml:DeploymentSpecification",
       "name": "deployment_target",
       "body": "deployment->forAll (location.oclIsKindOf(ExecutionEnvironment))",
@@ -1499,12 +1356,6 @@
       "name": "deployed_elements",
       "body": "deployment->forAll (location.deployedElement->forAll (oclIsKindOf(Component)))",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:DeploymentTarget",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:DeploymentTarget",
@@ -1538,12 +1389,6 @@
     },
     {
       "owner": "uml:MessageEnd",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:MessageEnd",
       "name": "has_qualified_name",
       "body": "(name <> null and allNamespaces()->select(ns | ns.name = null)->isEmpty()) implies qualifiedName = allNamespaces()->iterate( ns : Namespace; agg: String = name | ns.name.concat(self.separator()).concat(agg))",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -1556,12 +1401,6 @@
     },
     {
       "owner": "uml:OccurrenceSpecification",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:OccurrenceSpecification",
       "name": "has_qualified_name",
       "body": "(name <> null and allNamespaces()->select(ns | ns.name = null)->isEmpty()) implies qualifiedName = allNamespaces()->iterate( ns : Namespace; agg: String = name | ns.name.concat(self.separator()).concat(agg))",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -1570,12 +1409,6 @@
       "owner": "uml:OccurrenceSpecification",
       "name": "has_no_qualified_name",
       "body": "name=null or allNamespaces()->select( ns | ns.name=null )->notEmpty() implies qualifiedName = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:MessageOccurrenceSpecification",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
@@ -1607,12 +1440,6 @@
       "name": "internal_structure",
       "body": "part->forAll(oclIsKindOf(Node))",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:ValueSpecification",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:Duration",
@@ -1649,24 +1476,6 @@
       "name": "has_one_or_two_constrainedElements",
       "body": "constrainedElement->size() = 1 or constrainedElement->size()=2",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:Interval",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:DurationInterval",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Observation",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:DurationObservation",
@@ -1784,12 +1593,6 @@
     },
     {
       "owner": "uml:ExecutionOccurrenceSpecification",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:ExecutionOccurrenceSpecification",
       "name": "has_qualified_name",
       "body": "(name <> null and allNamespaces()->select(ns | ns.name = null)->isEmpty()) implies qualifiedName = allNamespaces()->iterate( ns : Namespace; agg: String = name | ns.name.concat(self.separator()).concat(agg))",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -1823,12 +1626,6 @@
       "name": "input_pin_edges",
       "body": "input.incoming.source->excludesAll(allOwnedNodes()-output)",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:Expression",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:Extend",
@@ -1874,12 +1671,6 @@
     },
     {
       "owner": "uml:Property",
-      "name": "derived_union_is_read_only",
-      "body": "isDerivedUnion implies isReadOnly",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Property",
       "name": "multiplicity_of_composite",
       "body": "isComposite and association <> null implies opposite.upperBound() <= 1",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -1900,12 +1691,6 @@
       "owner": "uml:Property",
       "name": "binding_to_attribute",
       "body": "(self.isAttribute() and (templateParameterSubstitution->notEmpty()) implies (templateParameterSubstitution->forAll(ts | ts.formal.oclIsKindOf(Property) and ts.formal.oclAsType(Property).isAttribute())))",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Property",
-      "name": "derived_union_is_derived",
-      "body": "isDerivedUnion implies isDerived",
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
@@ -1972,12 +1757,6 @@
       "owner": "uml:State",
       "name": "destinations_or_sources_of_transitions",
       "body": "self.isSubmachineState implies (self.connection->forAll (cp | cp.entry->forAll (ps | ps.stateMachine = self.submachine) and cp.exit->forAll (ps | ps.stateMachine = self.submachine)))",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:State",
-      "name": "submachine_or_regions",
-      "body": "isComposite implies not isSubmachineState",
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
@@ -2150,12 +1929,6 @@
     },
     {
       "owner": "uml:Include",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Include",
       "name": "has_qualified_name",
       "body": "(name <> null and allNamespaces()->select(ns | ns.name = null)->isEmpty()) implies qualifiedName = allNamespaces()->iterate( ns : Namespace; agg: String = name | ns.name.concat(self.separator()).concat(agg))",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -2191,12 +1964,6 @@
       "reason": "a filtered selection: needs a rule engine"
     },
     {
-      "owner": "uml:InformationItem",
-      "name": "not_instantiable",
-      "body": "isAbstract",
-      "reason": "outside the translatable subset"
-    },
-    {
       "owner": "uml:InitialNode",
       "name": "no_incoming_edges",
       "body": "incoming->isEmpty()",
@@ -2207,12 +1974,6 @@
       "name": "control_edges",
       "body": "outgoing->forAll(oclIsKindOf(ControlFlow))",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:InstanceValue",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:Interaction",
@@ -2311,12 +2072,6 @@
       "reason": "outside the translatable subset"
     },
     {
-      "owner": "uml:InterfaceRealization",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "uml:InterruptibleActivityRegion",
       "name": "interrupting_edges",
       "body": "interruptingEdge->forAll(edge | node->includes(edge.source) and node->excludes(edge.target) and edge.target.containingActivity() = inActivity)",
@@ -2401,48 +2156,6 @@
       "reason": "outside the translatable subset"
     },
     {
-      "owner": "uml:LiteralSpecification",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:LiteralBoolean",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:LiteralInteger",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:LiteralNull",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:LiteralReal",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:LiteralString",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:LiteralUnlimitedNatural",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "uml:LoopNode",
       "name": "result_no_incoming",
       "body": "result.incoming->isEmpty()",
@@ -2495,12 +2208,6 @@
       "name": "loop_variable_outgoing",
       "body": "allOwnedNodes()->includesAll(loopVariable.outgoing.target)",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:Manifestation",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:MergeNode",
@@ -2617,12 +2324,6 @@
       "reason": "outside the translatable subset"
     },
     {
-      "owner": "uml:ObjectFlow",
-      "name": "is_multicast_or_is_multireceive",
-      "body": "not (isMulticast and isMultireceive)",
-      "reason": "outside the translatable subset"
-    },
-    {
       "owner": "uml:OpaqueAction",
       "name": "language_body_size",
       "body": "language->notEmpty() implies (_'body'->size() = language->size())",
@@ -2651,12 +2352,6 @@
       "name": "at_most_one_return",
       "body": "self.ownedParameter->select(direction = ParameterDirectionKind::return)->size() <= 1",
       "reason": "a filtered selection: needs a rule engine"
-    },
-    {
-      "owner": "uml:Operation",
-      "name": "only_body_for_query",
-      "body": "bodyCondition <> null implies isQuery",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:OperationTemplateParameter",
@@ -2711,12 +2406,6 @@
       "name": "reentrant_behaviors",
       "body": "(isStream and behavior <> null) implies not behavior.isReentrant",
       "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Parameter",
-      "name": "stream_and_exception",
-      "body": "not (isException and isStream)",
-      "reason": "outside the translatable subset"
     },
     {
       "owner": "uml:Parameter",
@@ -2951,12 +2640,6 @@
       "name": "refers_to_operation",
       "body": "if (referred()->notEmpty() and containingStateMachine()._'context'->notEmpty()) then containingStateMachine()._'context'.oclAsType(BehavioredClassifier).allFeatures()->includesAll(referred()) else true endif",
       "reason": "a cast, which SHACL has no equivalent for"
-    },
-    {
-      "owner": "uml:ProtocolTransition",
-      "name": "associated_actions",
-      "body": "effect = null",
-      "reason": "outside the translatable subset"
     },
     {
       "owner": "uml:ProtocolTransition",
@@ -3338,12 +3021,6 @@
     },
     {
       "owner": "uml:Region",
-      "name": "owned",
-      "body": "(stateMachine <> null implies state = null) and (state <> null implies stateMachine = null)",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Region",
       "name": "initial_vertex",
       "body": "self.subvertex->select (oclIsKindOf(Pseudostate))->collect(oclAsType(Pseudostate))-> select(kind = PseudostateKind::initial)->size() <= 1",
       "reason": "a filtered selection: needs a rule engine"
@@ -3439,12 +3116,6 @@
       "reason": "a set operation over a navigation: needs a rule engine"
     },
     {
-      "owner": "uml:SignalEvent",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "uml:Slot",
       "name": "has_owner",
       "body": "mustBeOwned() implies owner->notEmpty()",
@@ -3485,12 +3156,6 @@
       "name": "no_onport",
       "body": "onPort->isEmpty()",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:StateInvariant",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:StateInvariant",
@@ -3559,12 +3224,6 @@
       "reason": "outside the translatable subset"
     },
     {
-      "owner": "uml:Substitution",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "uml:TemplateBinding",
       "name": "parameter_substitution_formal",
       "body": "parameterSubstitution->forAll(b | signature.parameter->includes(b.formal))",
@@ -3619,18 +3278,6 @@
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
-      "owner": "uml:TimeInterval",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:TimeObservation",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "uml:Trigger",
       "name": "trigger_with_ports",
       "body": "port->notEmpty() implies event.oclIsKindOf(MessageEvent)",
@@ -3665,12 +3312,6 @@
       "name": "object_type",
       "body": "object.type.conformsTo(unmarshallType)",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uml:Usage",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uml:UseCase",
@@ -3722,12 +3363,6 @@
     },
     {
       "owner": "uml:Variable",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "uml:Variable",
       "name": "has_qualified_name",
       "body": "(name <> null and allNamespaces()->select(ns | ns.name = null)->isEmpty()) implies qualifiedName = allNamespaces()->iterate( ns : Namespace; agg: String = name | ns.name.concat(self.separator()).concat(agg))",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -3754,24 +3389,6 @@
       "owner": "sp:BuildComponent",
       "name": "no_packaged_elements",
       "body": "nestingClass <> null implies packagedElement->isEmpty()",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "sp:Call",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "sp:Create",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "sp:Derive",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
@@ -3895,12 +3512,6 @@
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
-      "owner": "sp:Instantiate",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "sp:Library",
       "name": "specialize_type",
       "body": "parents()->forAll(c | self.maySpecializeType(c))",
@@ -3979,18 +3590,6 @@
       "reason": "a set operation over a navigation: needs a rule engine"
     },
     {
-      "owner": "sp:Refine",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "sp:Responsibility",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "sp:Script",
       "name": "specialize_type",
       "body": "parents()->forAll(c | self.maySpecializeType(c))",
@@ -4013,12 +3612,6 @@
       "name": "no_cycles_in_generalization",
       "body": "not allParents()->includes(self)",
       "reason": "a set operation over a navigation: needs a rule engine"
-    },
-    {
-      "owner": "sp:Send",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "sp:Service",
@@ -4099,12 +3692,6 @@
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
-      "owner": "sp:Trace",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
       "owner": "sp:Type",
       "name": "passive_class",
       "body": "not isActive implies (ownedReception->isEmpty() and classifierBehavior = null)",
@@ -4114,12 +3701,6 @@
       "owner": "sp:Utility",
       "name": "passive_class",
       "body": "not isActive implies (ownedReception->isEmpty() and classifierBehavior = null)",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "sysml:AbstractRequirement",
-      "name": "visibility_needs_ownership",
-      "body": "(namespace = null and owner <> null) implies visibility = null",
       "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
@@ -6625,12 +6206,6 @@
       "reason": "outside the translatable subset"
     },
     {
-      "owner": "uaf:FunctionObjectFlow",
-      "name": "is_multicast_or_is_multireceive",
-      "body": "not (isMulticast and isMultireceive)",
-      "reason": "outside the translatable subset"
-    },
-    {
       "owner": "uaf:GeoPoliticalExtentType",
       "name": "1_specializations_are_valuetypes",
       "body": "UML::Classifier.allInstances()->forAll(c | c.general->includes(self.base_DataType) implies ValueType.allInstances().base_DataType->includes(c))",
@@ -6701,12 +6276,6 @@
       "name": "9_valueproperties_composite",
       "body": "self.base_Class.ownedAttribute->select(a| ValueType.allInstances().base_DataType->includes(a.type))->forAll(a|a.isComposite())",
       "reason": "a global quantification over the whole model: needs a rule engine"
-    },
-    {
-      "owner": "uaf:ISO8601DateTime",
-      "name": "namespace_needs_visibility",
-      "body": "visibility = null implies namespace = null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "uaf:ImpactedBy",
@@ -7234,12 +6803,6 @@
       "owner": "uaf:OperationalObjectFlow",
       "name": "target",
       "body": "(no specification serialized)",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "uaf:OperationalObjectFlow",
-      "name": "is_multicast_or_is_multireceive",
-      "body": "not (isMulticast and isMultireceive)",
       "reason": "outside the translatable subset"
     },
     {
@@ -8455,12 +8018,6 @@
       "reason": "outside the translatable subset"
     },
     {
-      "owner": "uaf:ServiceObjectFlow",
-      "name": "is_multicast_or_is_multireceive",
-      "body": "not (isMulticast and isMultireceive)",
-      "reason": "outside the translatable subset"
-    },
-    {
       "owner": "uaf:ServiceParameter",
       "name": "ServiceParameter.type",
       "body": "The values for the type metaproperty must be stereotyped a specialization of \u00abServiceExchangeItem\u00bb.",
@@ -9230,12 +8787,6 @@
     },
     {
       "owner": "sysml2:Feature",
-      "name": "validateFeatureEndIsConstant",
-      "body": "isEnd and isVariable implies isConstant",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "sysml2:Feature",
       "name": "checkFeatureObjectSpecialization",
       "body": "ownedTyping.type->exists(selectByKind(Structure)) implies specializesFromLibary('Objects::objects')",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -9329,18 +8880,6 @@
       "name": "deriveFeatureCrossFeature",
       "body": "crossFeature =     if ownedCrossSubsetting = null then null     else          let chainingFeatures: Sequence(Feature) =              ownedCrossSubsetting.crossedFeature.chainingFeature in         if chainingFeatures->size() < 2 then null         else chainingFeatures->at(2)     endif",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:Feature",
-      "name": "validateFeatureConstantIsVariable",
-      "body": "isConstant implies isVariable",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "sysml2:Feature",
-      "name": "validateFeaturePortionNotVariable",
-      "body": "isPortion implies not isVariable",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "sysml2:Feature",
@@ -9482,12 +9021,6 @@
     },
     {
       "owner": "sysml2:Feature",
-      "name": "validateFeatureEndNotDerivedAbstractCompositeOrPortion",
-      "body": "isEnd implies not (isDerived or isAbstract or isComposite or isPortion)",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "sysml2:Feature",
       "name": "checkFeatureSpecialization",
       "body": "specializesFromLibrary('Base::things')",
       "reason": "a model-library predicate with no graph equivalent here"
@@ -9527,12 +9060,6 @@
       "name": "deriveUsageNestedView",
       "body": "nestedView = nestedUsage->selectByKind(ViewUsage)",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:Usage",
-      "name": "validateUsageVariationIsAbstract",
-      "body": "isVariation implies isAbstract",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "sysml2:Usage",
@@ -9773,12 +9300,6 @@
       "name": "checkOccurrenceUsageSnapshotSpecialization",
       "body": "portionKind = PortionKind::snapshot implies specializesFromLibrary('Occurrences::Occurrence::snapshots')",
       "reason": "a model-library predicate with no graph equivalent here"
-    },
-    {
-      "owner": "sysml2:OccurrenceUsage",
-      "name": "validateOccurrenceUsageIndividualUsage",
-      "body": "isIndividual implies individualDefinition <> null",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "sysml2:OccurrenceUsage",
@@ -10082,12 +9603,6 @@
     },
     {
       "owner": "sysml2:Definition",
-      "name": "validateDefinitionVariationIsAbstract",
-      "body": "isVariation implies isAbstract",
-      "reason": "an implication between property tests: not expressible as a shape count"
-    },
-    {
-      "owner": "sysml2:Definition",
       "name": "validateDefinitionVariationOwnedFeatureMembership",
       "body": "isVariation implies ownedFeatureMembership->isEmpty()",
       "reason": "an implication between property tests: not expressible as a shape count"
@@ -10310,12 +9825,6 @@
     },
     {
       "owner": "sysml2:ConnectionDefinition",
-      "name": "validateConnectionDefinitionIsSufficient",
-      "body": "isSufficient",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:ConnectionDefinition",
       "name": "checkConnectionDefinitionBinarySpecialization",
       "body": "ownedEndFeature->size() = 2 implies specializesFromLibrary('Connections::BinaryConnections')",
       "reason": "a model-library predicate with no graph equivalent here"
@@ -10457,12 +9966,6 @@
       "name": "deriveUsageNestedView",
       "body": "nestedView = nestedUsage->selectByKind(ViewUsage)",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:ConnectorAsUsage",
-      "name": "validateUsageVariationIsAbstract",
-      "body": "isVariation implies isAbstract",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "sysml2:ConnectorAsUsage",
@@ -11096,12 +10599,6 @@
     },
     {
       "owner": "sysml2:AttributeUsage",
-      "name": "validateAttributeUsageIsReference",
-      "body": "isReference",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:AttributeUsage",
       "name": "checkAttributeUsageSpecialization",
       "body": "specializesFromLibrary('Base::dataValues')",
       "reason": "a model-library predicate with no graph equivalent here"
@@ -11480,12 +10977,6 @@
     },
     {
       "owner": "sysml2:ConjugatedPortDefinition",
-      "name": "validateConjugatedPortDefinitionConjugatedPortDefinitionIsEmpty",
-      "body": "conjugatedPortDefinition = null",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:ConjugatedPortDefinition",
       "name": "validateConjugatedPortDefinitionOriginalPortDefinition",
       "body": "ownedPortConjugator.originalPortDefinition = originalPortDefinition",
       "reason": "outside the translatable subset"
@@ -11578,12 +11069,6 @@
       "owner": "sysml2:ControlNode",
       "name": "validateControlNodeOutgoingSuccessions",
       "body": "sourceConnector->selectByKind(Succession)->     collect(connectorEnd->at(1).multiplicity)->     forAll(sourceMult |          multiplicityHasBounds(sourceMult, 1, 1))",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:ControlNode",
-      "name": "validateControlNodeIsComposite",
-      "body": "isComposite",
       "reason": "outside the translatable subset"
     },
     {
@@ -11695,18 +11180,6 @@
       "reason": "outside the translatable subset"
     },
     {
-      "owner": "sysml2:EnumerationDefinition",
-      "name": "validateEnumerationDefinitionIsVariation",
-      "body": "isVariation",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:EnumerationUsage",
-      "name": "validateAttributeUsageIsReference",
-      "body": "isReference",
-      "reason": "outside the translatable subset"
-    },
-    {
       "owner": "sysml2:EnumerationUsage",
       "name": "checkAttributeUsageSpecialization",
       "body": "specializesFromLibrary('Base::dataValues')",
@@ -11735,12 +11208,6 @@
       "name": "checkEventOccurrenceUsageSpecialization",
       "body": "owningType <> null and (owningType.oclIsKindOf(OccurrenceDefinition) or  owningType.oclIsKindOf(OccurrenceUsage)) implies     specializesFromLibrary('Occurrences::Occurrence::timeEnclosedOccurrences')",
       "reason": "a model-library predicate with no graph equivalent here"
-    },
-    {
-      "owner": "sysml2:EventOccurrenceUsage",
-      "name": "validateEventOccurrenceUsageIsReference",
-      "body": "isReference",
-      "reason": "outside the translatable subset"
     },
     {
       "owner": "sysml2:PerformActionUsage",
@@ -11830,12 +11297,6 @@
       "owner": "sysml2:Expose",
       "name": "validateExposeVisibility",
       "body": "visibility = VisibilityKind::protected",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:Expose",
-      "name": "validateExposeIsImportAll",
-      "body": "isImportAll",
       "reason": "outside the translatable subset"
     },
     {
@@ -12022,12 +11483,6 @@
       "owner": "sysml2:FlowDefinition",
       "name": "validateFlowDefinitionFlowEnds",
       "body": "flowEnd->size() <= 2",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:FlowEnd",
-      "name": "validateFlowEndIsEnd",
-      "body": "isEnd",
       "reason": "outside the translatable subset"
     },
     {
@@ -12272,12 +11727,6 @@
     },
     {
       "owner": "sysml2:LiteralExpression",
-      "name": "deriveLiteralExpressionIsModelLevelEvaluable",
-      "body": "isModelLevelEvaluable = true",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:LiteralExpression",
       "name": "checkLiteralExpressionSpecialization",
       "body": "specializesFromLibrary('Performances::literalEvaluations')",
       "reason": "a model-library predicate with no graph equivalent here"
@@ -12488,12 +11937,6 @@
     },
     {
       "owner": "sysml2:NamespaceExpose",
-      "name": "validateExposeIsImportAll",
-      "body": "isImportAll",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:NamespaceExpose",
       "name": "validateExposeOwningNamespace",
       "body": "importOwningNamespace.oclIsType(ViewUsage)",
       "reason": "outside the translatable subset"
@@ -12592,12 +12035,6 @@
       "owner": "sysml2:ReferenceSubsetting",
       "name": "validateSubsettingFeaturingTypes",
       "body": "subsettingFeature.canAccess(subsettedFeature)",
-      "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:ReferenceUsage",
-      "name": "validateReferenceUsageIsReference",
-      "body": "isReference",
       "reason": "outside the translatable subset"
     },
     {
@@ -12803,12 +12240,6 @@
       "name": "deriveUsageNestedView",
       "body": "nestedView = nestedUsage->selectByKind(ViewUsage)",
       "reason": "outside the translatable subset"
-    },
-    {
-      "owner": "sysml2:SuccessionAsUsage",
-      "name": "validateUsageVariationIsAbstract",
-      "body": "isVariation implies isAbstract",
-      "reason": "an implication between property tests: not expressible as a shape count"
     },
     {
       "owner": "sysml2:SuccessionAsUsage",

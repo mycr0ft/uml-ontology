@@ -13,16 +13,47 @@ its own, and a feature the generator cannot type is a hole wherever it lives. Ev
 appearing in one of the three lists. That assertion, not the prose here, is what keeps this
 document true.
 
+## OCL translation: what SHACL core can carry
+
+`shapes/untranslated.json` refuses 2,142 of the 2,255 normative constraint bodies, each with the
+reason it was refused. 113 are checked. The second group, 95 shapes, is the same-object
+comparison subset — a constraint whose atoms are all tests on one object's own features, joined
+by `and`/`or`/`not`/`implies`:
+
+    namespace = null and owner <> null implies visibility = null
+
+That compiles whole into a SHACL core tree: `sh:or(sh:not(sh:and(...)), property)` over
+`sh:property [ sh:path … ; sh:minCount 1 ]` / `sh:maxCount 0` / `sh:hasValue true`. One node
+shape per constraint, named `<owner>_<constraint>`, carrying `umlmeta:oclName` and
+`umlmeta:oclBody` so the shape can be read back against the body it came from. No `sh:sparql`.
+
+Four rules make the mapping honest rather than approximate:
+
+* **An absent Boolean test is false.** OCL's `if` on an unset attribute is `null`, not `false`,
+  so only `xsd:boolean`-ranged features may become a `sh:hasValue true` test; anything else
+  refuses the whole formula rather than publish a weaker rule under the constraint name.
+* **`= null` is "no value" and `<> null` is "at least one value"** — `sh:maxCount 0` and
+  `sh:minCount 1` on the path, not a check on any value.
+* **`and`/`or` swap under negation.** `not(a and b)` is `sh:or(sh:not a, sh:not b)`.
+* **A formula that touches a navigation or a collection is refused**, not truncated: `->`,
+  `select`, `forAll`, `exists`, `let`, `size`, `allInstances`, `oclIs`, `::` and the rest are on
+  the refusal list, and the register records which one stopped it.
+
+The gate for this subset is not a count alone: `tests/test_shacl.py` takes each of the 95
+compiled formulas from `shapes/logic.json`, searches its atom assignments for an instance that
+must fail it and one that must pass it, and runs both through pyshacl. A shape that accepts its
+own falsifying instance fails the test, so a mis-compiled tree cannot pass by parsing.
+
 ## Multiplicity: one fact, three statements
 
 The bounds were already in the SHACL shapes — `lo`/`hi` become `sh:minCount`/`sh:maxCount` on
-the declaring class (684 node shapes, 1,031 upper bounds). What was missing was the same fact
+the declaring class (812 node shapes, 1,031 upper bounds). What was missing was the same fact
 on the OWL side, so anything that was not a SHACL validator could not see it. Both are now
 stated, from the same `lo`/`hi`:
 
 | statement | where | how many | what it is good for |
 |---|---|---|---|
-| `sh:minCount` / `sh:maxCount` | `shapes/` | 684 shapes | validating a model |
+| `sh:minCount` / `sh:maxCount` | `shapes/` | 812 shapes | validating a model |
 | `umlmeta:lower` / `umlmeta:upper` | `ontology/` | 1,996 features | querying the metamodel itself; `*` survives as a string |
 | `owl:minCardinality` restriction | `ontology/` | 16 features | a reasoner sees "a Dependency has at least one client" with no umlmeta vocabulary |
 

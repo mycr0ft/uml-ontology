@@ -1,0 +1,3669 @@
+{
+  "count": 95,
+  "entries": [
+    {
+      "owner": "uml:NamedElement",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_NamedElement_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:PackageableElement",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_PackageableElement_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Dependency",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Dependency_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Abstraction",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Abstraction_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:AcceptCallAction",
+      "name": "unmarshall",
+      "body": "isUnmarshall = true",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_AcceptCallAction_unmarshall",
+      "expr": [
+        "cmp",
+        "isUnmarshall",
+        "=",
+        "true"
+      ],
+      "paths": {
+        "isUnmarshall": "uml:AcceptEventAction__isUnmarshall"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "isUnmarshall",
+          "=",
+          "true"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:InteractionFragment",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_InteractionFragment_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:TypedElement",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_TypedElement_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Pin",
+      "name": "control_pins",
+      "body": "isControl implies isControlType",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Pin_control_pins",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isControl"
+        ],
+        [
+          "test",
+          "isControlType"
+        ]
+      ],
+      "paths": {
+        "isControl": "uml:Pin__isControl",
+        "isControlType": "uml:ObjectNode__isControlType"
+      },
+      "atoms": [
+        [
+          "test",
+          "isControl",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isControlType",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Pin",
+      "name": "not_unique",
+      "body": "not isUnique",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Pin_not_unique",
+      "expr": [
+        "not",
+        [
+          "test",
+          "isUnique"
+        ]
+      ],
+      "paths": {
+        "isUnique": "uml:MultiplicityElement__isUnique"
+      },
+      "atoms": [
+        [
+          "test",
+          "isUnique",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Type",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Type_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:AddStructuralFeatureValueAction",
+      "name": "required_value",
+      "body": "value<>null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_AddStructuralFeatureValueAction_required_value",
+      "expr": [
+        "cmp",
+        "value",
+        "<>",
+        "null"
+      ],
+      "paths": {
+        "value": "uml:WriteStructuralFeatureAction__value"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "value",
+          "<>",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:AddVariableValueAction",
+      "name": "required_value",
+      "body": "value <> null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_AddVariableValueAction_required_value",
+      "expr": [
+        "cmp",
+        "value",
+        "<>",
+        "null"
+      ],
+      "paths": {
+        "value": "uml:WriteVariableAction__value"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "value",
+          "<>",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Event",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Event_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:MessageEvent",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_MessageEvent_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:AnyReceiveEvent",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_AnyReceiveEvent_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:DeployedArtifact",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_DeployedArtifact_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:BroadcastSignalAction",
+      "name": "no_onport",
+      "body": "onPort=null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_BroadcastSignalAction_no_onport",
+      "expr": [
+        "cmp",
+        "onPort",
+        "=",
+        "null"
+      ],
+      "paths": {
+        "onPort": "uml:InvocationAction__onPort"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "onPort",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:CallBehaviorAction",
+      "name": "no_onport",
+      "body": "onPort=null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_CallBehaviorAction_no_onport",
+      "expr": [
+        "cmp",
+        "onPort",
+        "=",
+        "null"
+      ],
+      "paths": {
+        "onPort": "uml:InvocationAction__onPort"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "onPort",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:CallEvent",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_CallEvent_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:ChangeEvent",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_ChangeEvent_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Realization",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Realization_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:ComponentRealization",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_ComponentRealization_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:ConnectableElement",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_ConnectableElement_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Deployment",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Deployment_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:DeploymentTarget",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_DeploymentTarget_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:MessageEnd",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_MessageEnd_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:OccurrenceSpecification",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_OccurrenceSpecification_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:MessageOccurrenceSpecification",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_MessageOccurrenceSpecification_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:ValueSpecification",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_ValueSpecification_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Interval",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Interval_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:DurationInterval",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_DurationInterval_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Observation",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Observation_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:ExecutionOccurrenceSpecification",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_ExecutionOccurrenceSpecification_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Expression",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Expression_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Property",
+      "name": "derived_union_is_read_only",
+      "body": "isDerivedUnion implies isReadOnly",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Property_derived_union_is_read_only",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isDerivedUnion"
+        ],
+        [
+          "test",
+          "isReadOnly"
+        ]
+      ],
+      "paths": {
+        "isDerivedUnion": "uml:Property__isDerivedUnion",
+        "isReadOnly": "uml:StructuralFeature__isReadOnly"
+      },
+      "atoms": [
+        [
+          "test",
+          "isDerivedUnion",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isReadOnly",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Property",
+      "name": "derived_union_is_derived",
+      "body": "isDerivedUnion implies isDerived",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Property_derived_union_is_derived",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isDerivedUnion"
+        ],
+        [
+          "test",
+          "isDerived"
+        ]
+      ],
+      "paths": {
+        "isDerivedUnion": "uml:Property__isDerivedUnion",
+        "isDerived": "uml:Property__isDerived"
+      },
+      "atoms": [
+        [
+          "test",
+          "isDerivedUnion",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isDerived",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uml:State",
+      "name": "submachine_or_regions",
+      "body": "isComposite implies not isSubmachineState",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_State_submachine_or_regions",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isComposite"
+        ],
+        [
+          "not",
+          [
+            "test",
+            "isSubmachineState"
+          ]
+        ]
+      ],
+      "paths": {
+        "isComposite": "uml:State__isComposite",
+        "isSubmachineState": "uml:State__isSubmachineState"
+      },
+      "atoms": [
+        [
+          "test",
+          "isComposite",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isSubmachineState",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Include",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Include_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:InformationItem",
+      "name": "not_instantiable",
+      "body": "isAbstract",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_InformationItem_not_instantiable",
+      "expr": [
+        "test",
+        "isAbstract"
+      ],
+      "paths": {
+        "isAbstract": "uml:Classifier__isAbstract"
+      },
+      "atoms": [
+        [
+          "test",
+          "isAbstract",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uml:InstanceValue",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_InstanceValue_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:InterfaceRealization",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_InterfaceRealization_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:LiteralSpecification",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralSpecification_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:LiteralBoolean",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralBoolean_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:LiteralInteger",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralInteger_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:LiteralNull",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralNull_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:LiteralReal",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralReal_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:LiteralString",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralString_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:LiteralUnlimitedNatural",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralUnlimitedNatural_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Manifestation",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Manifestation_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:ObjectFlow",
+      "name": "is_multicast_or_is_multireceive",
+      "body": "not (isMulticast and isMultireceive)",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_ObjectFlow_is_multicast_or_is_multireceive",
+      "expr": [
+        "not",
+        [
+          "and",
+          [
+            [
+              "test",
+              "isMulticast"
+            ],
+            [
+              "test",
+              "isMultireceive"
+            ]
+          ]
+        ]
+      ],
+      "paths": {
+        "isMulticast": "uml:ObjectFlow__isMulticast",
+        "isMultireceive": "uml:ObjectFlow__isMultireceive"
+      },
+      "atoms": [
+        [
+          "test",
+          "isMulticast",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isMultireceive",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Operation",
+      "name": "only_body_for_query",
+      "body": "bodyCondition <> null implies isQuery",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Operation_only_body_for_query",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "bodyCondition",
+          "<>",
+          "null"
+        ],
+        [
+          "test",
+          "isQuery"
+        ]
+      ],
+      "paths": {
+        "bodyCondition": "uml:Operation__bodyCondition",
+        "isQuery": "uml:Operation__isQuery"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "bodyCondition",
+          "<>",
+          "null"
+        ],
+        [
+          "test",
+          "isQuery",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Parameter",
+      "name": "stream_and_exception",
+      "body": "not (isException and isStream)",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Parameter_stream_and_exception",
+      "expr": [
+        "not",
+        [
+          "and",
+          [
+            [
+              "test",
+              "isException"
+            ],
+            [
+              "test",
+              "isStream"
+            ]
+          ]
+        ]
+      ],
+      "paths": {
+        "isException": "uml:Parameter__isException",
+        "isStream": "uml:Parameter__isStream"
+      },
+      "atoms": [
+        [
+          "test",
+          "isException",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isStream",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uml:ProtocolTransition",
+      "name": "associated_actions",
+      "body": "effect = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_ProtocolTransition_associated_actions",
+      "expr": [
+        "cmp",
+        "effect",
+        "=",
+        "null"
+      ],
+      "paths": {
+        "effect": "uml:Transition__effect"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "effect",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Region",
+      "name": "owned",
+      "body": "(stateMachine <> null implies state = null) and (state <> null implies stateMachine = null)",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Region_owned",
+      "expr": [
+        "and",
+        [
+          [
+            "implies",
+            [
+              "cmp",
+              "stateMachine",
+              "<>",
+              "null"
+            ],
+            [
+              "cmp",
+              "state",
+              "=",
+              "null"
+            ]
+          ],
+          [
+            "implies",
+            [
+              "cmp",
+              "state",
+              "<>",
+              "null"
+            ],
+            [
+              "cmp",
+              "stateMachine",
+              "=",
+              "null"
+            ]
+          ]
+        ]
+      ],
+      "paths": {
+        "stateMachine": "uml:Region__stateMachine",
+        "state": "uml:Region__state"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "stateMachine",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "state",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "state",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "stateMachine",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:SignalEvent",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_SignalEvent_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:StateInvariant",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_StateInvariant_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Substitution",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Substitution_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:TimeInterval",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_TimeInterval_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:TimeObservation",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_TimeObservation_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Usage",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Usage_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uml:Variable",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uml_Variable_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sp:Call",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sp_Call_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sp:Create",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sp_Create_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sp:Derive",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sp_Derive_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sp:Instantiate",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sp_Instantiate_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sp:Refine",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sp_Refine_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sp:Responsibility",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sp_Responsibility_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sp:Send",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sp_Send_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sp:Trace",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sp_Trace_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:PackageableElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sysml:AbstractRequirement",
+      "name": "visibility_needs_ownership",
+      "body": "(namespace = null and owner <> null) implies visibility = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml_AbstractRequirement_visibility_needs_ownership",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "cmp",
+              "namespace",
+              "=",
+              "null"
+            ],
+            [
+              "cmp",
+              "owner",
+              "<>",
+              "null"
+            ]
+          ]
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "namespace": "uml:NamedElement__namespace",
+        "owner": "uml:Element__owner",
+        "visibility": "uml:NamedElement__visibility"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "owner",
+          "<>",
+          "null"
+        ],
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uaf:FunctionObjectFlow",
+      "name": "is_multicast_or_is_multireceive",
+      "body": "not (isMulticast and isMultireceive)",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uaf_FunctionObjectFlow_is_multicast_or_is_multireceive",
+      "expr": [
+        "not",
+        [
+          "and",
+          [
+            [
+              "test",
+              "isMulticast"
+            ],
+            [
+              "test",
+              "isMultireceive"
+            ]
+          ]
+        ]
+      ],
+      "paths": {
+        "isMulticast": "uml:ObjectFlow__isMulticast",
+        "isMultireceive": "uml:ObjectFlow__isMultireceive"
+      },
+      "atoms": [
+        [
+          "test",
+          "isMulticast",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isMultireceive",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uaf:ISO8601DateTime",
+      "name": "namespace_needs_visibility",
+      "body": "visibility = null implies namespace = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uaf_ISO8601DateTime_namespace_needs_visibility",
+      "expr": [
+        "implies",
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ],
+      "paths": {
+        "visibility": "uml:NamedElement__visibility",
+        "namespace": "uml:NamedElement__namespace"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "visibility",
+          "=",
+          "null"
+        ],
+        [
+          "cmp",
+          "namespace",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "uaf:OperationalObjectFlow",
+      "name": "is_multicast_or_is_multireceive",
+      "body": "not (isMulticast and isMultireceive)",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uaf_OperationalObjectFlow_is_multicast_or_is_multireceive",
+      "expr": [
+        "not",
+        [
+          "and",
+          [
+            [
+              "test",
+              "isMulticast"
+            ],
+            [
+              "test",
+              "isMultireceive"
+            ]
+          ]
+        ]
+      ],
+      "paths": {
+        "isMulticast": "uml:ObjectFlow__isMulticast",
+        "isMultireceive": "uml:ObjectFlow__isMultireceive"
+      },
+      "atoms": [
+        [
+          "test",
+          "isMulticast",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isMultireceive",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "uaf:ServiceObjectFlow",
+      "name": "is_multicast_or_is_multireceive",
+      "body": "not (isMulticast and isMultireceive)",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#uaf_ServiceObjectFlow_is_multicast_or_is_multireceive",
+      "expr": [
+        "not",
+        [
+          "and",
+          [
+            [
+              "test",
+              "isMulticast"
+            ],
+            [
+              "test",
+              "isMultireceive"
+            ]
+          ]
+        ]
+      ],
+      "paths": {
+        "isMulticast": "uml:ObjectFlow__isMulticast",
+        "isMultireceive": "uml:ObjectFlow__isMultireceive"
+      },
+      "atoms": [
+        [
+          "test",
+          "isMulticast",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isMultireceive",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:Feature",
+      "name": "validateFeatureEndIsConstant",
+      "body": "isEnd and isVariable implies isConstant",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Feature_validateFeatureEndIsConstant",
+      "expr": [
+        "implies",
+        [
+          "and",
+          [
+            [
+              "test",
+              "isEnd"
+            ],
+            [
+              "test",
+              "isVariable"
+            ]
+          ]
+        ],
+        [
+          "test",
+          "isConstant"
+        ]
+      ],
+      "paths": {
+        "isEnd": "sysml2:Feature__isEnd",
+        "isVariable": "sysml2:Feature__isVariable",
+        "isConstant": "sysml2:Feature__isConstant"
+      },
+      "atoms": [
+        [
+          "test",
+          "isEnd",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isVariable",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isConstant",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:Feature",
+      "name": "validateFeatureConstantIsVariable",
+      "body": "isConstant implies isVariable",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Feature_validateFeatureConstantIsVariable",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isConstant"
+        ],
+        [
+          "test",
+          "isVariable"
+        ]
+      ],
+      "paths": {
+        "isConstant": "sysml2:Feature__isConstant",
+        "isVariable": "sysml2:Feature__isVariable"
+      },
+      "atoms": [
+        [
+          "test",
+          "isConstant",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isVariable",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:Feature",
+      "name": "validateFeaturePortionNotVariable",
+      "body": "isPortion implies not isVariable",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Feature_validateFeaturePortionNotVariable",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isPortion"
+        ],
+        [
+          "not",
+          [
+            "test",
+            "isVariable"
+          ]
+        ]
+      ],
+      "paths": {
+        "isPortion": "sysml2:Feature__isPortion",
+        "isVariable": "sysml2:Feature__isVariable"
+      },
+      "atoms": [
+        [
+          "test",
+          "isPortion",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isVariable",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:Feature",
+      "name": "validateFeatureEndNotDerivedAbstractCompositeOrPortion",
+      "body": "isEnd implies not (isDerived or isAbstract or isComposite or isPortion)",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Feature_validateFeatureEndNotDerivedAbstractCompositeOrPortion",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isEnd"
+        ],
+        [
+          "not",
+          [
+            "or",
+            [
+              [
+                "test",
+                "isDerived"
+              ],
+              [
+                "test",
+                "isAbstract"
+              ],
+              [
+                "test",
+                "isComposite"
+              ],
+              [
+                "test",
+                "isPortion"
+              ]
+            ]
+          ]
+        ]
+      ],
+      "paths": {
+        "isEnd": "sysml2:Feature__isEnd",
+        "isDerived": "sysml2:Feature__isDerived",
+        "isAbstract": "sysml2:Type__isAbstract",
+        "isComposite": "sysml2:Feature__isComposite",
+        "isPortion": "sysml2:Feature__isPortion"
+      },
+      "atoms": [
+        [
+          "test",
+          "isEnd",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isDerived",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isAbstract",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isComposite",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isPortion",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:Usage",
+      "name": "validateUsageVariationIsAbstract",
+      "body": "isVariation implies isAbstract",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Usage_validateUsageVariationIsAbstract",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isVariation"
+        ],
+        [
+          "test",
+          "isAbstract"
+        ]
+      ],
+      "paths": {
+        "isVariation": "sysml2:Usage__isVariation",
+        "isAbstract": "sysml2:Type__isAbstract"
+      },
+      "atoms": [
+        [
+          "test",
+          "isVariation",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isAbstract",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:OccurrenceUsage",
+      "name": "validateOccurrenceUsageIndividualUsage",
+      "body": "isIndividual implies individualDefinition <> null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_OccurrenceUsage_validateOccurrenceUsageIndividualUsage",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isIndividual"
+        ],
+        [
+          "cmp",
+          "individualDefinition",
+          "<>",
+          "null"
+        ]
+      ],
+      "paths": {
+        "isIndividual": "sysml2:OccurrenceUsage__isIndividual",
+        "individualDefinition": "sysml2:OccurrenceUsage__individualDefinition"
+      },
+      "atoms": [
+        [
+          "test",
+          "isIndividual",
+          null,
+          null
+        ],
+        [
+          "cmp",
+          "individualDefinition",
+          "<>",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:Definition",
+      "name": "validateDefinitionVariationIsAbstract",
+      "body": "isVariation implies isAbstract",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Definition_validateDefinitionVariationIsAbstract",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isVariation"
+        ],
+        [
+          "test",
+          "isAbstract"
+        ]
+      ],
+      "paths": {
+        "isVariation": "sysml2:Definition__isVariation",
+        "isAbstract": "sysml2:Type__isAbstract"
+      },
+      "atoms": [
+        [
+          "test",
+          "isVariation",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isAbstract",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:ConnectionDefinition",
+      "name": "validateConnectionDefinitionIsSufficient",
+      "body": "isSufficient",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConnectionDefinition_validateConnectionDefinitionIsSufficient",
+      "expr": [
+        "test",
+        "isSufficient"
+      ],
+      "paths": {
+        "isSufficient": "sysml2:ConnectionDefinition__isSufficient"
+      },
+      "atoms": [
+        [
+          "test",
+          "isSufficient",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:ConnectorAsUsage",
+      "name": "validateUsageVariationIsAbstract",
+      "body": "isVariation implies isAbstract",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConnectorAsUsage_validateUsageVariationIsAbstract",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isVariation"
+        ],
+        [
+          "test",
+          "isAbstract"
+        ]
+      ],
+      "paths": {
+        "isVariation": "sysml2:Usage__isVariation",
+        "isAbstract": "sysml2:Type__isAbstract"
+      },
+      "atoms": [
+        [
+          "test",
+          "isVariation",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isAbstract",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:AttributeUsage",
+      "name": "validateAttributeUsageIsReference",
+      "body": "isReference",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_AttributeUsage_validateAttributeUsageIsReference",
+      "expr": [
+        "test",
+        "isReference"
+      ],
+      "paths": {
+        "isReference": "sysml2:AttributeUsage__isReference"
+      },
+      "atoms": [
+        [
+          "test",
+          "isReference",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:ConjugatedPortDefinition",
+      "name": "validateConjugatedPortDefinitionConjugatedPortDefinitionIsEmpty",
+      "body": "conjugatedPortDefinition = null",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConjugatedPortDefinition_validateConjugatedPortDefinitionConjugatedPortDefinitionIsEmpty",
+      "expr": [
+        "cmp",
+        "conjugatedPortDefinition",
+        "=",
+        "null"
+      ],
+      "paths": {
+        "conjugatedPortDefinition": "sysml2:PortDefinition__conjugatedPortDefinition"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "conjugatedPortDefinition",
+          "=",
+          "null"
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:ControlNode",
+      "name": "validateControlNodeIsComposite",
+      "body": "isComposite",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ControlNode_validateControlNodeIsComposite",
+      "expr": [
+        "test",
+        "isComposite"
+      ],
+      "paths": {
+        "isComposite": "sysml2:Feature__isComposite"
+      },
+      "atoms": [
+        [
+          "test",
+          "isComposite",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:EnumerationDefinition",
+      "name": "validateEnumerationDefinitionIsVariation",
+      "body": "isVariation",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_EnumerationDefinition_validateEnumerationDefinitionIsVariation",
+      "expr": [
+        "test",
+        "isVariation"
+      ],
+      "paths": {
+        "isVariation": "sysml2:EnumerationDefinition__isVariation"
+      },
+      "atoms": [
+        [
+          "test",
+          "isVariation",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:EnumerationUsage",
+      "name": "validateAttributeUsageIsReference",
+      "body": "isReference",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_EnumerationUsage_validateAttributeUsageIsReference",
+      "expr": [
+        "test",
+        "isReference"
+      ],
+      "paths": {
+        "isReference": "sysml2:AttributeUsage__isReference"
+      },
+      "atoms": [
+        [
+          "test",
+          "isReference",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:EventOccurrenceUsage",
+      "name": "validateEventOccurrenceUsageIsReference",
+      "body": "isReference",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_EventOccurrenceUsage_validateEventOccurrenceUsageIsReference",
+      "expr": [
+        "test",
+        "isReference"
+      ],
+      "paths": {
+        "isReference": "sysml2:EventOccurrenceUsage__isReference"
+      },
+      "atoms": [
+        [
+          "test",
+          "isReference",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:Expose",
+      "name": "validateExposeIsImportAll",
+      "body": "isImportAll",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Expose_validateExposeIsImportAll",
+      "expr": [
+        "test",
+        "isImportAll"
+      ],
+      "paths": {
+        "isImportAll": "sysml2:Expose__isImportAll"
+      },
+      "atoms": [
+        [
+          "test",
+          "isImportAll",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:FlowEnd",
+      "name": "validateFlowEndIsEnd",
+      "body": "isEnd",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_FlowEnd_validateFlowEndIsEnd",
+      "expr": [
+        "test",
+        "isEnd"
+      ],
+      "paths": {
+        "isEnd": "sysml2:Feature__isEnd"
+      },
+      "atoms": [
+        [
+          "test",
+          "isEnd",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:LiteralExpression",
+      "name": "deriveLiteralExpressionIsModelLevelEvaluable",
+      "body": "isModelLevelEvaluable = true",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_LiteralExpression_deriveLiteralExpressionIsModelLevelEvaluable",
+      "expr": [
+        "cmp",
+        "isModelLevelEvaluable",
+        "=",
+        "true"
+      ],
+      "paths": {
+        "isModelLevelEvaluable": "sysml2:Expression__isModelLevelEvaluable"
+      },
+      "atoms": [
+        [
+          "cmp",
+          "isModelLevelEvaluable",
+          "=",
+          "true"
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:NamespaceExpose",
+      "name": "validateExposeIsImportAll",
+      "body": "isImportAll",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_NamespaceExpose_validateExposeIsImportAll",
+      "expr": [
+        "test",
+        "isImportAll"
+      ],
+      "paths": {
+        "isImportAll": "sysml2:Expose__isImportAll"
+      },
+      "atoms": [
+        [
+          "test",
+          "isImportAll",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:ReferenceUsage",
+      "name": "validateReferenceUsageIsReference",
+      "body": "isReference",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ReferenceUsage_validateReferenceUsageIsReference",
+      "expr": [
+        "test",
+        "isReference"
+      ],
+      "paths": {
+        "isReference": "sysml2:ReferenceUsage__isReference"
+      },
+      "atoms": [
+        [
+          "test",
+          "isReference",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "owner": "sysml2:SuccessionAsUsage",
+      "name": "validateUsageVariationIsAbstract",
+      "body": "isVariation implies isAbstract",
+      "shape": "https://mycr0ft.github.io/uml-ontology/shapes#sysml2_SuccessionAsUsage_validateUsageVariationIsAbstract",
+      "expr": [
+        "implies",
+        [
+          "test",
+          "isVariation"
+        ],
+        [
+          "test",
+          "isAbstract"
+        ]
+      ],
+      "paths": {
+        "isVariation": "sysml2:Usage__isVariation",
+        "isAbstract": "sysml2:Type__isAbstract"
+      },
+      "atoms": [
+        [
+          "test",
+          "isVariation",
+          null,
+          null
+        ],
+        [
+          "test",
+          "isAbstract",
+          null,
+          null
+        ]
+      ]
+    }
+  ]
+}

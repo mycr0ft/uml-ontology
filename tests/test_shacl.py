@@ -12,6 +12,7 @@ Run:  python tests/test_shacl.py           (needs pyshacl + rdflib)
 """
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -154,6 +155,96 @@ def named(report_graph) -> list[str]:
     return rows
 
 
+def evaluate(expr, state):
+    """Evaluate a compiled formula tree over an assignment of feature name -> absent/true/false."""
+    kind = expr[0]
+    if kind == "not":
+        return not evaluate(expr[1], state)
+    if kind == "implies":
+        return (not evaluate(expr[1], state)) or evaluate(expr[2], state)
+    if kind in ("and", "or"):
+        values = [evaluate(branch, state) for branch in expr[1]]
+        return all(values) if kind == "and" else any(values)
+    if kind == "test":
+        return state[expr[1]] == "true"
+    name, op, value = expr[1], expr[2], expr[3]
+    held = state[name]
+    if value == "null":
+        return (held == "absent") if op == "=" else (held != "absent")
+    return (held == value) if op == "=" else (held != value)
+
+
+def instances(entry):
+    """A falsifying and a satisfying instance for one compiled formula, or (None, None)."""
+    import itertools
+
+    names = sorted(entry["paths"])
+    found = {"bad": None, "good": None}
+    for combo in itertools.product(("absent", "true", "false"), repeat=len(names)):
+        state = dict(zip(names, combo))
+        holds = evaluate(entry["expr"], state)
+        key = "good" if holds else "bad"
+        if found[key] is None:
+            found[key] = state
+        if found["bad"] is not None and found["good"] is not None:
+            break
+    return found["bad"], found["good"]
+
+
+def iri(term: str, prefixes: dict) -> str:
+    """A prefixed name from the shapes file as a full IRI, so no prefix has to be guessed."""
+    prefix, _, local = term.partition(":")
+    return prefixes[prefix] + local
+
+
+def as_turtle(owner: str, paths: dict, state: dict, prefixes: dict) -> str:
+    """One focus node of the owner class, with each feature absent, true or false."""
+    triples = [f"<http://example.org/i> a <{iri(owner, prefixes)}>"]
+    for name, held in state.items():
+        if held != "absent":
+            triples.append(f"<http://example.org/i> <{iri(paths[name], prefixes)}> {held}")
+    return " .\n".join(triples) + " .\n"
+
+
+def logic_cases(shapes_graph, registry):
+    """Per compiled shape: the instance it must reject and the instance it must accept."""
+    from pyshacl import validate as pyshacl_validate
+
+    from rdflib import Graph, Namespace, URIRef
+    from rdflib.namespace import RDF
+
+    sh = Namespace("http://www.w3.org/ns/shacl#")
+
+    prefixes = {prefix: str(uri) for prefix, uri in shapes_graph.namespaces() if prefix}
+    failures = 0
+    for entry in registry["entries"]:
+        shape = URIRef(entry["shape"])
+        bad, good = instances(entry)
+        results = {}
+        for label, state in (("bad", bad), ("good", good)):
+            if state is None:
+                results[label] = "no instance exists"
+                continue
+            data = Graph()
+            data.parse(data=as_turtle(entry["owner"], entry["paths"], state, prefixes),
+                       format="turtle")
+            # only this shape, so a violation cannot be another shape's and runtime stays small
+            local = Graph()
+            for triple in shapes_graph.cbd(shape):
+                local.add(triple)
+            conforms, report, _text = pyshacl_validate(
+                data, shacl_graph=local, inference="rdfs", abort_on_first=False)
+            hit = any(True for _ in report.subjects(RDF.type, sh.ValidationResult))
+            results[label] = (conforms, hit)
+        ok = results["bad"] == (False, True) and results["good"] == (True, False)
+        if not ok:
+            failures += 1
+            print(f"[FAIL] logic shape {entry['owner']} {entry['name']}: {results}")
+    print(f"[{'ok' if not failures else 'FAIL'}] every compiled formula has a rejecting and an "
+          f"accepting instance ({len(registry['entries'])} shapes)")
+    return failures
+
+
 def main() -> int:
     from rdflib import Namespace
     from rdflib.namespace import RDF
@@ -196,8 +287,12 @@ def main() -> int:
     if not ok:
         failures += 1
 
-    print(f"\n{len(CASES) + 1 - failures}/{len(CASES) + 1} cases passed")
-    return 1 if failures else 0
+    registry_path = ROOT / "shapes" / "logic.json"
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    logic_failures = logic_cases(shapes_graph, registry)
+    hand = len(CASES) + 1
+    print(f"\n{hand - failures}/{hand} hand-written cases passed")
+    return 1 if (failures or logic_failures) else 0
 
 
 if __name__ == "__main__":

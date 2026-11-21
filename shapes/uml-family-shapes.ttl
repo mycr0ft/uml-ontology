@@ -506,14 +506,38 @@
     sh:targetClass sp:Call ;
     sh:property [ sh:path sp:Call__base_Usage ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sp_Call_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass sp:Call ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Create> a sh:NodeShape ;
     sh:targetClass sp:Create ;
     sh:property [ sh:path sp:Create__base_BehavioralFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sp:Create__base_Usage ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sp_Create_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass sp:Create ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Derive> a sh:NodeShape ;
     sh:targetClass sp:Derive ;
     sh:property [ sh:path sp:Derive__base_Abstraction ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sp_Derive_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass sp:Derive ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Destroy> a sh:NodeShape ;
     sh:targetClass sp:Destroy ;
@@ -555,6 +579,14 @@
     sh:targetClass sp:Instantiate ;
     sh:property [ sh:path sp:Instantiate__base_Usage ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sp_Instantiate_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass sp:Instantiate ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Library> a sh:NodeShape ;
     sh:targetClass sp:Library ;
     sh:property [ sh:path sp:Library__base_Artifact ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -583,9 +615,25 @@
     sh:targetClass sp:Refine ;
     sh:property [ sh:path sp:Refine__base_Abstraction ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sp_Refine_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass sp:Refine ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Responsibility> a sh:NodeShape ;
     sh:targetClass sp:Responsibility ;
     sh:property [ sh:path sp:Responsibility__base_Usage ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sp_Responsibility_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass sp:Responsibility ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Script> a sh:NodeShape ;
     sh:targetClass sp:Script ;
@@ -594,6 +642,14 @@
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Send> a sh:NodeShape ;
     sh:targetClass sp:Send ;
     sh:property [ sh:path sp:Send__base_Usage ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sp_Send_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass sp:Send ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Service> a sh:NodeShape ;
     sh:targetClass sp:Service ;
@@ -618,6 +674,14 @@
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Trace> a sh:NodeShape ;
     sh:targetClass sp:Trace ;
     sh:property [ sh:path sp:Trace__base_Abstraction ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sp_Trace_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass sp:Trace ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sp_Type> a sh:NodeShape ;
     sh:targetClass sp:Type ;
@@ -673,6 +737,17 @@
     sh:targetClass sysml2:Association ;
     sh:property [ sh:path sysml2:Association__sourceType ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_AttributeUsage> a sh:NodeShape ;
+    sh:targetClass sysml2:AttributeUsage .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_AttributeUsage_validateAttributeUsageIsReference> a sh:NodeShape ;
+    sh:targetClass sysml2:AttributeUsage ;
+    sh:property [ sh:path sysml2:AttributeUsage__isReference ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateAttributeUsageIsReference" ;
+    umlmeta:oclBody "isReference" ;
+    sh:message "validateAttributeUsageIsReference" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_BooleanExpression> a sh:NodeShape ;
     sh:targetClass sysml2:BooleanExpression ;
     sh:property [ sh:path sysml2:BooleanExpression__predicate ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -701,6 +776,14 @@
     sh:property [ sh:path sysml2:ConjugatedPortDefinition__originalPortDefinition ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:ConjugatedPortDefinition__ownedPortConjugator ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConjugatedPortDefinition_validateConjugatedPortDefinitionConjugatedPortDefinitionIsEmpty> a sh:NodeShape ;
+    sh:targetClass sysml2:ConjugatedPortDefinition ;
+    sh:property [ sh:path sysml2:PortDefinition__conjugatedPortDefinition ; sh:maxCount 0 ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateConjugatedPortDefinitionConjugatedPortDefinitionIsEmpty" ;
+    umlmeta:oclBody "conjugatedPortDefinition = null" ;
+    sh:message "validateConjugatedPortDefinitionConjugatedPortDefinitionIsEmpty" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConjugatedPortTyping> a sh:NodeShape ;
     sh:targetClass sysml2:ConjugatedPortTyping ;
     sh:property [ sh:path sysml2:ConjugatedPortTyping__conjugatedPortDefinition ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
@@ -712,19 +795,63 @@
     sh:property [ sh:path sysml2:Conjugation__originalType ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:Conjugation__owningType ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConnectionDefinition> a sh:NodeShape ;
+    sh:targetClass sysml2:ConnectionDefinition .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConnectionDefinition_validateConnectionDefinitionIsSufficient> a sh:NodeShape ;
+    sh:targetClass sysml2:ConnectionDefinition ;
+    sh:property [ sh:path sysml2:ConnectionDefinition__isSufficient ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateConnectionDefinitionIsSufficient" ;
+    umlmeta:oclBody "isSufficient" ;
+    sh:message "validateConnectionDefinitionIsSufficient" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Connector> a sh:NodeShape ;
     sh:targetClass sysml2:Connector ;
     sh:property [ sh:path sysml2:Connector__defaultFeaturingType ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:Connector__sourceFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConnectorAsUsage> a sh:NodeShape ;
+    sh:targetClass sysml2:ConnectorAsUsage .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConnectorAsUsage_validateUsageVariationIsAbstract> a sh:NodeShape ;
+    sh:targetClass sysml2:ConnectorAsUsage ;
+    sh:or ( [ sh:not [ sh:property [ sh:path sysml2:Usage__isVariation ; sh:hasValue true ] ] ] [ sh:property [ sh:path sysml2:Type__isAbstract ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateUsageVariationIsAbstract" ;
+    umlmeta:oclBody "isVariation implies isAbstract" ;
+    sh:message "validateUsageVariationIsAbstract" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ConstraintUsage> a sh:NodeShape ;
     sh:targetClass sysml2:ConstraintUsage ;
     sh:property [ sh:path sysml2:ConstraintUsage__constraintDefinition ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ControlNode> a sh:NodeShape ;
+    sh:targetClass sysml2:ControlNode .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ControlNode_validateControlNodeIsComposite> a sh:NodeShape ;
+    sh:targetClass sysml2:ControlNode ;
+    sh:property [ sh:path sysml2:Feature__isComposite ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateControlNodeIsComposite" ;
+    umlmeta:oclBody "isComposite" ;
+    sh:message "validateControlNodeIsComposite" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_CrossSubsetting> a sh:NodeShape ;
     sh:targetClass sysml2:CrossSubsetting ;
     sh:property [ sh:path sysml2:CrossSubsetting__crossedFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:CrossSubsetting__crossingFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Definition> a sh:NodeShape ;
+    sh:targetClass sysml2:Definition .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Definition_validateDefinitionVariationIsAbstract> a sh:NodeShape ;
+    sh:targetClass sysml2:Definition ;
+    sh:or ( [ sh:not [ sh:property [ sh:path sysml2:Definition__isVariation ; sh:hasValue true ] ] ] [ sh:property [ sh:path sysml2:Type__isAbstract ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateDefinitionVariationIsAbstract" ;
+    umlmeta:oclBody "isVariation implies isAbstract" ;
+    sh:message "validateDefinitionVariationIsAbstract" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Dependency> a sh:NodeShape ;
     sh:targetClass sysml2:Dependency ;
@@ -760,17 +887,55 @@
     sh:targetClass sysml2:EndFeatureMembership ;
     sh:property [ sh:path sysml2:EndFeatureMembership__ownedMemberFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_EnumerationDefinition> a sh:NodeShape ;
+    sh:targetClass sysml2:EnumerationDefinition .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_EnumerationDefinition_validateEnumerationDefinitionIsVariation> a sh:NodeShape ;
+    sh:targetClass sysml2:EnumerationDefinition ;
+    sh:property [ sh:path sysml2:EnumerationDefinition__isVariation ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateEnumerationDefinitionIsVariation" ;
+    umlmeta:oclBody "isVariation" ;
+    sh:message "validateEnumerationDefinitionIsVariation" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_EnumerationUsage> a sh:NodeShape ;
     sh:targetClass sysml2:EnumerationUsage ;
     sh:property [ sh:path sysml2:EnumerationUsage__enumerationDefinition ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_EnumerationUsage_validateAttributeUsageIsReference> a sh:NodeShape ;
+    sh:targetClass sysml2:EnumerationUsage ;
+    sh:property [ sh:path sysml2:AttributeUsage__isReference ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateAttributeUsageIsReference" ;
+    umlmeta:oclBody "isReference" ;
+    sh:message "validateAttributeUsageIsReference" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_EventOccurrenceUsage> a sh:NodeShape ;
     sh:targetClass sysml2:EventOccurrenceUsage ;
     sh:property [ sh:path sysml2:EventOccurrenceUsage__eventOccurrence ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_EventOccurrenceUsage_validateEventOccurrenceUsageIsReference> a sh:NodeShape ;
+    sh:targetClass sysml2:EventOccurrenceUsage ;
+    sh:property [ sh:path sysml2:EventOccurrenceUsage__isReference ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateEventOccurrenceUsageIsReference" ;
+    umlmeta:oclBody "isReference" ;
+    sh:message "validateEventOccurrenceUsageIsReference" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ExhibitStateUsage> a sh:NodeShape ;
     sh:targetClass sysml2:ExhibitStateUsage ;
     sh:property [ sh:path sysml2:ExhibitStateUsage__exhibitedState ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Expose> a sh:NodeShape ;
+    sh:targetClass sysml2:Expose .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Expose_validateExposeIsImportAll> a sh:NodeShape ;
+    sh:targetClass sysml2:Expose ;
+    sh:property [ sh:path sysml2:Expose__isImportAll ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateExposeIsImportAll" ;
+    umlmeta:oclBody "isImportAll" ;
+    sh:message "validateExposeIsImportAll" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Expression> a sh:NodeShape ;
     sh:targetClass sysml2:Expression ;
@@ -786,6 +951,38 @@
     sh:property [ sh:path sysml2:Feature__ownedReferenceSubsetting ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:Feature__owningFeatureMembership ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:Feature__owningType ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Feature_validateFeatureEndIsConstant> a sh:NodeShape ;
+    sh:targetClass sysml2:Feature ;
+    sh:or ( [ sh:or ( [ sh:not [ sh:property [ sh:path sysml2:Feature__isEnd ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path sysml2:Feature__isVariable ; sh:hasValue true ] ] ] ) ] [ sh:property [ sh:path sysml2:Feature__isConstant ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateFeatureEndIsConstant" ;
+    umlmeta:oclBody "isEnd and isVariable implies isConstant" ;
+    sh:message "validateFeatureEndIsConstant" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Feature_validateFeatureConstantIsVariable> a sh:NodeShape ;
+    sh:targetClass sysml2:Feature ;
+    sh:or ( [ sh:not [ sh:property [ sh:path sysml2:Feature__isConstant ; sh:hasValue true ] ] ] [ sh:property [ sh:path sysml2:Feature__isVariable ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateFeatureConstantIsVariable" ;
+    umlmeta:oclBody "isConstant implies isVariable" ;
+    sh:message "validateFeatureConstantIsVariable" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Feature_validateFeaturePortionNotVariable> a sh:NodeShape ;
+    sh:targetClass sysml2:Feature ;
+    sh:or ( [ sh:not [ sh:property [ sh:path sysml2:Feature__isPortion ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path sysml2:Feature__isVariable ; sh:hasValue true ] ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateFeaturePortionNotVariable" ;
+    umlmeta:oclBody "isPortion implies not isVariable" ;
+    sh:message "validateFeaturePortionNotVariable" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Feature_validateFeatureEndNotDerivedAbstractCompositeOrPortion> a sh:NodeShape ;
+    sh:targetClass sysml2:Feature ;
+    sh:or ( [ sh:not [ sh:property [ sh:path sysml2:Feature__isEnd ; sh:hasValue true ] ] ] [ sh:and ( [ sh:not [ sh:property [ sh:path sysml2:Feature__isDerived ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path sysml2:Type__isAbstract ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path sysml2:Feature__isComposite ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path sysml2:Feature__isPortion ; sh:hasValue true ] ] ] ) ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateFeatureEndNotDerivedAbstractCompositeOrPortion" ;
+    umlmeta:oclBody "isEnd implies not (isDerived or isAbstract or isComposite or isPortion)" ;
+    sh:message "validateFeatureEndNotDerivedAbstractCompositeOrPortion" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_FeatureChainExpression> a sh:NodeShape ;
     sh:targetClass sysml2:FeatureChainExpression ;
@@ -829,6 +1026,17 @@
     sh:property [ sh:path sysml2:Flow__sourceOutputFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:Flow__targetInputFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_FlowEnd> a sh:NodeShape ;
+    sh:targetClass sysml2:FlowEnd .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_FlowEnd_validateFlowEndIsEnd> a sh:NodeShape ;
+    sh:targetClass sysml2:FlowEnd ;
+    sh:property [ sh:path sysml2:Feature__isEnd ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateFlowEndIsEnd" ;
+    umlmeta:oclBody "isEnd" ;
+    sh:message "validateFlowEndIsEnd" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ForLoopActionUsage> a sh:NodeShape ;
     sh:targetClass sysml2:ForLoopActionUsage ;
     sh:property [ sh:path sysml2:ForLoopActionUsage__loopVariable ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
@@ -867,6 +1075,17 @@
     sh:property [ sh:path sysml2:Intersecting__intersectingType ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:Intersecting__typeIntersected ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_LiteralExpression> a sh:NodeShape ;
+    sh:targetClass sysml2:LiteralExpression .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_LiteralExpression_deriveLiteralExpressionIsModelLevelEvaluable> a sh:NodeShape ;
+    sh:targetClass sysml2:LiteralExpression ;
+    sh:property [ sh:path sysml2:Expression__isModelLevelEvaluable ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "deriveLiteralExpressionIsModelLevelEvaluable" ;
+    umlmeta:oclBody "isModelLevelEvaluable = true" ;
+    sh:message "deriveLiteralExpressionIsModelLevelEvaluable" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_LoopActionUsage> a sh:NodeShape ;
     sh:targetClass sysml2:LoopActionUsage ;
     sh:property [ sh:path sysml2:LoopActionUsage__bodyAction ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -898,6 +1117,17 @@
     sh:property [ sh:path sysml2:MultiplicityRange__lowerBound ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:MultiplicityRange__upperBound ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_NamespaceExpose> a sh:NodeShape ;
+    sh:targetClass sysml2:NamespaceExpose .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_NamespaceExpose_validateExposeIsImportAll> a sh:NodeShape ;
+    sh:targetClass sysml2:NamespaceExpose ;
+    sh:property [ sh:path sysml2:Expose__isImportAll ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateExposeIsImportAll" ;
+    umlmeta:oclBody "isImportAll" ;
+    sh:message "validateExposeIsImportAll" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_NamespaceImport> a sh:NodeShape ;
     sh:targetClass sysml2:NamespaceImport ;
     sh:property [ sh:path sysml2:NamespaceImport__importedNamespace ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -909,6 +1139,14 @@
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_OccurrenceUsage> a sh:NodeShape ;
     sh:targetClass sysml2:OccurrenceUsage ;
     sh:property [ sh:path sysml2:OccurrenceUsage__individualDefinition ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_OccurrenceUsage_validateOccurrenceUsageIndividualUsage> a sh:NodeShape ;
+    sh:targetClass sysml2:OccurrenceUsage ;
+    sh:or ( [ sh:not [ sh:property [ sh:path sysml2:OccurrenceUsage__isIndividual ; sh:hasValue true ] ] ] [ sh:property [ sh:path sysml2:OccurrenceUsage__individualDefinition ; sh:minCount 1 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateOccurrenceUsageIndividualUsage" ;
+    umlmeta:oclBody "isIndividual implies individualDefinition <> null" ;
+    sh:message "validateOccurrenceUsageIndividualUsage" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_OwningMembership> a sh:NodeShape ;
     sh:targetClass sysml2:OwningMembership ;
@@ -940,6 +1178,17 @@
     sh:targetClass sysml2:ReferenceSubsetting ;
     sh:property [ sh:path sysml2:ReferenceSubsetting__referencedFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:ReferenceSubsetting__referencingFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ReferenceUsage> a sh:NodeShape ;
+    sh:targetClass sysml2:ReferenceUsage .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_ReferenceUsage_validateReferenceUsageIsReference> a sh:NodeShape ;
+    sh:targetClass sysml2:ReferenceUsage ;
+    sh:property [ sh:path sysml2:ReferenceUsage__isReference ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateReferenceUsageIsReference" ;
+    umlmeta:oclBody "isReference" ;
+    sh:message "validateReferenceUsageIsReference" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Relationship> a sh:NodeShape ;
     sh:targetClass sysml2:Relationship ;
@@ -1025,6 +1274,17 @@
     sh:property [ sh:path sysml2:Subsetting__subsettedFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:Subsetting__subsettingFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_SuccessionAsUsage> a sh:NodeShape ;
+    sh:targetClass sysml2:SuccessionAsUsage .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_SuccessionAsUsage_validateUsageVariationIsAbstract> a sh:NodeShape ;
+    sh:targetClass sysml2:SuccessionAsUsage ;
+    sh:or ( [ sh:not [ sh:property [ sh:path sysml2:Usage__isVariation ; sh:hasValue true ] ] ] [ sh:property [ sh:path sysml2:Type__isAbstract ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateUsageVariationIsAbstract" ;
+    umlmeta:oclBody "isVariation implies isAbstract" ;
+    sh:message "validateUsageVariationIsAbstract" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_TerminateActionUsage> a sh:NodeShape ;
     sh:targetClass sysml2:TerminateActionUsage ;
     sh:property [ sh:path sysml2:TerminateActionUsage__terminatedOccurrenceArgument ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -1064,6 +1324,14 @@
     sh:property [ sh:path sysml2:Usage__owningDefinition ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path sysml2:Usage__owningUsage ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml2_Usage_validateUsageVariationIsAbstract> a sh:NodeShape ;
+    sh:targetClass sysml2:Usage ;
+    sh:or ( [ sh:not [ sh:property [ sh:path sysml2:Usage__isVariation ; sh:hasValue true ] ] ] [ sh:property [ sh:path sysml2:Type__isAbstract ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "validateUsageVariationIsAbstract" ;
+    umlmeta:oclBody "isVariation implies isAbstract" ;
+    sh:message "validateUsageVariationIsAbstract" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml2_UseCaseUsage> a sh:NodeShape ;
     sh:targetClass sysml2:UseCaseUsage ;
     sh:property [ sh:path sysml2:UseCaseUsage__useCaseDefinition ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -1102,6 +1370,14 @@
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml_AbstractRequirement> a sh:NodeShape ;
     sh:targetClass sysml:AbstractRequirement ;
     sh:property [ sh:path sysml:AbstractRequirement__base_NamedElement ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#sysml_AbstractRequirement_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass sysml:AbstractRequirement ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#sysml_AcceptChangeStructuralFeatureEventAction> a sh:NodeShape ;
     sh:targetClass sysml:AcceptChangeStructuralFeatureEventAction ;
@@ -1686,6 +1962,14 @@
     sh:targetClass uaf:FunctionObjectFlow ;
     sh:property [ sh:path uaf:FunctionObjectFlow__base_ObjectFlow ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uaf_FunctionObjectFlow_is_multicast_or_is_multireceive> a sh:NodeShape ;
+    sh:targetClass uaf:FunctionObjectFlow ;
+    sh:or ( [ sh:not [ sh:property [ sh:path uml:ObjectFlow__isMulticast ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path uml:ObjectFlow__isMultireceive ; sh:hasValue true ] ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "is_multicast_or_is_multireceive" ;
+    umlmeta:oclBody "not (isMulticast and isMultireceive)" ;
+    sh:message "is_multicast_or_is_multireceive" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uaf_GeoPoliticalExtentType> a sh:NodeShape ;
     sh:targetClass uaf:GeoPoliticalExtentType ;
     sh:property [ sh:path uaf:GeoPoliticalExtentType__base_DataType ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -1701,6 +1985,14 @@
 <https://mycr0ft.github.io/uml-ontology/shapes#uaf_ISO8601DateTime> a sh:NodeShape ;
     sh:targetClass uaf:ISO8601DateTime ;
     sh:property [ sh:path uaf:ISO8601DateTime__base_LiteralString ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uaf_ISO8601DateTime_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uaf:ISO8601DateTime ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uaf_ImpactedBy> a sh:NodeShape ;
     sh:targetClass uaf:ImpactedBy ;
@@ -1846,6 +2138,14 @@
 <https://mycr0ft.github.io/uml-ontology/shapes#uaf_OperationalObjectFlow> a sh:NodeShape ;
     sh:targetClass uaf:OperationalObjectFlow ;
     sh:property [ sh:path uaf:OperationalObjectFlow__base_ObjectFlow ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uaf_OperationalObjectFlow_is_multicast_or_is_multireceive> a sh:NodeShape ;
+    sh:targetClass uaf:OperationalObjectFlow ;
+    sh:or ( [ sh:not [ sh:property [ sh:path uml:ObjectFlow__isMulticast ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path uml:ObjectFlow__isMultireceive ; sh:hasValue true ] ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "is_multicast_or_is_multireceive" ;
+    umlmeta:oclBody "not (isMulticast and isMultireceive)" ;
+    sh:message "is_multicast_or_is_multireceive" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uaf_OperationalParameter> a sh:NodeShape ;
     sh:targetClass uaf:OperationalParameter ;
@@ -2213,6 +2513,14 @@
     sh:targetClass uaf:ServiceObjectFlow ;
     sh:property [ sh:path uaf:ServiceObjectFlow__base_ObjectFlow ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uaf_ServiceObjectFlow_is_multicast_or_is_multireceive> a sh:NodeShape ;
+    sh:targetClass uaf:ServiceObjectFlow ;
+    sh:or ( [ sh:not [ sh:property [ sh:path uml:ObjectFlow__isMulticast ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path uml:ObjectFlow__isMultireceive ; sh:hasValue true ] ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "is_multicast_or_is_multireceive" ;
+    umlmeta:oclBody "not (isMulticast and isMultireceive)" ;
+    sh:message "is_multicast_or_is_multireceive" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uaf_ServiceParameter> a sh:NodeShape ;
     sh:targetClass uaf:ServiceParameter ;
     sh:property [ sh:path uaf:ServiceParameter__base_Parameter ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -2376,9 +2684,25 @@
     sh:targetClass uml:Abstraction ;
     sh:property [ sh:path uml:Abstraction__mapping ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Abstraction_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Abstraction ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_AcceptCallAction> a sh:NodeShape ;
     sh:targetClass uml:AcceptCallAction ;
     sh:property [ sh:path uml:AcceptCallAction__returnInformation ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_AcceptCallAction_unmarshall> a sh:NodeShape ;
+    sh:targetClass uml:AcceptCallAction ;
+    sh:property [ sh:path uml:AcceptEventAction__isUnmarshall ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "unmarshall" ;
+    umlmeta:oclBody "isUnmarshall = true" ;
+    sh:message "unmarshall" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Action> a sh:NodeShape ;
     sh:targetClass uml:Action ;
@@ -2425,9 +2749,36 @@
     sh:targetClass uml:AddStructuralFeatureValueAction ;
     sh:property [ sh:path uml:AddStructuralFeatureValueAction__insertAt ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_AddStructuralFeatureValueAction_required_value> a sh:NodeShape ;
+    sh:targetClass uml:AddStructuralFeatureValueAction ;
+    sh:property [ sh:path uml:WriteStructuralFeatureAction__value ; sh:minCount 1 ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "required_value" ;
+    umlmeta:oclBody "value<>null" ;
+    sh:message "required_value" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_AddVariableValueAction> a sh:NodeShape ;
     sh:targetClass uml:AddVariableValueAction ;
     sh:property [ sh:path uml:AddVariableValueAction__insertAt ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_AddVariableValueAction_required_value> a sh:NodeShape ;
+    sh:targetClass uml:AddVariableValueAction ;
+    sh:property [ sh:path uml:WriteVariableAction__value ; sh:minCount 1 ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "required_value" ;
+    umlmeta:oclBody "value <> null" ;
+    sh:message "required_value" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_AnyReceiveEvent> a sh:NodeShape ;
+    sh:targetClass uml:AnyReceiveEvent .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_AnyReceiveEvent_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:AnyReceiveEvent ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Association> a sh:NodeShape ;
     sh:targetClass uml:Association ;
@@ -2450,13 +2801,37 @@
     sh:targetClass uml:BroadcastSignalAction ;
     sh:property [ sh:path uml:BroadcastSignalAction__signal ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_BroadcastSignalAction_no_onport> a sh:NodeShape ;
+    sh:targetClass uml:BroadcastSignalAction ;
+    sh:property [ sh:path uml:InvocationAction__onPort ; sh:maxCount 0 ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "no_onport" ;
+    umlmeta:oclBody "onPort=null" ;
+    sh:message "no_onport" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_CallBehaviorAction> a sh:NodeShape ;
     sh:targetClass uml:CallBehaviorAction ;
     sh:property [ sh:path uml:CallBehaviorAction__behavior ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_CallBehaviorAction_no_onport> a sh:NodeShape ;
+    sh:targetClass uml:CallBehaviorAction ;
+    sh:property [ sh:path uml:InvocationAction__onPort ; sh:maxCount 0 ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "no_onport" ;
+    umlmeta:oclBody "onPort=null" ;
+    sh:message "no_onport" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_CallEvent> a sh:NodeShape ;
     sh:targetClass uml:CallEvent ;
     sh:property [ sh:path uml:CallEvent__operation ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_CallEvent_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:CallEvent ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_CallOperationAction> a sh:NodeShape ;
     sh:targetClass uml:CallOperationAction ;
@@ -2466,6 +2841,14 @@
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ChangeEvent> a sh:NodeShape ;
     sh:targetClass uml:ChangeEvent ;
     sh:property [ sh:path uml:ChangeEvent__changeExpression ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_ChangeEvent_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:ChangeEvent ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Classifier> a sh:NodeShape ;
     sh:targetClass uml:Classifier ;
@@ -2498,9 +2881,25 @@
     sh:targetClass uml:ComponentRealization ;
     sh:property [ sh:path uml:ComponentRealization__abstraction ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_ComponentRealization_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:ComponentRealization ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ConnectableElement> a sh:NodeShape ;
     sh:targetClass uml:ConnectableElement ;
     sh:property [ sh:path uml:ConnectableElement__templateParameter ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_ConnectableElement_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:ConnectableElement ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ConnectableElementTemplateParameter> a sh:NodeShape ;
     sh:targetClass uml:ConnectableElementTemplateParameter ;
@@ -2544,13 +2943,54 @@
     sh:property [ sh:path uml:DecisionNode__decisionInput ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:DecisionNode__decisionInputFlow ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Dependency> a sh:NodeShape ;
+    sh:targetClass uml:Dependency .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Dependency_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Dependency ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_DeployedArtifact> a sh:NodeShape ;
+    sh:targetClass uml:DeployedArtifact .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_DeployedArtifact_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:DeployedArtifact ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Deployment> a sh:NodeShape ;
     sh:targetClass uml:Deployment ;
     sh:property [ sh:path uml:Deployment__location ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Deployment_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Deployment ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_DeploymentSpecification> a sh:NodeShape ;
     sh:targetClass uml:DeploymentSpecification ;
     sh:property [ sh:path uml:DeploymentSpecification__deployment ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_DeploymentTarget> a sh:NodeShape ;
+    sh:targetClass uml:DeploymentTarget .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_DeploymentTarget_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:DeploymentTarget ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_DestroyLinkAction> a sh:NodeShape ;
     sh:targetClass uml:DestroyLinkAction ;
@@ -2573,6 +3013,14 @@
     sh:property [ sh:path uml:DurationInterval__max ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:DurationInterval__min ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_DurationInterval_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:DurationInterval ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_DurationObservation> a sh:NodeShape ;
     sh:targetClass uml:DurationObservation ;
     sh:property [ sh:path uml:DurationObservation__event ; sh:maxCount 2 ; umlmeta:grade "stated" ] .
@@ -2587,6 +3035,17 @@
     sh:property [ sh:path uml:EnumerationLiteral__classifier ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:EnumerationLiteral__enumeration ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Event> a sh:NodeShape ;
+    sh:targetClass uml:Event .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Event_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Event ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ExceptionHandler> a sh:NodeShape ;
     sh:targetClass uml:ExceptionHandler ;
     sh:property [ sh:path uml:ExceptionHandler__exceptionInput ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
@@ -2597,6 +3056,14 @@
     sh:targetClass uml:ExecutionOccurrenceSpecification ;
     sh:property [ sh:path uml:ExecutionOccurrenceSpecification__execution ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_ExecutionOccurrenceSpecification_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:ExecutionOccurrenceSpecification ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ExecutionSpecification> a sh:NodeShape ;
     sh:targetClass uml:ExecutionSpecification ;
     sh:property [ sh:path uml:ExecutionSpecification__finish ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
@@ -2606,6 +3073,17 @@
     sh:targetClass uml:ExpansionNode ;
     sh:property [ sh:path uml:ExpansionNode__regionAsInput ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:ExpansionNode__regionAsOutput ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Expression> a sh:NodeShape ;
+    sh:targetClass uml:Expression .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Expression_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Expression ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Extend> a sh:NodeShape ;
     sh:targetClass uml:Extend ;
@@ -2649,10 +3127,26 @@
     sh:property [ sh:path uml:Include__addition ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Include__includingCase ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Include_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:Include ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_InformationItem> a sh:NodeShape ;
     sh:targetClass uml:InformationItem ;
     sh:property [ sh:path uml:Classifier__generalization ; sh:maxCount 0 ; umlmeta:grade "stated" ; umlmeta:oclName "has_no" ; umlmeta:oclBody "self.generalization->isEmpty() and self.feature->isEmpty()" ] ;
     sh:property [ sh:path uml:Classifier__feature ; sh:maxCount 0 ; umlmeta:grade "stated" ; umlmeta:oclName "has_no" ; umlmeta:oclBody "self.generalization->isEmpty() and self.feature->isEmpty()" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_InformationItem_not_instantiable> a sh:NodeShape ;
+    sh:targetClass uml:InformationItem ;
+    sh:property [ sh:path uml:Classifier__isAbstract ; sh:hasValue true ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "not_instantiable" ;
+    umlmeta:oclBody "isAbstract" ;
+    sh:message "not_instantiable" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_InstanceSpecification> a sh:NodeShape ;
     sh:targetClass uml:InstanceSpecification ;
@@ -2661,6 +3155,14 @@
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_InstanceValue> a sh:NodeShape ;
     sh:targetClass uml:InstanceValue ;
     sh:property [ sh:path uml:InstanceValue__instance ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_InstanceValue_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:InstanceValue ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_InteractionConstraint> a sh:NodeShape ;
     sh:targetClass uml:InteractionConstraint ;
@@ -2671,6 +3173,14 @@
     sh:targetClass uml:InteractionFragment ;
     sh:property [ sh:path uml:InteractionFragment__enclosingInteraction ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:InteractionFragment__enclosingOperand ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_InteractionFragment_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:InteractionFragment ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_InteractionOperand> a sh:NodeShape ;
     sh:targetClass uml:InteractionOperand ;
@@ -2691,10 +3201,26 @@
     sh:property [ sh:path uml:InterfaceRealization__contract ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:InterfaceRealization__implementingClassifier ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_InterfaceRealization_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:InterfaceRealization ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Interval> a sh:NodeShape ;
     sh:targetClass uml:Interval ;
     sh:property [ sh:path uml:Interval__max ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Interval__min ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Interval_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Interval ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_IntervalConstraint> a sh:NodeShape ;
     sh:targetClass uml:IntervalConstraint ;
@@ -2732,6 +3258,83 @@
     sh:targetClass uml:LinkEndDestructionData ;
     sh:property [ sh:path uml:LinkEndDestructionData__destroyAt ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralBoolean> a sh:NodeShape ;
+    sh:targetClass uml:LiteralBoolean .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralBoolean_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:LiteralBoolean ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralInteger> a sh:NodeShape ;
+    sh:targetClass uml:LiteralInteger .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralInteger_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:LiteralInteger ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralNull> a sh:NodeShape ;
+    sh:targetClass uml:LiteralNull .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralNull_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:LiteralNull ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralReal> a sh:NodeShape ;
+    sh:targetClass uml:LiteralReal .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralReal_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:LiteralReal ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralSpecification> a sh:NodeShape ;
+    sh:targetClass uml:LiteralSpecification .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralSpecification_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:LiteralSpecification ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralString> a sh:NodeShape ;
+    sh:targetClass uml:LiteralString .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralString_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:LiteralString ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralUnlimitedNatural> a sh:NodeShape ;
+    sh:targetClass uml:LiteralUnlimitedNatural .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_LiteralUnlimitedNatural_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:LiteralUnlimitedNatural ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_LoopNode> a sh:NodeShape ;
     sh:targetClass uml:LoopNode ;
     sh:property [ sh:path uml:LoopNode__decider ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -2739,6 +3342,14 @@
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Manifestation> a sh:NodeShape ;
     sh:targetClass uml:Manifestation ;
     sh:property [ sh:path uml:Manifestation__utilizedElement ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Manifestation_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Manifestation ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Message> a sh:NodeShape ;
     sh:targetClass uml:Message ;
@@ -2752,6 +3363,36 @@
     sh:targetClass uml:MessageEnd ;
     sh:property [ sh:path uml:MessageEnd__message ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_MessageEnd_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:MessageEnd ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_MessageEvent> a sh:NodeShape ;
+    sh:targetClass uml:MessageEvent .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_MessageEvent_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:MessageEvent ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_MessageOccurrenceSpecification> a sh:NodeShape ;
+    sh:targetClass uml:MessageOccurrenceSpecification .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_MessageOccurrenceSpecification_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:MessageOccurrenceSpecification ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_MultiplicityElement> a sh:NodeShape ;
     sh:targetClass uml:MultiplicityElement ;
     sh:property [ sh:path uml:MultiplicityElement__lowerValue ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
@@ -2761,19 +3402,54 @@
     sh:targetClass uml:NamedElement ;
     sh:property [ sh:path uml:NamedElement__nameExpression ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_NamedElement_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:NamedElement ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ObjectFlow> a sh:NodeShape ;
     sh:targetClass uml:ObjectFlow ;
     sh:property [ sh:path uml:ObjectFlow__selection ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:ObjectFlow__transformation ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_ObjectFlow_is_multicast_or_is_multireceive> a sh:NodeShape ;
+    sh:targetClass uml:ObjectFlow ;
+    sh:or ( [ sh:not [ sh:property [ sh:path uml:ObjectFlow__isMulticast ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path uml:ObjectFlow__isMultireceive ; sh:hasValue true ] ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "is_multicast_or_is_multireceive" ;
+    umlmeta:oclBody "not (isMulticast and isMultireceive)" ;
+    sh:message "is_multicast_or_is_multireceive" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ObjectNode> a sh:NodeShape ;
     sh:targetClass uml:ObjectNode ;
     sh:property [ sh:path uml:ObjectNode__selection ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:ObjectNode__upperBound ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Observation> a sh:NodeShape ;
+    sh:targetClass uml:Observation .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Observation_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Observation ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_OccurrenceSpecification> a sh:NodeShape ;
     sh:targetClass uml:OccurrenceSpecification ;
     sh:property [ sh:path uml:OccurrenceSpecification__covered ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_OccurrenceSpecification_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:OccurrenceSpecification ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_OpaqueExpression> a sh:NodeShape ;
     sh:targetClass uml:OpaqueExpression ;
@@ -2788,6 +3464,14 @@
     sh:property [ sh:path uml:Operation__interface ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Operation__templateParameter ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Operation__type ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Operation_only_body_for_query> a sh:NodeShape ;
+    sh:targetClass uml:Operation ;
+    sh:or ( [ sh:property [ sh:path uml:Operation__bodyCondition ; sh:maxCount 0 ] ] [ sh:property [ sh:path uml:Operation__isQuery ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "only_body_for_query" ;
+    umlmeta:oclBody "bodyCondition <> null implies isQuery" ;
+    sh:message "only_body_for_query" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_OperationTemplateParameter> a sh:NodeShape ;
     sh:targetClass uml:OperationTemplateParameter ;
@@ -2807,15 +3491,53 @@
     sh:property [ sh:path uml:PackageMerge__mergedPackage ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:PackageMerge__receivingPackage ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_PackageableElement> a sh:NodeShape ;
+    sh:targetClass uml:PackageableElement .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_PackageableElement_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:PackageableElement ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Parameter> a sh:NodeShape ;
     sh:targetClass uml:Parameter ;
     sh:property [ sh:path uml:Parameter__defaultValue ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Parameter__operation ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Parameter_stream_and_exception> a sh:NodeShape ;
+    sh:targetClass uml:Parameter ;
+    sh:or ( [ sh:not [ sh:property [ sh:path uml:Parameter__isException ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path uml:Parameter__isStream ; sh:hasValue true ] ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "stream_and_exception" ;
+    umlmeta:oclBody "not (isException and isStream)" ;
+    sh:message "stream_and_exception" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ParameterableElement> a sh:NodeShape ;
     sh:targetClass uml:ParameterableElement ;
     sh:property [ sh:path uml:ParameterableElement__owningTemplateParameter ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:ParameterableElement__templateParameter ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Pin> a sh:NodeShape ;
+    sh:targetClass uml:Pin .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Pin_control_pins> a sh:NodeShape ;
+    sh:targetClass uml:Pin ;
+    sh:or ( [ sh:not [ sh:property [ sh:path uml:Pin__isControl ; sh:hasValue true ] ] ] [ sh:property [ sh:path uml:ObjectNode__isControlType ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "control_pins" ;
+    umlmeta:oclBody "isControl implies isControlType" ;
+    sh:message "control_pins" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Pin_not_unique> a sh:NodeShape ;
+    sh:targetClass uml:Pin ;
+    sh:not [ sh:property [ sh:path uml:MultiplicityElement__isUnique ; sh:hasValue true ] ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "not_unique" ;
+    umlmeta:oclBody "not isUnique" ;
+    sh:message "not_unique" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Port> a sh:NodeShape ;
     sh:targetClass uml:Port ;
@@ -2837,6 +3559,22 @@
     sh:property [ sh:path uml:Property__opposite ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Property__owningAssociation ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Property_derived_union_is_read_only> a sh:NodeShape ;
+    sh:targetClass uml:Property ;
+    sh:or ( [ sh:not [ sh:property [ sh:path uml:Property__isDerivedUnion ; sh:hasValue true ] ] ] [ sh:property [ sh:path uml:StructuralFeature__isReadOnly ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "derived_union_is_read_only" ;
+    umlmeta:oclBody "isDerivedUnion implies isReadOnly" ;
+    sh:message "derived_union_is_read_only" .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Property_derived_union_is_derived> a sh:NodeShape ;
+    sh:targetClass uml:Property ;
+    sh:or ( [ sh:not [ sh:property [ sh:path uml:Property__isDerivedUnion ; sh:hasValue true ] ] ] [ sh:property [ sh:path uml:Property__isDerived ; sh:hasValue true ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "derived_union_is_derived" ;
+    umlmeta:oclBody "isDerivedUnion implies isDerived" ;
+    sh:message "derived_union_is_derived" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ProtocolConformance> a sh:NodeShape ;
     sh:targetClass uml:ProtocolConformance ;
     sh:property [ sh:path uml:ProtocolConformance__generalMachine ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
@@ -2846,6 +3584,14 @@
     sh:targetClass uml:ProtocolTransition ;
     sh:property [ sh:path uml:ProtocolTransition__postCondition ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:ProtocolTransition__preCondition ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_ProtocolTransition_associated_actions> a sh:NodeShape ;
+    sh:targetClass uml:ProtocolTransition ;
+    sh:property [ sh:path uml:Transition__effect ; sh:maxCount 0 ] ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "associated_actions" ;
+    umlmeta:oclBody "effect = null" ;
+    sh:message "associated_actions" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Pseudostate> a sh:NodeShape ;
     sh:targetClass uml:Pseudostate ;
@@ -2900,6 +3646,17 @@
     sh:targetClass uml:ReadVariableAction ;
     sh:property [ sh:path uml:ReadVariableAction__result ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Realization> a sh:NodeShape ;
+    sh:targetClass uml:Realization .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Realization_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Realization ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Reception> a sh:NodeShape ;
     sh:targetClass uml:Reception ;
     sh:property [ sh:path uml:Reception__signal ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
@@ -2924,6 +3681,14 @@
     sh:property [ sh:path uml:Region__redefinitionContext ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Region__state ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Region__stateMachine ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Region_owned> a sh:NodeShape ;
+    sh:targetClass uml:Region ;
+    sh:and ( [ sh:or ( [ sh:property [ sh:path uml:Region__stateMachine ; sh:maxCount 0 ] ] [ sh:property [ sh:path uml:Region__state ; sh:maxCount 0 ] ] ) ] [ sh:or ( [ sh:property [ sh:path uml:Region__state ; sh:maxCount 0 ] ] [ sh:property [ sh:path uml:Region__stateMachine ; sh:maxCount 0 ] ] ) ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "owned" ;
+    umlmeta:oclBody "(stateMachine <> null implies state = null) and (state <> null implies stateMachine = null)" ;
+    sh:message "owned" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_RemoveStructuralFeatureValueAction> a sh:NodeShape ;
     sh:targetClass uml:RemoveStructuralFeatureValueAction ;
@@ -2952,6 +3717,14 @@
     sh:targetClass uml:SignalEvent ;
     sh:property [ sh:path uml:SignalEvent__signal ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_SignalEvent_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:SignalEvent ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Slot> a sh:NodeShape ;
     sh:targetClass uml:Slot ;
     sh:property [ sh:path uml:Slot__definingFeature ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
@@ -2973,10 +3746,26 @@
     sh:property [ sh:path uml:State__stateInvariant ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:State__submachine ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_State_submachine_or_regions> a sh:NodeShape ;
+    sh:targetClass uml:State ;
+    sh:or ( [ sh:not [ sh:property [ sh:path uml:State__isComposite ; sh:hasValue true ] ] ] [ sh:not [ sh:property [ sh:path uml:State__isSubmachineState ; sh:hasValue true ] ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "submachine_or_regions" ;
+    umlmeta:oclBody "isComposite implies not isSubmachineState" ;
+    sh:message "submachine_or_regions" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_StateInvariant> a sh:NodeShape ;
     sh:targetClass uml:StateInvariant ;
     sh:property [ sh:path uml:StateInvariant__covered ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:StateInvariant__invariant ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_StateInvariant_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:StateInvariant ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Stereotype> a sh:NodeShape ;
     sh:targetClass uml:Stereotype ;
@@ -2999,6 +3788,14 @@
     sh:targetClass uml:Substitution ;
     sh:property [ sh:path uml:Substitution__contract ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Substitution__substitutingClassifier ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Substitution_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Substitution ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_TemplateBinding> a sh:NodeShape ;
     sh:targetClass uml:TemplateBinding ;
@@ -3051,9 +3848,25 @@
     sh:property [ sh:path uml:TimeInterval__max ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:TimeInterval__min ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_TimeInterval_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:TimeInterval ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_TimeObservation> a sh:NodeShape ;
     sh:targetClass uml:TimeObservation ;
     sh:property [ sh:path uml:TimeObservation__event ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_TimeObservation_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:TimeObservation ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_Transition> a sh:NodeShape ;
     sh:targetClass uml:Transition ;
@@ -3073,18 +3886,56 @@
     sh:targetClass uml:Type ;
     sh:property [ sh:path uml:Type__package ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Type_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Type ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_TypedElement> a sh:NodeShape ;
     sh:targetClass uml:TypedElement ;
     sh:property [ sh:path uml:TypedElement__type ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_TypedElement_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:TypedElement ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_UnmarshallAction> a sh:NodeShape ;
     sh:targetClass uml:UnmarshallAction ;
     sh:property [ sh:path uml:UnmarshallAction__object ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:UnmarshallAction__unmarshallType ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
 
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Usage> a sh:NodeShape ;
+    sh:targetClass uml:Usage .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Usage_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:Usage ;
+    sh:or ( [ sh:property [ sh:path uml:PackageableElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
+
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ValuePin> a sh:NodeShape ;
     sh:targetClass uml:ValuePin ;
     sh:property [ sh:path uml:ValuePin__value ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_ValueSpecification> a sh:NodeShape ;
+    sh:targetClass uml:ValueSpecification .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_ValueSpecification_namespace_needs_visibility> a sh:NodeShape ;
+    sh:targetClass uml:ValueSpecification ;
+    sh:or ( [ sh:property [ sh:path uml:NamedElement__visibility ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:NamedElement__namespace ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "namespace_needs_visibility" ;
+    umlmeta:oclBody "visibility = null implies namespace = null" ;
+    sh:message "namespace_needs_visibility" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_ValueSpecificationAction> a sh:NodeShape ;
     sh:targetClass uml:ValueSpecificationAction ;
@@ -3095,6 +3946,14 @@
     sh:targetClass uml:Variable ;
     sh:property [ sh:path uml:Variable__activityScope ; sh:maxCount 1 ; umlmeta:grade "stated" ] ;
     sh:property [ sh:path uml:Variable__scope ; sh:maxCount 1 ; umlmeta:grade "stated" ] .
+
+<https://mycr0ft.github.io/uml-ontology/shapes#uml_Variable_visibility_needs_ownership> a sh:NodeShape ;
+    sh:targetClass uml:Variable ;
+    sh:or ( [ sh:or ( [ sh:property [ sh:path uml:NamedElement__namespace ; sh:minCount 1 ] ] [ sh:property [ sh:path uml:Element__owner ; sh:maxCount 0 ] ] ) ] [ sh:property [ sh:path uml:NamedElement__visibility ; sh:maxCount 0 ] ] ) ;
+    umlmeta:grade "stated" ;
+    umlmeta:oclName "visibility_needs_ownership" ;
+    umlmeta:oclBody "(namespace = null and owner <> null) implies visibility = null" ;
+    sh:message "visibility_needs_ownership" .
 
 <https://mycr0ft.github.io/uml-ontology/shapes#uml_VariableAction> a sh:NodeShape ;
     sh:targetClass uml:VariableAction ;

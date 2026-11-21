@@ -97,21 +97,53 @@ Gate: 0 `stereotypeUri` literals, 344 profiles, and `check.py` asserts profile�
 one-to-one (`StandardProfile`→`sp` 33, `SysML`→`sysml` 55, `UAF`→`uaf` 256). Result: 344/344
 against the fact book, 0 path literals, 3 profiles on 3 modules.
 
-### 3. Translate the OCL implications that need nothing but property tests
+### 3. Translate the OCL implications that need nothing but property tests — done
 
-2,255 constraints are declared, 18 are translated, 2,237 are refused. 409 refuse as "an
-implication between property tests"; of those, 94 name no navigation, no cast and no library
-call, so they are `sh:or` over property tests or one `sh:sparql` away from being checkable. A
-handful test `namespace`/`owner`, which item 1 unblocks.
+2,255 constraints are declared, 18 were translated, 2,237 refused. 409 refused as "an
+implication between property tests"; of those, 94 named no navigation, no cast and no library
+call. They were `sh:or` over property tests away from being checkable, and item 1 unblocked the
+`namespace`/`owner` ones.
 
-Gate: translated 18 → 112, each new shape with a failing fixture. Largest work item; its own
-round.
+Shipped: **translated 18 → 113**, one node shape per constraint instead of `sh:sparql`. The
+subset is closed under `and`/`or`/`not`/`implies` over atoms that are Boolean tests, `= null`
+and `<> null` on one object's own features; anything touching a navigation, a collection, a
+cast or a library call still refuses, and the register keeps the reason. A `test` atom demands
+an `xsd:boolean` feature, so an unset Boolean reads as false rather than as a null that would
+make the shape pass vacuously.
+
+Before/after, measured on the shipped artifacts:
+
+    shapes            684 → 812      (+128, 95 of them the new logic shapes)
+    translated OCL     18 → 113      (+95)
+    refused         2,237 → 2,142
+    check.py           54 → 61
+    tests/test_shacl.py  8 → 8 hand-written, plus 95 compiled formulas × 2 instances
+
+Gate: translated 18 → 112 was the estimate; the measured number is 113, which is what
+`check.py` pins as a floor (`>= 112`) with the exact value in the check's label.
+
+Each of the 95 shapes is gated by *two* generated instances rather than one failing fixture:
+`tests/test_shacl.py` reads `shapes/logic.json`, assigns each feature `absent`/`true`/`false`,
+searches for an assignment the formula rejects and one it accepts, and runs both through
+pyshacl against that shape alone. A shape that accepts its own falsifying instance fails.
+
+### Proof the item-3 gates bite
+
+Same method: break the generator, run the gate, restore from a byte copy, confirm green.
+
+    mutation                                    gate
+    compiled shape loses umlmeta:oclBody        check.py 60/61  [FAIL] every compiled shape carries its OCL text
+    and/or stop swapping under negation         test_shacl.py exit 1, 52 of 95 shapes accept their falsifying instance
+
+The second mutation is the one that matters: it leaves every shape parseable and the counts
+unchanged (still 113 translated), so a count-only gate would have called it green.
 
 ### 4. Reconcile `shapes/untranslated.json` against the emitted annotations
 
-2,169 of the 2,237 refused bodies appear verbatim (whitespace-normalised) as
-`umlmeta:oclConstraint`; 68 do not, and 7 bodies are emitted twice. Nothing asserts
-emitted + translated == declared, so the refused register can drift from the ontology silently.
+2,207 `umlmeta:oclConstraint` annotations are emitted for 2,255 declared constraints. Of the
+2,142 refused bodies, 2,074 appear verbatim (whitespace-normalised) as an annotation and 68 do
+not; 237 bodies are emitted more than once. Nothing asserts emitted + translated == declared, so
+the refused register can drift from the ontology silently.
 
 Gate: per-class `annotations + translated + refused == declared`, plus a byte-level check that
 every row of `untranslated.json` is an annotation. One new check.
