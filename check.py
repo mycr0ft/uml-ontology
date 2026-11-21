@@ -172,17 +172,32 @@ def main(argv: list[str] | None = None) -> int:
 
     inverses = list(g_onto.triples((None, OWL.inverseOf, None)))
     symmetric = sum(1 for a, _, b in inverses if (b, OWL.inverseOf, a) in g_onto)
-    check(f"inverses symmetric ({symmetric}/{len(inverses)})",
-          bool(inverses) and symmetric == len(inverses))
+    # the feeds state an opposite on one end only when the other end is one they do not carry,
+    # so the two supplemented pairs are the only ones allowed to be single-ended
+    supplemented_pairs = {(URIRef(f"{base_iri}/uml#Element__owner"),
+                           URIRef(f"{base_iri}/uml#Element__ownedElement")),
+                          (URIRef(f"{base_iri}/uml#NamedElement__namespace"),
+                           URIRef(f"{base_iri}/uml#Namespace__ownedMember"))}
+    single_ended = {(a, b) for a, _, b in inverses} - {(b, a) for a, _, b in inverses}
+    check(f"inverses symmetric except the supplemented pairs ({symmetric}/{len(inverses)})",
+          bool(inverses) and symmetric == len(inverses) - len(supplemented_pairs)
+          and single_ended == supplemented_pairs,
+          ", ".join(sorted(str(a).split("#")[-1] for a, _ in single_ended)))
 
     # multiplicity has two halves, and both are checked: the bounds every feature states as
     # annotations, and the lower bounds restated as OWL restrictions so a consumer that knows
     # nothing about umlmeta can still see "at least one client"
     META = URIRef(base_iri.replace("/ontology", "") + "/ns#")
-    lo_annot = list(g_onto.triples((None, URIRef(str(META) + "lower"), None)))
+    # the two supplemented properties are not feed features, so they are not part of the
+    # fact book's census; the supplement check below owns them
+    supplementary = {URIRef(f"{base_iri}/uml#{name}")
+                     for name in ("Element__owner", "NamedElement__namespace")}
+    lo_annot = [t for t in g_onto.triples((None, URIRef(str(META) + "lower"), None))
+                if t[0] not in supplementary]
     check(f"every feature states its bounds ({len(lo_annot)})",
           len(lo_annot) == counts["properties"] + counts["attributes"])
-    up_annot = list(g_onto.triples((None, URIRef(str(META) + "upper"), None)))
+    up_annot = [t for t in g_onto.triples((None, URIRef(str(META) + "upper"), None))
+                if t[0] not in supplementary]
     check(f"every feature states an upper bound ({len(up_annot)})",
           len(up_annot) == len(lo_annot))
     mincard = list(g_onto.triples((None, OWL.minCardinality, None)))
@@ -221,11 +236,86 @@ def main(argv: list[str] | None = None) -> int:
           not dangling, ", ".join(sorted(dangling)[:3]))
     subsets = len(list(g_onto.triples((None, RDFS.subPropertyOf, None))))
     check(f"subsets are emitted ({subsets})", subsets > 450, str(subsets))
-    unresolved = len(list(g_onto.triples((None, URIRef(META_NS + "unresolvedSubset"), None))))
-    check(f"named-but-undeclared subset targets are recorded ({unresolved})",
-          unresolved == 88, str(unresolved))
+    # the two derived unions the feeds omit, stated by UML 2.5.1 and cited. They are the only
+    # properties in the file that are not feed facts, so each one is asserted in full
+    supplement = {
+        "Element__owner": ("Element", "Element", "Element__ownedElement"),
+        "NamedElement__namespace": ("NamedElement", "Namespace", "Namespace__ownedMember"),
+    }
+    bad_supp = []
+
+    def _flag(subject, predicate):
+        # a missing annotation must read as false, not raise: a deleted supplement is a
+        # failure to report, and a traceback would hide which one and why
+        value = g_onto.value(subject, URIRef(META_NS + predicate))
+        return value is not None and value.toPython() is True
+
+    for name, (domain, rng, opposite) in supplement.items():
+        node = URIRef(f"{base_iri}/uml#{name}")
+        facts_here = {
+            "type": (node, RDF.type, OWL.ObjectProperty) in g_onto,
+            "functional": (node, RDF.type, OWL.FunctionalProperty) in g_onto,
+            "domain": (node, RDFS.domain, URIRef(f"{base_iri}/uml#{domain}")) in g_onto,
+            "range": (node, RDFS.range, URIRef(f"{base_iri}/uml#{rng}")) in g_onto,
+            "derived": _flag(node, "derived"),
+            "union": _flag(node, "union"),
+            "inverse": (node, OWL.inverseOf, URIRef(f"{base_iri}/uml#{opposite}")) in g_onto,
+            "clause": bool(g_onto.value(node, URIRef(META_NS + "specClause"))),
+        }
+        bad_supp += [f"{name}:{k}" for k, ok in facts_here.items() if not ok]
+    check(f"the specification supplement is declared and cited ({len(supplement)})",
+          not bad_supp, ", ".join(bad_supp[:4]))
+
+    # 88 records named a feature no class declared; supplementing owner and namespace retires 51
+    # of them, and what is left is the set of features the feeds genuinely do not carry, so the
+    # names are pinned: a new one means the generator lost a feature, not that coverage grew
+    omitted = {"directedRelationship": 10, "redefinableElement": 10, "classifier": 3,
+               # owner and ownedElement arrive from sysml2:Element, which declares no bases at
+               # all, so the walk to uml:Element cannot happen for those four rows
+               "owner": 2, "ownedElement": 2, "owningPackage": 2, "memberNamespace": 2,
+               "messageEnd": 2, "ownerFormalParam": 1, "structuredClassifier": 1,
+               "supplierDependency": 1, "templateSignature": 1}
+    unresolved_subjects = list(g_onto.subject_objects(URIRef(META_NS + "unresolvedSubset")))
+    found = {}
+    for _, name in unresolved_subjects:
+        found[str(name)] = found.get(str(name), 0) + 1
+    drifted = {k: (omitted.get(k, 0), found.get(k, 0)) for k in set(found) | set(omitted)
+               if found.get(k, 0) != omitted.get(k, 0)}
+    check(f"only the names the feeds omit stay unresolved ({len(unresolved_subjects)})",
+          found == omitted, f"{len(unresolved_subjects)} records, expected {sum(omitted.values())}; "
+                            f"pinned:found {drifted}" if drifted else "")
     redefines = len(list(g_onto.triples((None, URIRef(META_NS + "redefines"), None))))
     check(f"redefinitions are emitted ({redefines})", redefines > 100, str(redefines))
+
+    # "StandardProfile::StandardProfile::Auxiliary" is a path, not a URI: the tail is the class's
+    # own name in 344 of 344 rows, so the string only ever stated the profile and the package
+    profile_of = URIRef(META_NS + "stereotypeProfile")
+    package_of = URIRef(META_NS + "stereotypePackage")
+    paths = {k: row["stereotype"] for k, row in facts["classes"].items()
+             if row.get("stereotype")}
+    wrong = []
+    by_profile: dict[str, dict[str, int]] = {}
+    for key, path in sorted(paths.items()):
+        parts = path.split("::")
+        want = (parts[0], parts[1] if len(parts) == 3 else "")
+        node = cls(key)
+        got = (str(g_onto.value(node, profile_of) or ""),
+               str(g_onto.value(node, package_of) or ""))
+        if got != want:
+            wrong.append(f"{key}:{got}!={want}")
+        module = str(node).replace(base_iri + "/", "").split("#")[0]
+        by_profile.setdefault(want[0], {})
+        by_profile[want[0]][module] = by_profile[want[0]].get(module, 0) + 1
+    left = len(list(g_onto.triples((None, URIRef(META_NS + "stereotypeUri"), None))))
+    check(f"every stereotype states its profile and package ({len(paths) - len(wrong)}"
+          f"/{len(paths)}, {left} path literals)",
+          not wrong and left == 0 and len(paths) == 344,
+          ", ".join(wrong[:3]) or f"{left} stereotypeUri literals")
+    expect_module = {"StandardProfile": "sp", "SysML": "sysml", "UAF": "uaf"}
+    stray = {p: mods for p, mods in by_profile.items() if set(mods) != {expect_module.get(p)}}
+    check(f"stereotype profiles map onto modules ({len(by_profile)} profiles)",
+          not stray and sum(n for mods in by_profile.values() for n in mods.values()) == 344,
+          str(stray)[:200])
 
     # authored multiplicity: the hand-written shapes are the only artifact in the repo that is
     # not generated, so nothing else would notice when a property they name is renamed. Every

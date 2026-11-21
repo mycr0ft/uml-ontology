@@ -120,7 +120,7 @@ Python forced a rename on four literals (`break`, `in`, `None` and friends are k
 constants), so the member name is stored next to the literal name and the label is the
 metamodel's own spelling. The gate counts individuals against the fact book: 250/250.
 
-## Subsetting: 486 stated, 88 named but not declared
+## Subsetting: 537 stated, 37 named but not declared
 
 `subsets` is the fact that made this section necessary. The generator used to mint
 `Owner__target` for every subset, which is right only when the target is declared on the
@@ -129,15 +129,52 @@ owner: `Dependency.client subsets source`, and `source` is declared on `Directed
 that a property was a subproperty of a name that did not exist.
 
 The target is now resolved by walking the owner's bases, and what cannot be resolved is
-**recorded rather than minted**: `umlmeta:unresolvedSubset "ownedElement"` (88 of them, all
-`owner`/`ownedElement` pairs from `sysml2`, whose module declares neither feature on
-`sysml2:Element`). `check.py` asserts both halves — no `rdfs:subPropertyOf` or
-`umlmeta:redefines` object may be undefined, and the count of named-but-undeclared targets is
-pinned at 88, so a change in the feed shows up as a failing gate instead of a silent drop.
+**recorded rather than minted**: `umlmeta:unresolvedSubset "classifier"`. That count used to be
+88, and this document used to account for all of them as four pairs from `sysml2` — which was
+wrong. Four were; 84 named `owner` or `namespace` on UML features, and both of those are stated
+by UML 2.5.1 and absent from the feeds.
+
+### The two derived unions the feeds omit
+
+    uml:Element__owner           0..1  uml:Element    derived union, inverse of ownedElement
+    uml:NamedElement__namespace  0..1  uml:Namespace  derived union, inverse of ownedMember
+
+UML 2.5.1 7.8.6.4 states `/owner : Element [0..1]{union} (opposite Element::ownedElement)`, and
+7.8.9.6 states `/namespace : Namespace [0..1]{union, subsets memberNamespace, subsets
+Element::owner} (opposite Namespace::ownedMember)`. Declaring them is what makes the ontology
+able to answer *what owns this element*, which it could not: it carried `ownedElement` and
+`ownedMember` and only one direction of each relation.
+
+They are the only two properties in the ontology that are not feed facts. Each one carries
+`umlmeta:specClause` with the clause text it comes from, is flagged `umlmeta:derived` and
+`umlmeta:union` as that text says, and states `owl:inverseOf` the opposite the clause names.
+Because the opposite end is one the feeds do not carry, these two pairs are the only
+single-ended inverses in the file, and the symmetry gate names them rather than tolerating
+asymmetry in general.
+
+Effect: 26 properties now state `rdfs:subPropertyOf uml:Element__owner` and 25 state
+`uml:NamedElement__namespace`, retiring 51 of the 88 records. The 37 left sit under 12 names —
+`directedRelationship` 10, `redefinableElement` 10, `classifier` 3, `owner` 2, `ownedElement` 2,
+`owningPackage` 2, `memberNamespace` 2, `messageEnd` 2, and four singletons. The `owner` and
+`ownedElement` rows come from `sysml2:Element`, which declares no bases at all, so no walk
+reaches `uml:Element`; the rest are features the UML feed really does omit. `check.py` pins the
+total and the whole name histogram, so a new name means the generator lost a feature, not that
+coverage grew.
+
+### Stereotypes state a profile and a package, not a path
+
+`"StandardProfile::StandardProfile::Auxiliary"` is a path, and in 344 of 344 rows its tail is
+the subject's own local name, so the literal restated the subject and the only facts in it were
+the profile and the package. It is now `umlmeta:stereotypeProfile "StandardProfile"` plus
+`umlmeta:stereotypePackage "StandardProfile"`. The gate compares all 344 against the fact book,
+requires zero `stereotypeUri` literals, and requires the profiles to map one-to-one onto
+modules: `StandardProfile`→`sp` 33, `SysML`→`sysml` 55, `UAF`→`uaf` 256.
 
 The rest of the "uncovered" feature facts are now annotations on the property: `umlmeta:union`
 (21 union ends, previously mislabelled `derived`), `umlmeta:readOnly` (48), `umlmeta:redefines`
 (135).
+
+What is still open, in the order it will be closed, is in [PLAN.md](../PLAN.md).
 
 ## The 27 that are not mapped, and why each is a decision
 

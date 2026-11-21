@@ -469,6 +469,52 @@ def _block(subject: str, fragments: list[str]) -> str:
     return f"{subject} {body} .\n"
 
 
+def _stereotype_parts(path: str) -> tuple[str, str, str]:
+    """``UAF::Taxonomy::Achiever`` as (profile, package, local name).
+
+    Every one of the 344 rows ends with the class's own name, so the tail restates the subject
+    and only the profile and the package carry information.
+    """
+    parts = path.split("::")
+    if len(parts) != 3:
+        return parts[0], "", parts[-1]
+    return parts[0], parts[1], parts[2]
+
+
+# Derived unions the feeds do not carry.  UML 2.5.1 states both ends of the two central
+# relations, but umlmeta preserves only ``ownedElement`` and ``ownedMember``, which is why 53
+# subset records name a feature no class declares.  These are supplements, not feed facts: each
+# one cites the clause it comes from and is flagged derived and union, as the clause says.
+SPEC_SUPPLEMENT: tuple[dict[str, Any], ...] = (
+    {
+        "iri": "uml:Element__owner",
+        "owner": "uml:Element",
+        "name": "owner",
+        "range": "uml:Element",
+        "lo": 0,
+        "hi": 1,
+        "subsets": (),
+        "opposite": "uml:Element__ownedElement",
+        "clause": ("UML 2.5.1 7.8.6.4: /owner : Element [0..1]{union} "
+                   "(opposite Element::ownedElement). The Element that owns this Element."),
+    },
+    {
+        "iri": "uml:NamedElement__namespace",
+        "owner": "uml:NamedElement",
+        "name": "namespace",
+        "range": "uml:Namespace",
+        "lo": 0,
+        "hi": 1,
+        # the clause also says it subsets memberNamespace, which the feeds omit as well
+        "subsets": (),
+        "opposite": "uml:Namespace__ownedMember",
+        "clause": ("UML 2.5.1 7.8.9.6: /namespace : Namespace [0..1]{union, subsets "
+                   "memberNamespace, subsets Element::owner} (opposite Namespace::ownedMember). "
+                   "Specifies the Namespace that owns the NamedElement."),
+    },
+)
+
+
 def emit_turtle(model: dict[str, Any], base: str) -> str:
     prefixes = sorted({key.split(":", 1)[0] for key in model["classes"]})
     lines: list[str] = [
@@ -492,7 +538,8 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
     lines.append('    owl:versionInfo "1" .')
     lines.append("")
     # declare the annotation properties, or the ontology is not OWL 2 DL
-    for annotation in ("language", "omgPackage", "abstract", "stereotypeUri",
+    for annotation in ("language", "omgPackage", "abstract", "stereotypeProfile",
+                       "stereotypePackage", "specClause",
                        "oclConstraint", "composite", "derived", "declaredType",
                        "lower", "upper", "union", "redefines", "readOnly",
                        "unresolvedSubset", "unresolvedRedefinition"):
@@ -509,8 +556,11 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
         if row["abstract"]:
             frags.append("umlmeta:abstract true")
         if row["stereotype"]:
-            frags.append(f'skos:altLabel "{_esc(row["stereotype"].split("::")[-1])}"@en')
-            frags.append(f'umlmeta:stereotypeUri "{_esc(row["stereotype"])}"')
+            profile, package, leaf = _stereotype_parts(row["stereotype"])
+            frags.append(f'skos:altLabel "{_esc(leaf)}"@en')
+            frags.append(f'umlmeta:stereotypeProfile "{_esc(profile)}"')
+            if package:
+                frags.append(f'umlmeta:stereotypePackage "{_esc(package)}"')
         if row["definition"]:
             frags.append(f'skos:definition "{_esc(row["definition"])}"@en')
         for parent_key in row["bases"]:
@@ -526,6 +576,7 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
     by_owner = {(p["owner"], p["name"]): p for p in model["properties"]}
     own = {(row["owner"], row["name"]) for row in model["properties"]}
     own |= {(row["owner"], row["name"]) for row in model["attributes"]}
+    own |= {(row["owner"], row["name"]) for row in SPEC_SUPPLEMENT}
 
     for prop in model["properties"]:
         iri = f"{prop['owner']}__{prop['name']}"
@@ -584,6 +635,28 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
             frags.append("umlmeta:derived true")
         frags.extend(_bounds(attr))
         lines.append(_block(iri, frags))
+
+    for spec in SPEC_SUPPLEMENT:
+        kinds = ["owl:ObjectProperty"]
+        if spec["hi"] == 1:
+            kinds.append("owl:FunctionalProperty")
+        frags = [f"a {' , '.join(kinds)}",
+                 f'rdfs:label "{_esc(spec["name"])}"@en',
+                 f"rdfs:domain {spec['owner']}",
+                 f"rdfs:range {spec['range']}",
+                 "umlmeta:derived true",
+                 "umlmeta:union true",
+                 f"umlmeta:lower {spec['lo']}",
+                 f'umlmeta:upper "{spec["hi"]}"',
+                 f"owl:inverseOf {spec['opposite']}",
+                 f'umlmeta:specClause "{_esc(spec["clause"])}"']
+        for subset_ in spec["subsets"]:
+            target_ = _declare_in(model["classes"], own, spec["owner"], subset_)
+            if target_:
+                frags.append(f"rdfs:subPropertyOf {target_}")
+            else:
+                frags.append(f'umlmeta:unresolvedSubset "{_esc(subset_)}"')
+        lines.append(_block(spec["iri"], frags))
 
     # enumerations: a class per literal set, an individual per literal, so a model can state
     # ``umlmeta:VisibilityKind__public`` where the metamodel says "VisibilityKind"

@@ -1,0 +1,152 @@
+# Plan: closing the coverage gaps
+
+Generated artifacts describe the OMG metamodel feeds; the gaps below are what is *not* in them
+or not yet checked. Every item carries the number that moves when it is done, so "done" is a
+measurement, not a claim.
+
+Baseline at HEAD `9aa1841`: `check.py` 51/51, `test_shacl.py` 8/8,
+`test_authored_multiplicity.py` 12/12, `docs make check` 9/9, rebuild byte-identical.
+
+## How the numbers are obtained
+
+    .venv/bin/python check.py                      # the gate
+    .venv/bin/python scripts/build_ontology.py     # ontology/*.ttl + relationships.json
+    .venv/bin/python scripts/build_shacl.py        # shapes/generated/**
+    python3.10 -m compileall -q scripts check.py tests docs
+
+Census over `ontology/uml-family-relationships.ttl` (rdflib, transient script), before round A:
+
+    1,687 owl:ObjectProperty   309 owl:DatatypeProperty   1,334 owl:FunctionalProperty
+      951 owl:Class (898 classes + 53 enumerations)       1,439 rdfs:subClassOf
+      586 owl:inverseOf        16 owl:minCardinality      1,996 lower/upper pairs
+    2,207 oclConstraint        486 subset edges            88 unresolvedSubset
+      344 stereotypeUri      0 disjointWith  0 propertyDisjointWith
+      0 transitive/symmetric/reflexive/asymmetric/inverse-functional properties
+
+## Round A, as shipped
+
+Items 1 and 2 are done. The same census after them:
+
+    1,689 owl:ObjectProperty  (+2 supplemented)      1,998 lower/upper pairs  (+2)
+    1,336 owl:FunctionalProperty (+2)                2 specClause citations
+      588 owl:inverseOf       (+2, both single-ended by design)
+    537 subset edges          (+51)                 37 unresolvedSubset      (from 88)
+      344 stereotypeProfile + 344 stereotypePackage  0 stereotypeUri literals
+    54/54 check.py checks     (+3: the supplement, the pinned histogram, the stereotype split)
+    test_shacl.py 8/8, test_authored_multiplicity.py 12/12, rebuild byte-identical
+
+One number did not reach the 35 this plan predicted, and the reason is a defect in the plan's
+own premise, not in the change: two `owner` and two `ownedElement` records belong to
+`sysml2:Element`, which declares no `subClassOf` at all, so no walk can reach `uml:Element`.
+37 is therefore the floor for the feeds as they stand, and the gate pins the whole histogram
+rather than a total.
+
+### Proof the new gates bite
+
+Each gate was broken on purpose, `check.py` run against the broken generator, and the generator
+restored from a byte copy; the restore is confirmed by a final green run (54/54).
+
+    mutation                                 check.py
+    supplement loses its specClause citation   53/54  [FAIL] the specification supplement is declared and cited (2)
+    stereotype goes back to a path literal     53/54  [FAIL] every stereotype states its profile and package (0/344, 344 path literals)
+    supplement loses owl:inverseOf             52/54  [FAIL] inverses symmetric except the supplemented pairs (586/586)
+                                                      [FAIL] the specification supplement is declared and cited (2)
+    Element__owner deleted from the table      51/54  [FAIL] inverses symmetric except the supplemented pairs (586/587)
+                                                      [FAIL] the specification supplement is declared and cited (2)
+                                                      [FAIL] only the names the feeds omit stay unresolved (63)
+
+The last mutation also exposed a defect in the gate itself: `check.py` read `umlmeta:derived` with
+`.toPython()` on a value that may be absent, so a deleted supplement crashed the suite with an
+`AttributeError` instead of reporting a failure. Fixed with a `_flag()` helper that reads absent
+as false, and the histogram check now prints `pinned:found` counts rather than two empty lists.
+
+## Items
+
+### 1. Declare the two derived unions the feeds omit — done
+
+`umlmeta` carries `Element::ownedElement` and `Namespace::ownedMember` but not their opposite
+ends, so the ontology can say what an element owns and never what owns it. That is what the 88
+`umlmeta:unresolvedSubset` records are complaining about: `owner` 28, `namespace` 25, then
+`directedRelationship` 10, `redefinableElement` 10, `classifier` 3, `owningPackage` 2,
+`memberNamespace` 2, `messageEnd` 2, and singletons.
+
+UML 2.5.1 §7.8.6.4 and §7.8.9.6 state both, so they are supplementable without guessing:
+
+    /owner : Element [0..1]{union} (opposite Element::ownedElement)
+    /namespace : Namespace [0..1]{union, subsets ...memberNamespace, subsets Element::owner}
+        (opposite Namespace::ownedMember)
+
+Carried as `uml:Element__owner` and `uml:NamedElement__namespace`, flagged `umlmeta:derived`
+and `umlmeta:union`, given `owl:inverseOf` their stated opposites, and cited with
+`umlmeta:specClause`. They live in the generator as a `SPEC_SUPPLEMENT` table so they cannot be
+mistaken for feed facts; the build registers them where `_declare_in` looks, which is what
+retires the subset records.
+
+Gate: `unresolvedSubset` 88 → 37, and `check.py` asserts the remaining names are exactly the
+ones the feeds do not declare (an allowlist, so new drift fails). Result: 88 → 37, 51 records
+retired (26 `subPropertyOf uml:Element__owner`, 25 `uml:NamedElement__namespace`).
+
+### 2. `umlmeta:stereotypeUri` holds a path, not a URI — done
+
+344 profile classes each carry a string such as `"UAF::Taxonomy::Achiever"`. The tail is the
+subject's own local name in 344 of 344 cases, so the statement adds nothing the key does not
+already say; the information is the profile and the package. Replaced by
+`umlmeta:stereotypeProfile "UAF"` and `umlmeta:stereotypePackage "Taxonomy"`.
+
+Gate: 0 `stereotypeUri` literals, 344 profiles, and `check.py` asserts profile→module prefix is
+one-to-one (`StandardProfile`→`sp` 33, `SysML`→`sysml` 55, `UAF`→`uaf` 256). Result: 344/344
+against the fact book, 0 path literals, 3 profiles on 3 modules.
+
+### 3. Translate the OCL implications that need nothing but property tests
+
+2,255 constraints are declared, 18 are translated, 2,237 are refused. 409 refuse as "an
+implication between property tests"; of those, 94 name no navigation, no cast and no library
+call, so they are `sh:or` over property tests or one `sh:sparql` away from being checkable. A
+handful test `namespace`/`owner`, which item 1 unblocks.
+
+Gate: translated 18 → 112, each new shape with a failing fixture. Largest work item; its own
+round.
+
+### 4. Reconcile `shapes/untranslated.json` against the emitted annotations
+
+2,169 of the 2,237 refused bodies appear verbatim (whitespace-normalised) as
+`umlmeta:oclConstraint`; 68 do not, and 7 bodies are emitted twice. Nothing asserts
+emitted + translated == declared, so the refused register can drift from the ontology silently.
+
+Gate: per-class `annotations + translated + refused == declared`, plus a byte-level check that
+every row of `untranslated.json` is an annotation. One new check.
+
+### 5. Redefinition disjointness
+
+`owl:propertyDisjointWith` appears 0 times. The specification states that a redefinition's
+source and target are disjoint; nothing in the pipeline evaluates it, since pyshacl runs rdfs.
+Honest version: state the axiom for the pairs the spec names, and let the gate assert presence
+only (recorded as "stated, not evaluable" in `docs/coverage.md`).
+
+### 6. Navigability as a derivation, not as data
+
+Already present, and correct: `Association__navigableOwnedEnd` ⊂ `Association__ownedEnd` ⊂
+`Association__memberEnd`, with `Property__association` the declared opposite of `memberEnd`.
+What is missing is the rule a model is checked against: a member end that the association does
+not own is navigable. Add it as the derived statement plus one authored shape.
+
+## Closed without work
+
+- **leaf / static**: both properties exist (`RedefinableElement__isLeaf`, `Feature__isStatic`)
+  and are set nowhere, because the specifications set them nowhere. Nothing to cover.
+- **AssociationClass**: defined, with `Class` and `Association` as bases; no class in the
+  feeds subclasses both, so there is no multiple-inheritance case to model.
+- **abstract**: 121 classes are marked; the flag was already emitted.
+
+## Corrections to the 2026-11-21 review
+
+- The doubled stereotype segment is real structure (profile `StandardProfile` contains a
+  package named `StandardProfile`), not a defect. The defect is the predicate's name and its
+  redundancy with the subject key.
+- "296 of 344 stereotype names resolve to `/sp#` classes" was wrong: only the 33
+  StandardProfile classes live under `/sp#`; the rest are `/sysml#` (55) and `/uaf#` (256),
+  and in every case the resolved class is the subject itself.
+
+## Order
+
+Round A (done): items 1 and 2. Round B: item 3. Round C: items 4, 5, 6.

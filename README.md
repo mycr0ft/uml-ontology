@@ -15,6 +15,7 @@ honest projection of the standards rather than a second opinion about them.
     shapes/uml-family-shapes.ttl            SHACL                  684 node shapes
     shapes/authored-multiplicity.ttl        SHACL, hand-written    4 shapes, for model bounds
     shapes/untranslated.json                every constraint SHACL does NOT check, with why
+    PLAN.md                                 the gaps that are left, each with the number it moves
 
     count
       898  classes                     (uml, sp, sysml, uaf, bpmn, sysml2)
@@ -24,13 +25,17 @@ honest projection of the standards rather than a second opinion about them.
        53  enumerations                250 literals, each an individual
       586  inverse pairs               only where BOTH ends name each other
       344  profile stereotypes         each with its base metaclass axiom
+     37  subset targets named but not declared    the features the feeds omit
     2,255  normative OCL constraints
       684  SHACL node shapes          cardinality from lo/hi + a translated OCL subset
        18  OCL constraints translated into shape facets
     2,237  registered as not translatable, each with a reason class
 
 `docs/coverage.md` is the register behind those numbers: what each feature became, the 27
-that became nothing and why, and what the next concepts would cost to add.
+that became nothing and why, and what the next concepts would cost to add. Two properties in the
+ontology are not feed facts at all — `uml:Element__owner` and `uml:NamedElement__namespace`,
+which UML 2.5.1 states and the feeds omit; each carries the clause it comes from in
+`umlmeta:specClause`. `PLAN.md` lists what is still missing, ranked by the count that moves.
 
 ## Why the SHACL number is 18 and not 2,255
 
@@ -95,7 +100,7 @@ would fail against the published package; pinning the commit is what keeps "rege
 compare" meaningful.
     python scripts/build_ontology.py           # writes ontology/
     python scripts/build_shacl.py              # writes shapes/
-    python check.py                            # 51 checks; RDF half needs rdflib
+    python check.py                            # 54 checks; RDF half needs rdflib
 
 `check.py` skips its RDF half loudly when `rdflib` is absent. To run it fully:
 
