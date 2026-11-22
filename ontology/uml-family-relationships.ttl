@@ -10638,6 +10638,7 @@ uml:Class__ownedAttribute a owl:ObjectProperty ;
     umlmeta:composite true ;
     umlmeta:lower 0 ;
     umlmeta:upper "*" ;
+    owl:propertyDisjointWith uml:Association__ownedEnd ;
     rdfs:subPropertyOf uml:Classifier__attribute ;
     rdfs:subPropertyOf uml:Namespace__ownedMember ;
     umlmeta:redefines uml:Class__ownedAttribute ;

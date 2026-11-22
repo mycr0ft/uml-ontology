@@ -209,6 +209,22 @@ def main(argv: list[str] | None = None) -> int:
     check(f"every refused row states a body its own class carries ({len(reg['untranslated'])} rows)",
           not lost, ", ".join(lost[:3]))
 
+    # a property disjointness the feeds state as OCL is also stated as an axiom.  pyshacl runs
+    # the rdfs ruleset, which entails nothing from disjointness, so no instance can falsify this
+    # here: the gate is that the axiom is still stated, because an unfalsifiable claim is exactly
+    # the kind that a refactor drops without anything going red.
+    disjoint_bodies = {(key, body(row_c["body"] if isinstance(row_c, dict) else row_c))
+                       for key, row in facts["classes"].items()
+                       for row_c in row.get("constraints") or []
+                       if re.match(r"^[A-Za-z_]\w*->intersection\([A-Za-z_]\w*\)->isEmpty\(\)$",
+                                   body(row_c["body"] if isinstance(row_c, dict) else row_c))}
+    axioms = list(g_onto.subject_objects(OWL.propertyDisjointWith))
+    declared_props = set(g_onto.subjects(RDF.type, OWL.ObjectProperty))
+    check(f"every stated property disjointness is an axiom ({len(disjoint_bodies)} pairs)",
+          len(axioms) == len(disjoint_bodies)
+          and all(s_ in declared_props and o in declared_props for s_, o in axioms),
+          f"{len(axioms)} axioms for {len(disjoint_bodies)} bodies")
+
     # 4. the ontology's own shape
     base_iri = facts["baseIri"].rstrip("/")
 

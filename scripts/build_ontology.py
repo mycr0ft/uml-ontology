@@ -415,6 +415,9 @@ def build() -> dict[str, Any]:
 # Only prose fields carry markup; OCL bodies must not touch this. A body with a `<` comparison
 # and a later `->` looks exactly like a tag to a naive strip, and the text between them goes.
 _TAG = re.compile(r"<[^>]+>")
+# ``ownedAttribute->intersection(ownedEnd)->isEmpty()``: the OCL form of "these two properties
+# never share a value", which OWL can state outright as ``owl:propertyDisjointWith``
+_DISJOINT_BODY = re.compile(r"^([A-Za-z_]\w*)->intersection\(([A-Za-z_]\w*)\)->isEmpty\(\)$")
 
 
 def _strip_tags(text: str) -> str:
@@ -587,6 +590,22 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
     own |= {(row["owner"], row["name"]) for row in model["attributes"]}
     own |= {(row["owner"], row["name"]) for row in SPEC_SUPPLEMENT}
 
+    # a disjointness the feeds state as OCL is stated as an axiom as well. pyshacl runs the
+    # rdfs ruleset, so this is stated and not evaluated; the gate asserts the axiom survives,
+    # because an unfalsifiable claim is the kind that gets dropped in a refactor.
+    disjoint: dict[str, set[str]] = {}
+    for key, row in model["classes"].items():
+        for constraint in row.get("constraints") or []:
+            match = _DISJOINT_BODY.match(" ".join(constraint["body"].split()))
+            if not match:
+                continue
+            left = _declare_in(model["classes"], own, key, match.group(1))
+            right = _declare_in(model["classes"], own, key, match.group(2))
+            if left and right and left != right:
+                # one direction states it: owl:propertyDisjointWith is symmetric, and a
+                # generated artefact should not carry the mirror image of every axiom
+                disjoint.setdefault(left, set()).add(right)
+
     for prop in model["properties"]:
         iri = f"{prop['owner']}__{prop['name']}"
         kinds = ["owl:ObjectProperty"]
@@ -607,6 +626,8 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
         if prop["readonly"]:
             frags.append("umlmeta:readOnly true")
         frags.extend(_bounds(prop))
+        for other in sorted(disjoint.get(iri, ())):
+            frags.append(f"owl:propertyDisjointWith {other}")
         for subset in prop["subsets"]:
             target = _declare_in(model["classes"], own, prop["owner"], subset)
             if target:

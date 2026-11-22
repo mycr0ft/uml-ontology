@@ -104,7 +104,7 @@ would fail against the published package; pinning the commit is what keeps "rege
 compare" meaningful.
     python scripts/build_ontology.py           # writes ontology/
     python scripts/build_shacl.py              # writes shapes/
-    python check.py                            # 64 checks; RDF half needs rdflib
+    python check.py                            # 65 checks; RDF half needs rdflib
 
 `check.py` skips its RDF half loudly when `rdflib` is absent. To run it fully:
 
@@ -133,6 +133,12 @@ them) and twelve cases in `tests/test_authored_multiplicity.py`: a bound must be
 literal, non-negative, single-valued, and never below its partner. That file is the one place
 `sh:class uml:ValueSpecification` is deliberately not used — with RDFS inference it is satisfied
 by the range axiom itself, so it accepts a `uml:Class` used as a bound.
+
+Navigability is the case where the check is a derivation rather than a shape:
+`tests/test_navigability.py` (five cases) computes `navigable(A) = memberEnd(A) - ownedEnd(A)`
+over two fixtures, because UML 2.5.1 9.5.3 makes `isNavigable` derived and core SHACL cannot
+condition on the absence of an inverse link. The ontology supplies the inputs and the subset
+chain; it does not store the flag.
 
 ## Known limits
 

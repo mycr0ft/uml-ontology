@@ -176,20 +176,42 @@ row by row: all 2,142 refused rows state a body their own class carries.
                                                (uml:NamedElement:has_qualified_name first)
 
 The first mutation is the real defect: the row count moves by nothing, only the text changes.
+The totals in those three rows were measured when the gate stood at 64 checks; the disjointness
+check added in item 5 makes it 65, so the same three mutations now read 62/65, 63/65 and 64/65.
 
-### 5. Redefinition disjointness
+### 5. Redefinition disjointness - done
 
-`owl:propertyDisjointWith` appears 0 times. The specification states that a redefinition's
-source and target are disjoint; nothing in the pipeline evaluates it, since pyshacl runs rdfs.
-Honest version: state the axiom for the pairs the spec names, and let the gate assert presence
-only (recorded as "stated, not evaluable" in `docs/coverage.md`).
+`owl:propertyDisjointWith` appeared 0 times. The corpus states one disjointness in OCL,
+`AssociationClass`'s `disjoint_attributes_ends`: `ownedAttribute->intersection(ownedEnd)->isEmpty()`.
+`build_ontology.py` now recognises exactly that one body shape (`_DISJOINT_BODY`), resolves each
+feature name in the declaring class's inheritance chain (`_declare_in`, the same resolver the
+subset records use) and emits `owl:propertyDisjointWith` once, in the order the body names them,
+because the relation is symmetric and a generated artefact should not carry the mirror image of
+every axiom. Output: 1 triple, `Class__ownedAttribute` disjoint `Association__ownedEnd`, the
+ancestor pair the feeds name when the constraint is written on `AssociationClass`.
 
-### 6. Navigability as a derivation, not as data
+Nothing evaluates it: pyshacl runs the rdfs ruleset, which has no disjointness entailment. The
+gate is presence: `check.py` asserts one axiom per declared body, with both sides declared object
+properties, recorded in `docs/coverage.md` as "stated, not evaluated". Mutation: dropping the
+emission leaves the build and every other check green and takes `check.py` to 64/65.
+
+### 6. Navigability as a derivation, not as data - done
 
 Already present, and correct: `Association__navigableOwnedEnd` ⊂ `Association__ownedEnd` ⊂
 `Association__memberEnd`, with `Property__association` the declared opposite of `memberEnd`.
-What is missing is the rule a model is checked against: a member end that the association does
-not own is navigable. Add it as the derived statement plus one authored shape.
+What was missing is the rule a model is checked against: a member end the association does not
+own is navigable. `isNavigable` is **not** added to the ontology, because UML 2.5.1 9.5.3 gives
+it as a derived attribute and inventing a stored flag would state the opposite of the spec.
+Instead `tests/test_navigability.py` derives it, `navigable(A) = memberEnd(A) - ownedEnd(A)`,
+over two fixtures: an unowned member end is navigable, an owned one is not, and dropping
+`ownedEnd` from the fixture changes the answer, which is what makes ownership the discriminator
+rather than a default. Five cases, including that the stated subset chain still holds, because
+the derivation reads those two properties and nothing else.
+
+It is a derivation and not a shape on purpose: core SHACL cannot condition on the absence of an
+inverse link, so "not owned, therefore navigable" has no NodeShape form without a query, and the
+generated shapes carry no queries. Mutation: repointing `navigableOwnedEnd` at `memberEnd` in
+the TTL keeps the file parseable and takes the chain case to 4/5.
 
 ## Closed without work
 
@@ -210,4 +232,9 @@ not own is navigable. Add it as the derived statement plus one authored shape.
 
 ## Order
 
-Round A (done): items 1 and 2. Round B: item 3. Round C: items 4, 5, 6.
+Round A (done): items 1 and 2. Round B: item 3. Round C (done): items 4, 5, 6.
+
+Round C moved: `check.py` 61 -> 65 (three per-class reconciliation checks plus the disjointness
+presence check), `owl:propertyDisjointWith` 0 -> 1, `tests/test_navigability.py` 5/5 new,
+everything else unchanged - 812 shapes, 113 translated, 2,142 refused, 2,207 stated bodies,
+`test_shacl.py` 8/8, `test_authored_multiplicity.py` 12/12, `docs make check` 9/9.

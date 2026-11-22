@@ -237,13 +237,18 @@ prevent.
 
 In the order I would build them, cheapest-useful first.
 
-1. **Redefinition as a class axiom.** Redefinitions are now stated (`umlmeta:redefines`, 135),
-   but only as annotations. A redefining feature also *disjoints* itself from its siblings in
-   the redefined context, which needs `owl:propertyDisjointWith` against the ancestor's other
-   specialisations. That is a real inference and a real modelling decision, not a one-liner.
-2. **Navigability and owned ends.** Requires the `memberEnd`/`ownedEnd` split, which
-   `umlmeta` carries as `assoc` + `opp`; the ontology currently states the pair, not which end
-   is navigable.
+1. **Sibling redefinitions as a class axiom.** The one disjointness the corpus states in OCL,
+   `AssociationClass`'s `disjoint_attributes_ends`, is now an axiom: `Class__ownedAttribute`
+   is `owl:propertyDisjointWith` `Association__ownedEnd`, one triple, one direction. Nothing
+   evaluates it, because the rdfs ruleset has no disjointness entailment; the gate asserts the
+   axiom is still stated and the doc says so. What is still not stated is the pair of *siblings*
+   that both redefine the same feature, which is an inference and a modelling decision, not a
+   transcription of a body the feeds carry.
+2. **Navigability as a stored flag.** Not done, and deliberately: `Property::isNavigable` is a
+   derived attribute, so the ontology keeps the derivation's inputs (`memberEnd`, `ownedEnd`,
+   `navigableOwnedEnd` nested under `ownedEnd`) and `tests/test_navigability.py` computes
+   `navigable(A) = memberEnd(A) - ownedEnd(A)` over two fixtures. A stored boolean would let a
+   model disagree with its own ends.
 3. **Abstract/leaf/static and `AssociationClass`.** `isAbstract` is emitted; the rest are
    annotations on classes that already exist.
 4. **SysML v1 ↔ v2 correspondence.** `umlmeta` has `v1_to_v2_as.py` mapping tables; the
