@@ -138,15 +138,44 @@ Same method: break the generator, run the gate, restore from a byte copy, confir
 The second mutation is the one that matters: it leaves every shape parseable and the counts
 unchanged (still 113 translated), so a count-only gate would have called it green.
 
-### 4. Reconcile `shapes/untranslated.json` against the emitted annotations
+### 4. Reconcile the emitted annotations with the declared constraints — done
 
-2,207 `umlmeta:oclConstraint` annotations are emitted for 2,255 declared constraints. Of the
-2,142 refused bodies, 2,074 appear verbatim (whitespace-normalised) as an annotation and 68 do
-not; 237 bodies are emitted more than once. Nothing asserts emitted + translated == declared, so
-the refused register can drift from the ontology silently.
+The refused OCL is only useful if its text survives, and it did not. `_esc()` ran a tag stripper
+(`<[^>]+>` → space) over every literal, which is right for a `skos:definition` harvested from
+markup and wrong for OCL, where `<` is an operator: in `ownedParameter->size()<=1 and ...` the
+strip ate everything from `<=` to the `>` of the next `->`. Ten bodies came out re-worded, and
+because a re-worded body is a different string the damage read as a count.
 
-Gate: per-class `annotations + translated + refused == declared`, plus a byte-level check that
-every row of `untranslated.json` is an annotation. One new check.
+The 2,207-versus-2,255 gap is not loss at all: 48 declared bodies repeat a body already declared
+on the same class, and rdflib dedupes identical triples. Distinct bodies per class equal emitted
+rows exactly (2,207 = 2,207), across 761 classes that declare anything.
+
+Fix: markup stripping moved to `_strip_tags()`, called on `skos:definition` only; `_esc()` now
+collapses whitespace and escapes quotes and touches nothing else. Measured after:
+2,255 declared, 48 repeated declarings, 2,207 rows, 0 classes missing a declared body, 0 classes
+stating an undeclared one, 2,142 refused rows all present verbatim.
+
+Gate: two checks, per class and in both directions — every declared body stated on its own class,
+and no class stating a body it does not declare. Per class rather than totalled, because the
+failure this catches is text drift, which leaves every total unchanged.
+
+The register had the same defect in a milder form: `shapes/untranslated.json` clipped every body
+to 400 characters. Only 60 rows ran past the cut, so the total still matched, and a consumer
+reconciling the register against the ontology found 60 bodies it could not place. Bodies are now
+written whole and whitespace-normalised (`_plain()`), and a third check reconciles the register
+row by row: all 2,142 refused rows state a body their own class carries.
+
+### Proof the item-4 gates bite
+
+    mutation                                   gate
+    tag stripper restored in _esc()            check.py 61/64  missing, surplus and register checks fail
+                                               (sysml2:Association 1 missing, uml:Message 1 surplus,
+                                               uml:Message:sending_reception unplaceable)
+    every 7th constraint body dropped          check.py 62/64  missing-body and register checks fail
+    refused bodies clipped to 120 characters   check.py 63/64  only the register check fails
+                                               (uml:NamedElement:has_qualified_name first)
+
+The first mutation is the real defect: the row count moves by nothing, only the text changes.
 
 ### 5. Redefinition disjointness
 

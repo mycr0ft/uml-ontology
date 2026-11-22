@@ -412,12 +412,21 @@ def build() -> dict[str, Any]:
 
 
 # ----------------------------------------------------------------- emitters
+# Only prose fields carry markup; OCL bodies must not touch this. A body with a `<` comparison
+# and a later `->` looks exactly like a tag to a naive strip, and the text between them goes.
 _TAG = re.compile(r"<[^>]+>")
 
 
+def _strip_tags(text: str) -> str:
+    """Remove markup from a documentation string, and only from a documentation string."""
+    return _TAG.sub(" ", text)
+
+
 def _esc(text: str) -> str:
-    """Plain-text Turtle literal body: tags stripped, whitespace collapsed, quotes escaped."""
-    text = _TAG.sub(" ", text)
+    """Plain-text Turtle literal body: whitespace collapsed, quotes escaped.
+
+    No markup is stripped here: constraint bodies are OCL, where ``<`` is an operator.
+    """
     text = " ".join(text.split())
     return (text.replace("\\", "\\\\").replace('"', '\\"').replace("\t", " ").strip())
 
@@ -562,7 +571,7 @@ def emit_turtle(model: dict[str, Any], base: str) -> str:
             if package:
                 frags.append(f'umlmeta:stereotypePackage "{_esc(package)}"')
         if row["definition"]:
-            frags.append(f'skos:definition "{_esc(row["definition"])}"@en')
+            frags.append(f'skos:definition "{_esc(_strip_tags(row["definition"]))}"@en')
         for parent_key in row["bases"]:
             frags.append(f"rdfs:subClassOf {parent_key}")
         for base_meta_key in row["base_metaclasses"]:

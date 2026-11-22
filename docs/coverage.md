@@ -35,6 +35,10 @@ Four rules make the mapping honest rather than approximate:
 * **`= null` is "no value" and `<> null` is "at least one value"** — `sh:maxCount 0` and
   `sh:minCount 1` on the path, not a check on any value.
 * **`and`/`or` swap under negation.** `not(a and b)` is `sh:or(sh:not a, sh:not b)`.
+* **The refused text is carried, not paraphrased.** All 2,142 refused bodies are stated verbatim
+  as `umlmeta:oclConstraint` on the class that declares them, and `check.py` reconciles the two
+  per class in both directions, so a body that is dropped or re-escaped on the way out fails the
+  gate even though every total is unchanged.
 * **A formula that touches a navigation or a collection is refused**, not truncated: `->`,
   `select`, `forAll`, `exists`, `let`, `size`, `allInstances`, `oclIs`, `::` and the rest are on
   the refusal list, and the register records which one stopped it.
@@ -248,7 +252,7 @@ In the order I would build them, cheapest-useful first.
 5. **Implied and observed grades.** The README's second and third grades: profile clauses
    (`«satisfy»` narrows `Dependency` ends) and an instance corpus. Both are separate artefacts
    over this one; the grade vocabulary is already in the shapes (`umlmeta:grade`).
-6. **Widening the OCL subset.** 2,237 constraints are refused with a reason; 18 translate. Each
+6. **Widening the OCL subset.** 2,142 constraints are refused with a reason; 113 translate. Each
    new form (closures, `allInstances`, library predicates) is a whitelist entry in
    `scripts/build_shacl.py` and a test that makes the shape fire.
 

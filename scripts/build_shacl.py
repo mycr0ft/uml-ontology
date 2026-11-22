@@ -488,7 +488,7 @@ def build() -> dict:
                     formula = translate_logic(body, logic_props)
                     if formula is not None:
                         entry = {"owner": owner_key, "name": cname,
-                                 "body": body.strip()[:400], **formula}
+                                 "body": _plain(body), **formula}
                         shapes.setdefault(owner_key, {"cardinality": [], "constraints": [],
                                                       "logic": []})["logic"].append(entry)
                         logic.append(entry)
@@ -496,10 +496,10 @@ def build() -> dict:
                         continue
                     reason = classify(body) or "outside the translatable subset"
                     untranslated.append({"owner": owner_key, "name": cname,
-                                         "body": body.strip()[:400], "reason": reason})
+                                         "body": _plain(body), "reason": reason})
                     continue
                 result.update({"owner": owner_key, "name": cname,
-                               "body": body.strip()[:400]})
+                               "body": _plain(body)})
                 shapes.setdefault(owner_key, {"cardinality": [], "constraints": [],
                                               "logic": []})
                 shapes[owner_key]["constraints"].append(result)
@@ -511,6 +511,15 @@ def build() -> dict:
 
 def _esc(text: str) -> str:
     return onto._esc(text)
+
+
+def _plain(text: str) -> str:
+    """One line, exactly as the ontology states the body: the register must compare literally.
+
+    A body clipped to a fixed width reads fine in a report and lies to every consumer that
+    reconciles it against ``umlmeta:oclConstraint``, so nothing here truncates.
+    """
+    return " ".join(str(text).split())
 
 
 def emit(model: dict, base: str) -> tuple[str, int]:

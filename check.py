@@ -174,6 +174,41 @@ def main(argv: list[str] | None = None) -> int:
           targets <= ontology_classes,
           ", ".join(sorted(str(t) for t in list(targets - ontology_classes)[:3])))
 
+    # every class states exactly the OCL bodies it declares. The annotation row is the only
+    # place a refused constraint survives, so a dropped body, or one re-escaped on the way out,
+    # loses the text without moving any total: the counts stay right and the reading is wrong.
+    UMNS = "https://mycr0ft.github.io/uml-ontology/ns#"
+    reverse = {str(ns): prefix for prefix, ns in g_onto.namespaces() if prefix}
+
+    def qualified(node) -> str:
+        uri = str(node)
+        for ns in sorted(reverse, key=len, reverse=True):
+            if uri.startswith(ns):
+                return f"{reverse[ns]}:{uri[len(ns):]}"
+        return uri
+
+    def body(text) -> str:
+        return " ".join(str(text).split())
+
+    declared: dict[str, set[str]] = {}
+    for owner, row in facts["classes"].items():
+        for entry in row.get("constraints") or []:
+            declared.setdefault(owner, set()).add(body(entry["body"] if isinstance(entry, dict) else entry))
+    stated: dict[str, set[str]] = {}
+    for subject, text in g_onto.subject_objects(URIRef(UMNS + "oclConstraint")):
+        stated.setdefault(qualified(subject), set()).add(body(text))
+    missing = {k: v - stated.get(k, set()) for k, v in declared.items() if v - stated.get(k, set())}
+    check(f"every declared OCL body is stated on its own class ({len(declared)} classes)",
+          not missing,
+          "; ".join(f"{k}: {len(v)}" for k, v in list(missing.items())[:3]))
+    surplus = {k: v - declared.get(k, set()) for k, v in stated.items() if v - declared.get(k, set())}
+    check("no class states an OCL body it does not declare", not surplus,
+          "; ".join(f"{k}: {len(v)}" for k, v in list(surplus.items())[:3]))
+    lost = [f"{r['owner']}:{r['name']}" for r in reg["untranslated"]
+            if body(r["body"]) not in stated.get(r["owner"], set())]
+    check(f"every refused row states a body its own class carries ({len(reg['untranslated'])} rows)",
+          not lost, ", ".join(lost[:3]))
+
     # 4. the ontology's own shape
     base_iri = facts["baseIri"].rstrip("/")
 

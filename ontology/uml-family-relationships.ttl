@@ -376,7 +376,7 @@ uml:Activity a owl:Class ;
     skos:definition "An Activity is the specification of parameterized Behavior as the coordinated sequencing of subordinate units."@en ;
     rdfs:subClassOf uml:Behavior ;
     umlmeta:oclConstraint "ownedParameter->forAll(p | p.direction <> ParameterDirectionKind::inout implies node->select( oclIsKindOf(ActivityParameterNode) and oclAsType(ActivityParameterNode).parameter = p)->size()= 1)" ;
-    umlmeta:oclConstraint "ownedParameter->forAll(p | p.direction = ParameterDirectionKind::inout implies let associatedNodes : Set(ActivityNode) = node->select( oclIsKindOf(ActivityParameterNode) and oclAsType(ActivityParameterNode).parameter = p) in associatedNodes->size()=2 and associatedNodes->select(incoming->notEmpty())->size() select(outgoing->notEmpty())->size()<=1 )" .
+    umlmeta:oclConstraint "ownedParameter->forAll(p | p.direction = ParameterDirectionKind::inout implies let associatedNodes : Set(ActivityNode) = node->select( oclIsKindOf(ActivityParameterNode) and oclAsType(ActivityParameterNode).parameter = p) in associatedNodes->size()=2 and associatedNodes->select(incoming->notEmpty())->size()<=1 and associatedNodes->select(outgoing->notEmpty())->size()<=1 )" .
 
 uml:ActivityEdge a owl:Class ;
     rdfs:label "ActivityEdge"@en ;
@@ -1741,7 +1741,7 @@ uml:Message a owl:Class ;
     umlmeta:omgPackage "Interactions" ;
     skos:definition "A Message defines a particular communication between Lifelines of an Interaction."@en ;
     rdfs:subClassOf uml:NamedElement ;
-    umlmeta:oclConstraint "receiveEvent.oclIsKindOf(MessageOccurrenceSpecification) implies let f : Lifeline = sendEvent->select(oclIsKindOf(MessageOccurrenceSpecification)).oclAsType(MessageOccurrenceSpecification)->asOrderedSet()->first().covered in f = receiveEvent->select(oclIsKindOf(MessageOccurrenceSpecification)).oclAsType(MessageOccurrenceSpecification)->asOrderedSet()->first().covered implies f.events->indexOf(sendEvent.oclAsType(MessageOccurrenceSpecification)->asOrderedSet()->first() ) indexOf(receiveEvent.oclAsType(MessageOccurrenceSpecification)->asOrderedSet()->first() )" ;
+    umlmeta:oclConstraint "receiveEvent.oclIsKindOf(MessageOccurrenceSpecification) implies let f : Lifeline = sendEvent->select(oclIsKindOf(MessageOccurrenceSpecification)).oclAsType(MessageOccurrenceSpecification)->asOrderedSet()->first().covered in f = receiveEvent->select(oclIsKindOf(MessageOccurrenceSpecification)).oclAsType(MessageOccurrenceSpecification)->asOrderedSet()->first().covered implies f.events->indexOf(sendEvent.oclAsType(MessageOccurrenceSpecification)->asOrderedSet()->first() ) < f.events->indexOf(receiveEvent.oclAsType(MessageOccurrenceSpecification)->asOrderedSet()->first() )" ;
     umlmeta:oclConstraint "(no specification serialized)" ;
     umlmeta:oclConstraint "sendEvent->notEmpty() and receiveEvent->notEmpty() implies let sendEnclosingFrag : Set(InteractionFragment) = sendEvent->asOrderedSet()->first().enclosingFragment() in let receiveEnclosingFrag : Set(InteractionFragment) = receiveEvent->asOrderedSet()->first().enclosingFragment() in sendEnclosingFrag = receiveEnclosingFrag" ;
     umlmeta:oclConstraint "(messageSort = MessageSort::asynchSignal ) and signature.oclIsKindOf(Signal) implies let signalAttributes : OrderedSet(Property) = signature.oclAsType(Signal).inheritedMember()-> select(n:NamedElement | n.oclIsTypeOf(Property))->collect(oclAsType(Property))->asOrderedSet() in signalAttributes->size() = self.argument->size() and self.argument->forAll( o: ValueSpecification | not (o.oclIsKindOf(Expression) and o.oclAsType(Expression).symbol->size()=0 and o.oclAsType(Expression).operand->isEmpty() ) implies let p : Property = signalAttributes->at(self.argument->indexOf(o)) in o.type.oclAsType(Classifier).conformsTo(p.type.oclAsType(Classifier)))" ;
@@ -2829,7 +2829,7 @@ sysml:AcceptChangeStructuralFeatureEventAction a owl:Class ;
     skos:definition "Accept change structural feature event actions handle change structural feature events (see DirectedFeature). The actions have exactly two output pins. The first output pin holds the values of the structural feature just after the values changed, while the second pin holds the values just before the values changed. The action only accepts events for structural features on the blocks owning the behavior containing the action, or on the behavior itself, if the behavior is not owned by a block."@en ;
     rdfs:subClassOf uml:AcceptEventAction ;
     umlmeta:oclConstraint "self.base_AcceptEventAction.trigger->size()=1 and let trigger: UML::Trigger = self.base_AcceptEventAction.trigger->any(true) in ChangeStructuralFeatureEvent.allInstances().base_ChangeEvent->includes(trigger.event)" ;
-    umlmeta:oclConstraint "let event: ChangeStructuralFeatureEvent = ChangeStructuralFeatureEvent.allInstances()->any(e | e.base_ChangeEvent = self.base_AcceptEventAction.trigger->any(true).event) in self.base_AcceptEventAction.result->size() = 2 and self.base_AcceptEventAction.result->forAll(r | r.type = event.structuralFeature.type and r.isOrdered = event.structuralFeature.isOrdered and r.lower = event.structuralFeature.upper)" ;
+    umlmeta:oclConstraint "let event: ChangeStructuralFeatureEvent = ChangeStructuralFeatureEvent.allInstances()->any(e | e.base_ChangeEvent = self.base_AcceptEventAction.trigger->any(true).event) in self.base_AcceptEventAction.result->size() = 2 and self.base_AcceptEventAction.result->forAll(r | r.type = event.structuralFeature.type and r.isOrdered = event.structuralFeature.isOrdered and r.lower <= event.structuralFeature.lower and r.upper >= event.structuralFeature.upper)" ;
     umlmeta:oclConstraint "let event: ChangeStructuralFeatureEvent = ChangeStructuralFeatureEvent.allInstances()->any(e | e.base_ChangeEvent = self.base_AcceptEventAction.trigger->any(true).event) in self.base_AcceptEventAction._'context'->notEmpty() and self.base_AcceptEventAction._'context'.allFeatures()->includes(event.structuralFeature)" ;
     umlmeta:oclConstraint "let event: ChangeStructuralFeatureEvent = ChangeStructuralFeatureEvent.allInstances()->any(e | e.base_ChangeEvent = self.base_AcceptEventAction.trigger->any(true).event) in if event.structuralFeature.visibility = UML::VisibilityKind::private then self.base_AcceptEventAction._'context'.feature->includes(event.structuralFeature) else if event.structuralFeature.visibility = UML::VisibilityKind::protected then self.base_AcceptEventAction._'context'.allFeatures()->includes(event.structuralFeature) else if event.structuralFeature.visibility = UML::VisibilityKind::_'package' then let thePackage: UML::Package = event.structuralFeature.allNamespaces()->select(n | n.oclIsKindOf(UML::Package))->first().oclAsType(UML::Package) in (not thePackage.oclIsUndefined()) and ( let index: Integer = event.structuralFeature.allNamespaces()->indexOf(thePackage) in event.structuralFeature.allNamespaces()->subOrderedSet(1, index) ->iterate(n; acc: Boolean=true | acc and not (n.visibility=UML::VisibilityKind::private or n.visibility=UML::VisibilityKind::protected)) ) else true endif endif endif" ;
     umlmeta:oclConstraint "-- cannot be expressed in OCL" .
@@ -2870,7 +2870,7 @@ sysml:AdjunctProperty a owl:Class ;
     umlmeta:stereotypePackage "Blocks" ;
     skos:definition "The AdjunctProperty stereotype can be applied to properties to constrain their values to the values of connectors typed by association blocks, call actions, object nodes, variables, or parameters, interaction uses, and submachine states. The values of connectors typed by association blocks are the instances of the association block typing a connector in the block having the stereotyped property. The values of call actions are the executions of behaviors invoked by the behavior having the call action and the stereotyped property (see Notation for more about this use of the stereotype). The values of object nodes are the values of tokens in the object nodes of the behavior having the stereotyp...[truncated]"@en ;
     rdfs:subClassOf uml:Property ;
-    umlmeta:oclConstraint "self.principal.oclIsKindOf(UML::MultiplicityElement) implies self.base_Property.lower = self.principal.oclAsType(UML::MultiplicityElement).upper" ;
+    umlmeta:oclConstraint "self.principal.oclIsKindOf(UML::MultiplicityElement) implies self.base_Property.lower <= self.principal.oclAsType(UML::MultiplicityElement).lower and self.base_Property.upper >= self.principal.oclAsType(UML::MultiplicityElement).upper" ;
     umlmeta:oclConstraint "self.principal.oclIsKindOf(UML::InteractionUse) or self.principal.oclIsKindOf(UML::State) implies let behavior: UML::Behavior = if self.principal.oclIsKindOf(UML::InteractionUse) then self.principal.oclAsType(UML::InteractionUse).refersTo else self.principal.oclAsType(UML::State).submachine endif in if behavior.oclIsUndefined() then self.base_Property.type->isEmpty() else self.base_Property.type->notEmpty() and behavior->closure(generalization)->including(behavior)->includes(self.base_Property.type) endif" ;
     umlmeta:oclConstraint "self.principal.oclIsKindOf(UML::Connector) or self.principal.oclIsKindOf(UML::CallAction) or self.principal.oclIsKindOf(UML::ObjectNode) or self.principal.oclIsKindOf(UML::Variable) or self.principal.oclIsKindOf(UML::Parameter) or self.principal.oclIsKindOf(UML::InteractionUse) or (self.principal.oclIsKindOf(UML::State) and self.principal.oclAsType(UML::State).isSubmachineState)" ;
     umlmeta:oclConstraint "self.principal.oclIsKindOf(UML::NamedElement) implies self.base_Property.name = self.principal.oclAsType(UML::NamedElement).name" ;
@@ -3614,7 +3614,7 @@ uaf:Activity a owl:Class ;
     rdfs:subClassOf uaf:MeasurableElement ;
     rdfs:subClassOf uaf:AffectableElement ;
     umlmeta:oclConstraint "ownedParameter->forAll(p | p.direction <> ParameterDirectionKind::inout implies node->select( oclIsKindOf(ActivityParameterNode) and oclAsType(ActivityParameterNode).parameter = p)->size()= 1)" ;
-    umlmeta:oclConstraint "ownedParameter->forAll(p | p.direction = ParameterDirectionKind::inout implies let associatedNodes : Set(ActivityNode) = node->select( oclIsKindOf(ActivityParameterNode) and oclAsType(ActivityParameterNode).parameter = p) in associatedNodes->size()=2 and associatedNodes->select(incoming->notEmpty())->size() select(outgoing->notEmpty())->size()<=1 )" .
+    umlmeta:oclConstraint "ownedParameter->forAll(p | p.direction = ParameterDirectionKind::inout implies let associatedNodes : Set(ActivityNode) = node->select( oclIsKindOf(ActivityParameterNode) and oclAsType(ActivityParameterNode).parameter = p) in associatedNodes->size()=2 and associatedNodes->select(incoming->notEmpty())->size()<=1 and associatedNodes->select(outgoing->notEmpty())->size()<=1 )" .
 
 uaf:ActualState a owl:Class ;
     rdfs:label "ActualState"@en ;
@@ -7967,7 +7967,7 @@ sysml2:Feature a owl:Class ;
     umlmeta:oclConstraint "crossFeature <> null implies crossFeature.type->asSet() = type->asSet()" ;
     umlmeta:oclConstraint "multiplicity <> null implies multiplicity.featuringType = featuringType" ;
     umlmeta:oclConstraint "Sequence{2..chainingFeature->size()}->forAll(i | chainingFeature->at(i).isFeaturedWithin(chainingFeature->at(i-1)))" ;
-    umlmeta:oclConstraint "crossFeature = if ownedCrossSubsetting = null then null else let chainingFeatures: Sequence(Feature) = ownedCrossSubsetting.crossedFeature.chainingFeature in if chainingFeatures->size() at(2) endif" ;
+    umlmeta:oclConstraint "crossFeature = if ownedCrossSubsetting = null then null else let chainingFeatures: Sequence(Feature) = ownedCrossSubsetting.crossedFeature.chainingFeature in if chainingFeatures->size() < 2 then null else chainingFeatures->at(2) endif" ;
     umlmeta:oclConstraint "isConstant implies isVariable" ;
     umlmeta:oclConstraint "isPortion implies not isVariable" ;
     umlmeta:oclConstraint "ownedSubsetting = ownedSpecialization->selectByKind(Subsetting)" ;
@@ -8258,7 +8258,7 @@ sysml2:Association a owl:Class ;
     umlmeta:oclConstraint "oclIsKindOf(Structure) = oclIsKindOf(AssociationStructure)" ;
     umlmeta:oclConstraint "associationEnds->size() > 2 implies not specializesFromLibrary('Links::BinaryLink')" ;
     umlmeta:oclConstraint "not isAbstract implies relatedType->size() >= 2" ;
-    umlmeta:oclConstraint "targetType = if relatedType->size() subSequence(2, relatedType->size())-> asOrderedSet() endif" ;
+    umlmeta:oclConstraint "targetType = if relatedType->size() < 2 then OrderedSet{} else relatedType-> subSequence(2, relatedType->size())-> asOrderedSet() endif" ;
     umlmeta:oclConstraint "specializesFromLibrary('Links::Link')" ;
     umlmeta:oclConstraint "relatedType = associationEnd.type" ;
     umlmeta:oclConstraint "ownedEndFeature->forAll(type->size() = 1)" ;
@@ -8345,7 +8345,7 @@ sysml2:Connector a owl:Class ;
     umlmeta:oclConstraint "connectorEnd->size() = 2 implies specializesFromLibrary('Links::binaryLinks')" ;
     umlmeta:oclConstraint "sourceFeature = if relatedFeature->isEmpty() then null else relatedFeature->first() endif" ;
     umlmeta:oclConstraint "relatedFeature->forAll(f | if featuringType->isEmpty() then f.isFeaturedWithin(null) else featuringType->forAll(t | f.isFeaturedWithin(t)) endif)" ;
-    umlmeta:oclConstraint "targetFeature = if relatedFeature->size() subSequence(2, relatedFeature->size())-> asOrderedSet() endif" ;
+    umlmeta:oclConstraint "targetFeature = if relatedFeature->size() < 2 then OrderedSet{} else relatedFeature-> subSequence(2, relatedFeature->size())-> asOrderedSet() endif" ;
     umlmeta:oclConstraint "association->exists(oclIsKindOf(AssociationStructure)) implies specializesFromLibrary('Objects::linkObjects')" ;
     umlmeta:oclConstraint "connectorEnds->size() > 2 implies not specializesFromLibrary('Links::BinaryLink')" ;
     umlmeta:oclConstraint "relatedFeature = connectorEnd.ownedReferenceSubsetting-> select(s | s <> null).subsettedFeature" ;
@@ -9076,7 +9076,7 @@ sysml2:Flow a owl:Class ;
     rdfs:subClassOf sysml2:Step ;
     umlmeta:oclConstraint "flowEnd = connectorEnd->selectByKind(FlowEnd)" ;
     umlmeta:oclConstraint "ownedFeature->selectByKind(PayloadFeature)->size() <= 1" ;
-    umlmeta:oclConstraint "targetInputFeature = if connectorEnd->size() at(2).ownedFeature->isEmpty() then null else connectorEnd->at(2).ownedFeature->first() endif" ;
+    umlmeta:oclConstraint "targetInputFeature = if connectorEnd->size() < 2 or connectorEnd->at(2).ownedFeature->isEmpty() then null else connectorEnd->at(2).ownedFeature->first() endif" ;
     umlmeta:oclConstraint "payloadType = if payloadFeature = null then Sequence{} else payloadFeature.type endif" ;
     umlmeta:oclConstraint "payloadFeature = let payloadFeatures : Sequence(PayloadFeature) = ownedFeature->selectByKind(PayloadFeature) in if payloadFeatures->isEmpty() then null else payloadFeatures->first() endif" ;
     umlmeta:oclConstraint "specializesFromLibrary('Transfers::transfers')" ;
@@ -9417,7 +9417,7 @@ sysml2:MultiplicityRange a owl:Class ;
     umlmeta:oclConstraint "bound->forAll(b | b.result.specializesFromLibrary('ScalarValues::Integer') and let value : UnlimitedNatural = valueOf(b) in value <> null implies value >= 0 )" ;
     umlmeta:oclConstraint "if lowerBound = null then ownedMember->notEmpty() and ownedMember->at(1) = upperBound else ownedMember->size() > 1 and ownedMember->at(1) = lowerBound and ownedMember->at(2) = upperBound endif" ;
     umlmeta:oclConstraint "upperBound = let ownedExpressions : Sequence(Expression) = ownedMember->selectByKind(Expression) in if ownedExpressions->isEmpty() then null else if ownedExpressions->size() = 1 then ownedExpressions->at(1) else ownedExpressions->at(2) endif endif" ;
-    umlmeta:oclConstraint "lowerBound = let ownedExpressions : Sequence(Expression) = ownedMember->selectByKind(Expression) in if ownedExpressions->size() first() endif" .
+    umlmeta:oclConstraint "lowerBound = let ownedExpressions : Sequence(Expression) = ownedMember->selectByKind(Expression) in if ownedExpressions->size() < 2 then null else ownedExpressions->first() endif" .
 
 sysml2:NamespaceImport a owl:Class ;
     rdfs:label "NamespaceImport"@en ;
