@@ -38,6 +38,7 @@ jobs:
         run: python tests/test_shacl.py
       - name: authored multiplicity validates
         run: python tests/test_authored_multiplicity.py
+      - name: navigability is derivable from the stated ends
         run: python tests/test_navigability.py
       - name: figures compile and hold their geometry
         run: cd docs && make check
