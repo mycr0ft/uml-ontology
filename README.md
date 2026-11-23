@@ -104,7 +104,7 @@ would fail against the published package; pinning the commit is what keeps "rege
 compare" meaningful.
     python scripts/build_ontology.py           # writes ontology/
     python scripts/build_shacl.py              # writes shapes/
-    python check.py                            # 65 checks; RDF half needs rdflib
+    python check.py                            # 67 checks; RDF half needs rdflib
 
 `check.py` skips its RDF half loudly when `rdflib` is absent. To run it fully:
 

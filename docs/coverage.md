@@ -233,6 +233,70 @@ prevent.
 * **1 `BPMNDI.BPMNDiagram`** (`bpmn:Definitions.diagrams`) — the BPMN diagram-interchange
   package: layout, not model. It deserves its own small ontology, not a corner of this one.
 
+## SPARQL: the bodies SHACL core cannot carry
+
+The other way to cover a refused body is `sh:sparql`, and this document used to rule it out on
+the grounds that the constraints should stay declarative. That reasoning was wrong on the facts,
+because the repo already depends on it: `auth:LowerNotAboveUpper` in
+`shapes/authored-multiplicity.ttl` is a `sh:SPARQLConstraint`, it has been since the authored
+multiplicity round, and `tests/test_authored_multiplicity.py` asserts that `3..1` fails while
+`0..*` conforms. Core SHACL cannot compare two values it reads from two nodes, so without that
+query the case is untestable. pyshacl evaluates it under the `rdfs` ruleset CI runs. There is
+nothing to explore here: the mechanism is in production, at two constraints.
+
+What there is *not* is a translation. OCL is a typed expression language over an object model;
+SPARQL is a graph-pattern query language. `self.start.covered = self.finish.covered` has no
+syntactic counterpart, and every body has to be re-expressed against the ontology's own IRIs,
+which is authorship, not conversion. So the useful question is not *can* a body be carried but
+*what does carrying it cost*, and that is measurable.
+
+### What is even an expression
+
+402 of the 2,142 refusals state no OCL at all: 335 are UAF prose clauses quoting a stereotype in
+`«guillemets»`, 39 say the specification does not serialize one, 28 are `--` comments. A query
+can do nothing with those; they need a person. They sit inside the first and last rows of the
+generator's own partition, which runs over all 2,142:
+
+| refusal reason | bodies | in a query |
+| --- | --- | --- |
+| outside the translatable subset | 1,084 | a pattern and a `FILTER`, once the operands are spelled |
+| an implication between property tests | 339 | `FILTER NOT EXISTS` over the antecedent |
+| a global quantification over the whole model | 209 | a class pattern plus `FILTER NOT EXISTS` |
+| a set operation over a navigation | 112 | property path, or `NOT EXISTS` in both directions |
+| a filtered selection | 60 | pattern plus `FILTER` |
+| a transitive closure over a navigation | 47 | `+` or `*` in a property path |
+| a cast | 35 | the target class in the pattern |
+| an operation, not a property test | 55 | needs the operation defined first |
+| a model-library predicate | 169 | needs the predicate defined first |
+
+Taking the 402 out of the count, 1,516 of the 1,740 expressions fall in rows that want a query
+of one of a handful of shapes. The 55 operations and 169 library predicates, 224 bodies, want a
+definition the ontology does not have, and no amount of SPARQL syntax supplies it.
+
+### What it costs
+
+`tests/test_sparql_probe.py` takes three of those bodies verbatim from
+`shapes/untranslated.json`, writes each as a query, and checks four things per case: the
+conforming instance passes, the violating one fails and the report names the shape, a one-clause
+mutation of the query changes a verdict, and the body is still in the refusal register. Measured
+on this box, the `same_lifeline` query costs 9.6 ms per focus node after about 5 s of one-time
+ontology loading: 6.3 s at 100 instances, 8.2 s at 300. A model with 10,000 instances of a
+constrained class pays roughly a minute and a half, per constraint. That is the real argument
+against generating all 1,516: not effort, throughput.
+
+The mutation line is the one that matters, because a query is text nothing parses until
+validation time. Point it at a property the ontology does not define and it matches nothing and
+the constraint holds forever, silently, on every graph. Two gates now stand in front of that:
+`check.py` parses every `sh:select` in `shapes/` and fails on a syntax error, and the
+defined-`uml:`-term check that used to cover authored shapes now covers the paths and the query
+text of every shape file, generated included. `tests/test_sparql_probe.py` covers the third
+failure, the query that parses and names real terms but tests the wrong thing.
+
+So the policy: a query is authored, reviewed, and mutation-tested, one per body worth its
+throughput, the way `auth:LowerNotAboveUpper` was. Generated queries would need a fixture per
+template before they could land, and that fixture is the same work as writing the query by hand
+for anything that is not one of a handful of shapes.
+
 ## Not yet, and what each would cost
 
 In the order I would build them, cheapest-useful first.
@@ -257,9 +321,11 @@ In the order I would build them, cheapest-useful first.
 5. **Implied and observed grades.** The README's second and third grades: profile clauses
    (`«satisfy»` narrows `Dependency` ends) and an instance corpus. Both are separate artefacts
    over this one; the grade vocabulary is already in the shapes (`umlmeta:grade`).
-6. **Widening the OCL subset.** 2,142 constraints are refused with a reason; 113 translate. Each
-   new form (closures, `allInstances`, library predicates) is a whitelist entry in
-   `scripts/build_shacl.py` and a test that makes the shape fire.
+6. **Widening the OCL subset.** 2,142 constraints are refused with a reason; 113 translate. The
+   cheap widening is exhausted: of the 583 comparison bodies only one compares a path to a
+   literal, and core SHACL cannot compare two paths. What is left is either authorship in
+   `sh:sparql` (see the section above, which also says why it is not generated) or a definition
+   for the 224 bodies that call an operation or a library predicate.
 
 Items 1 and 2 close the multiplicity story properly. Item 4 is the one a reader of the papers
 will ask for next.

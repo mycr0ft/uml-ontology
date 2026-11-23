@@ -40,6 +40,9 @@ jobs:
         run: python tests/test_authored_multiplicity.py
       - name: navigability is derivable from the stated ends
         run: python tests/test_navigability.py
+
+      - name: sparql escape hatch fires and its mutations are caught
+        run: python tests/test_sparql_probe.py
       - name: figures compile and hold their geometry
         run: cd docs && make check
       - name: artifacts are committed and current

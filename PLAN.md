@@ -238,3 +238,24 @@ Round C moved: `check.py` 61 -> 65 (three per-class reconciliation checks plus t
 presence check), `owl:propertyDisjointWith` 0 -> 1, `tests/test_navigability.py` 5/5 new,
 everything else unchanged - 812 shapes, 113 translated, 2,142 refused, 2,207 stated bodies,
 `test_shacl.py` 8/8, `test_authored_multiplicity.py` 12/12, `docs make check` 9/9.
+
+## Round D: the SPARQL escape hatch (done)
+
+The question was whether `sh:sparql` can carry the refused bodies, given that OCL is not
+translatable to SPARQL and the grammar differs. Answer: it already carries one. `9aa1841` put
+`auth:LowerNotAboveUpper` in `shapes/authored-multiplicity.ttl` as a `sh:SPARQLConstraint`, and
+`tests/test_authored_multiplicity.py` fails its `3..1` case without it, under the `rdfs` ruleset
+CI runs. Feasibility was never open; the open question was scope, and that resolves to
+throughput and to how a wrong query fails.
+
+Measured: 402 of the 2,142 refusals state no OCL at all (335 UAF `«guillemets»` prose, 39 "does
+not serialize one", 28 `--` comments). Of the 1,740 that do, 1,516 want a query of one of five
+shapes and 224 (55 operations, 169 library predicates) want a definition instead. Cost, on a
+query of one pattern: 9.6 ms per focus node after one-time ontology loading.
+
+Landed: `check.py` 65 -> 67, two gates in front of the silent-failure mode (every `sh:select`
+must parse; every `sh:path`/`targetClass`/`query` term in every shape file, generated included,
+must be one the ontology defines), `tests/test_sparql_probe.py` (three verbatim bodies, each
+conforming / violating / mutated, plus per-node cost), a CI step for it, and
+`docs/coverage.md` §"SPARQL: the bodies SHACL core cannot carry" replacing item 6's old
+rationale. Policy: queries are authored and mutation-tested, not generated.

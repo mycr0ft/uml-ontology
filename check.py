@@ -126,6 +126,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         from rdflib import RDF, RDFS, OWL, Graph, URIRef
+        from rdflib.plugins.sparql.parser import parseQuery
     except ImportError:
         print("SKIP: rdflib not installed - the RDF half of this gate did not run")
         return report(args.json)
@@ -422,6 +423,44 @@ def main(argv: list[str] | None = None) -> int:
     missing = {r for r in referenced if str(r).startswith(uml_ns)} - defined_any
     check(f"authored shapes name only defined uml terms ({len(referenced)} refs)",
           not missing, ", ".join(sorted(str(m) for m in missing)[:3]))
+
+    # a query is text that nothing parses until validation time, so a typo in a property path
+    # makes a constraint that quietly holds forever. Parse every sh:select in shapes/ - the
+    # generated file carries none today, and this is the gate a generated one would land behind -
+    # and give the generated shapes the check the authored ones just got: every uml: term a
+    # shape names, including the ones inside a query, is one the ontology defines.
+    path_predicates = ("path", "targetClass", "targetSubjectsOf", "targetObjectsOf", "class",
+                       "node", "property", "inversePath", "alternativePath", "zeroOrMorePath",
+                       "oneOrMorePath", "zeroOrOnePath")
+    queries, referenced_all, bad_query = [], set(), []
+    shape_files = sorted((ROOT / "shapes").glob("*.ttl"))
+    for shape_file in shape_files:
+        g_each = Graph()
+        try:
+            g_each.parse(str(shape_file), format="turtle")
+        except Exception as exc:                                    # noqa: BLE001
+            bad_query.append(f"{shape_file.name}: {str(exc)[:60]}")
+            continue
+        for predicate in path_predicates:
+            referenced_all |= {node for node in g_each.objects(None, URIRef(SH + predicate))
+                               if isinstance(node, URIRef)}
+        for query in g_each.objects(None, URIRef(SH + "select")):
+            text = str(query)
+            queries.append((shape_file.name, text))
+            referenced_all |= {URIRef(uml_ns + name)
+                               for name in set(re.findall(r"uml:([A-Za-z0-9_]+)", text))}
+    for shape_file_name, text in queries:
+        try:
+            parseQuery(text)
+        except Exception as exc:                                    # noqa: BLE001
+            bad_query.append(f"{shape_file_name}: {str(exc)[:70]}")
+    plural = "query" if len(queries) == 1 else "queries"
+    check(f"every SPARQL constraint in shapes/ parses ({len(queries)} {plural}, "
+          f"{len(shape_files)} files)", not bad_query, "; ".join(bad_query[:2]))
+    missing_all = {r for r in referenced_all if str(r).startswith(uml_ns)} - defined_any
+    check(f"shapes name only defined uml terms ({len(referenced_all)} refs across "
+          f"{len(shape_files)} files)", not missing_all,
+          ", ".join(sorted(str(m) for m in missing_all)[:3]))
 
     # bounds consistency over the fact book: every feature states a lower bound that is an
     # integer, an upper bound that is an integer or the unbounded marker, and 3..1 is not a
